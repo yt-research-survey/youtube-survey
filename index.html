@@ -1,0 +1,1514 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>YouTube Viewing Preferences Study</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Roboto, Arial, sans-serif;
+            background: #f5f5f5;
+            min-height: 100vh;
+            color: #333;
+        }
+
+        .survey-container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .screen {
+            display: none;
+            background: white;
+            border-radius: 12px;
+            padding: 40px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            margin-bottom: 20px;
+        }
+
+        .screen.active {
+            display: block;
+        }
+
+        h1 {
+            font-size: 24px;
+            margin-bottom: 20px;
+            color: #1a1a1a;
+        }
+
+        h2 {
+            font-size: 20px;
+            margin-bottom: 16px;
+            color: #1a1a1a;
+        }
+
+        h3 {
+            font-size: 16px;
+            margin-bottom: 12px;
+            color: #333;
+        }
+
+        p {
+            margin-bottom: 12px;
+            line-height: 1.6;
+        }
+
+        ul {
+            margin-left: 20px;
+            margin-bottom: 16px;
+        }
+
+        li {
+            margin-bottom: 8px;
+            line-height: 1.5;
+        }
+
+        .btn {
+            background: #065fd4;
+            color: white;
+            border: none;
+            padding: 12px 32px;
+            border-radius: 24px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        .btn:hover {
+            background: #0056b3;
+        }
+
+        .btn:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+        }
+
+        .btn-secondary {
+            background: #f0f0f0;
+            color: #333;
+        }
+
+        .btn-secondary:hover {
+            background: #e0e0e0;
+        }
+
+        .button-group {
+            display: flex;
+            gap: 12px;
+            margin-top: 24px;
+        }
+
+        /* Consent options */
+        .consent-options {
+            margin: 24px 0;
+        }
+
+        .consent-option {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 16px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            margin-bottom: 12px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .consent-option:hover {
+            border-color: #065fd4;
+            background: #f8f9ff;
+        }
+
+        .consent-option.selected {
+            border-color: #065fd4;
+            background: #f0f4ff;
+        }
+
+        .consent-option input {
+            width: 20px;
+            height: 20px;
+            cursor: pointer;
+        }
+
+        /* Video selection */
+        .video-options {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+            margin: 24px 0;
+        }
+
+        .video-option {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            padding: 16px;
+            border: 2px solid #e0e0e0;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .video-option:hover {
+            border-color: #065fd4;
+            background: #f8f9ff;
+        }
+
+        .video-option.selected {
+            border-color: #065fd4;
+            background: #f0f4ff;
+        }
+
+        .video-option input {
+            width: 20px;
+            height: 20px;
+        }
+
+        .video-thumbnail {
+            width: 120px;
+            height: 68px;
+            background: #000;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 24px;
+        }
+
+        .video-thumbnail-img {
+            width: 120px;
+            height: 160px;
+            object-fit: cover;
+            border-radius: 8px;
+        }
+
+        .video-info h4 {
+            font-size: 16px;
+            margin-bottom: 4px;
+        }
+
+        .video-info span {
+            color: #606060;
+            font-size: 13px;
+        }
+
+        /* YouTube Shorts Layout */
+        .shorts-container {
+            display: flex;
+            gap: 24px;
+            background: #0f0f0f;
+            border-radius: 12px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+
+        .video-section {
+            flex: 0 0 360px;
+        }
+
+        .video-player {
+            width: 360px;
+            height: 640px;
+            background: #000;
+            border-radius: 12px;
+            overflow: hidden;
+        }
+
+        .video-player video {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+        }
+
+        .comments-section {
+            flex: 1;
+            background: #0f0f0f;
+            max-height: 640px;
+            overflow-y: auto;
+        }
+
+        .comments-header {
+            color: #fff;
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 16px;
+            padding-bottom: 12px;
+            border-bottom: 1px solid #3f3f3f;
+        }
+
+        .comment {
+            background: #272727;
+            border-radius: 8px;
+            padding: 12px;
+            margin-bottom: 12px;
+        }
+
+        .comment-header {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 6px;
+        }
+
+        .avatar {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background: #606060;
+        }
+
+        .username {
+            color: #aaa;
+            font-size: 13px;
+            font-weight: 500;
+        }
+
+        .timestamp {
+            color: #717171;
+            font-size: 12px;
+        }
+
+        .comment-text {
+            color: #f1f1f1;
+            font-size: 14px;
+            line-height: 1.4;
+            margin-bottom: 8px;
+        }
+
+        .comment-actions {
+            display: flex;
+            gap: 16px;
+            color: #aaa;
+            font-size: 12px;
+        }
+
+        .ai-comment-positive {
+            background: #1a3a1a;
+            border: 1px solid #2d5a2d;
+        }
+
+        .ai-comment-neutral {
+            background: #2a2a3a;
+            border: 1px solid #4a4a6a;
+        }
+
+        .ai-comment-negative {
+            background: #3a1a1a;
+            border: 1px solid #5a2d2d;
+        }
+
+        /* Likert Scale */
+        .likert-question {
+            margin-bottom: 32px;
+        }
+
+        .likert-question p {
+            font-weight: 500;
+            margin-bottom: 16px;
+        }
+
+        .likert-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .likert-table th {
+            padding: 12px 8px;
+            font-size: 12px;
+            font-weight: 500;
+            color: #666;
+            text-align: center;
+            border-bottom: 1px solid #e0e0e0;
+        }
+
+        .likert-table td {
+            padding: 16px 8px;
+            text-align: center;
+            border-bottom: 1px solid #f0f0f0;
+        }
+
+        .likert-table td:first-child {
+            text-align: left;
+            padding-left: 0;
+            width: 40%;
+        }
+
+        .likert-table input[type="radio"] {
+            width: 18px;
+            height: 18px;
+            cursor: pointer;
+        }
+
+        /* MC Question */
+        .mc-question {
+            margin-bottom: 24px;
+        }
+
+        .mc-question p {
+            font-weight: 500;
+            margin-bottom: 12px;
+        }
+
+        .mc-options {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .mc-option {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px 16px;
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .mc-option:hover {
+            background: #f8f9ff;
+            border-color: #065fd4;
+        }
+
+        .mc-option.selected {
+            background: #f0f4ff;
+            border-color: #065fd4;
+        }
+
+        .mc-option input {
+            width: 18px;
+            height: 18px;
+        }
+
+        /* Text area */
+        .text-question textarea {
+            width: 100%;
+            min-height: 100px;
+            padding: 12px;
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            font-family: inherit;
+            font-size: 14px;
+            resize: vertical;
+        }
+
+        .text-question textarea:focus {
+            outline: none;
+            border-color: #065fd4;
+        }
+
+        /* Progress bar */
+        .progress-bar {
+            width: 100%;
+            height: 4px;
+            background: #e0e0e0;
+            border-radius: 2px;
+            margin-bottom: 20px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: #065fd4;
+            transition: width 0.3s;
+        }
+
+        /* Error message */
+        .error-message {
+            color: #d93025;
+            font-size: 14px;
+            margin-top: 8px;
+            display: none;
+        }
+
+        .error-message.show {
+            display: block;
+        }
+
+        /* Completion screen */
+        .completion-icon {
+            width: 80px;
+            height: 80px;
+            background: #34a853;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 24px;
+            color: white;
+            font-size: 40px;
+        }
+
+        .completion-screen {
+            text-align: center;
+        }
+
+        /* Data export */
+        .data-section {
+            margin-top: 32px;
+            padding: 20px;
+            background: #f5f5f5;
+            border-radius: 8px;
+        }
+
+        .data-section pre {
+            background: #1a1a1a;
+            color: #f1f1f1;
+            padding: 16px;
+            border-radius: 8px;
+            overflow-x: auto;
+            font-size: 12px;
+            max-height: 300px;
+            overflow-y: auto;
+        }
+
+        /* Instructions note */
+        .note {
+            background: #fff8e1;
+            border-left: 4px solid #ffc107;
+            padding: 12px 16px;
+            margin: 16px 0;
+            border-radius: 0 8px 8px 0;
+            font-size: 14px;
+        }
+
+        @media (max-width: 800px) {
+            .shorts-container {
+                flex-direction: column;
+            }
+
+            .video-section {
+                flex: none;
+            }
+
+            .video-player {
+                width: 100%;
+                height: 400px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="survey-container">
+        <div class="progress-bar">
+            <div class="progress-fill" id="progressFill" style="width: 0%"></div>
+        </div>
+
+        <!-- Screen 1: Consent -->
+        <div class="screen active" id="screen-consent">
+            <h1>Informed Consent</h1>
+
+            <p><strong>Study Title:</strong> YouTube viewing behavior</p>
+
+            <p><strong>Purpose:</strong> You are invited to participate in a research study about YouTube viewing preferences. The purpose of this study is to understand how viewers engage with and perceive video content.</p>
+
+            <p><strong>Procedures:</strong> If you agree to participate, you will:</p>
+            <ul>
+                <li>Select and watch a YouTube video</li>
+                <li>Answer questions about your viewing experience</li>
+                <li>Provide basic demographic information</li>
+            </ul>
+
+            <p><strong>Duration:</strong> This study will take approximately 10 minutes to complete.</p>
+
+            <p><strong>Compensation:</strong> You will receive compensation through the survey platform upon completion.</p>
+
+            <p><strong>Risks:</strong> This study poses minimal risk. You will view publicly available YouTube content and answer survey questions.</p>
+
+            <p><strong>Benefits:</strong> There are no direct benefits to you. The study will contribute to scientific understanding of viewer preferences.</p>
+
+            <p><strong>Confidentiality:</strong> Your responses will be kept confidential. No personally identifying information will be collected beyond basic demographics. All data will be reported in aggregate form only.</p>
+
+            <p><strong>Voluntary Participation:</strong> Your participation is voluntary. You may withdraw at any time without penalty.</p>
+
+            <p><strong>Contact:</strong> If you have questions about this research, please contact the research team.</p>
+
+            <h3>Do you consent to participate in this study?</h3>
+
+            <div class="consent-options">
+                <label class="consent-option">
+                    <input type="radio" name="consent" value="yes">
+                    <span>Yes, I consent to participate</span>
+                </label>
+                <label class="consent-option">
+                    <input type="radio" name="consent" value="no">
+                    <span>No, I do not consent to participate</span>
+                </label>
+            </div>
+
+            <div class="error-message" id="consent-error">Please select an option to continue.</div>
+
+            <div class="button-group">
+                <button class="btn" onclick="handleConsent()">Next</button>
+            </div>
+        </div>
+
+        <!-- Screen 2: No Consent -->
+        <div class="screen" id="screen-no-consent">
+            <h1>Thank You</h1>
+            <p>Thank you for your time. Since you did not consent to participate, the survey has ended.</p>
+            <p>You may close this window.</p>
+        </div>
+
+        <!-- Screen 3: Video Selection -->
+        <div class="screen" id="screen-video-select">
+            <h1>Video Selection</h1>
+            <p>Please select one of the following videos to watch. After selecting a video, you will watch it in its entirety along with some comments from other viewers.</p>
+
+            <div class="video-options">
+                <label class="video-option" data-video="1">
+                    <input type="radio" name="video" value="1">
+                    <img class="video-thumbnail-img" id="thumb-1" src="" alt="Video thumbnail">
+                    <div class="video-info">
+                        <h4>A Kitten Fell Into the Black Panthers Enclosure</h4>
+                        <span>Wildlife Channel · 2.1M views</span>
+                    </div>
+                </label>
+
+                <label class="video-option" data-video="2">
+                    <input type="radio" name="video" value="2">
+                    <img class="video-thumbnail-img" id="thumb-2" src="" alt="Video thumbnail">
+                    <div class="video-info">
+                        <h4>Tactical Dog</h4>
+                        <span>Military Gear · 890K views</span>
+                    </div>
+                </label>
+
+                <label class="video-option" data-video="3">
+                    <input type="radio" name="video" value="3">
+                    <img class="video-thumbnail-img" id="thumb-3" src="" alt="Video thumbnail">
+                    <div class="video-info">
+                        <h4>Pets Saving Babies</h4>
+                        <span>Rescue Moments · 3.2M views</span>
+                    </div>
+                </label>
+            </div>
+
+            <div class="error-message" id="video-error">Please select a video to continue.</div>
+
+            <div class="button-group">
+                <button class="btn" onclick="handleVideoSelect()">Watch Video</button>
+            </div>
+        </div>
+
+        <!-- Screen 4: Video Viewing -->
+        <div class="screen" id="screen-video-view">
+            <div class="shorts-container">
+                <div class="video-section">
+                    <div class="video-player">
+                        <video id="videoPlayer" controls>
+                            <source src="" type="video/mp4">
+                            Your browser does not support the video tag.
+                        </video>
+                    </div>
+                </div>
+
+                <div class="comments-section">
+                    <div class="comments-header">Comments</div>
+                    <div id="commentsContainer"></div>
+                </div>
+            </div>
+
+            <div class="button-group">
+                <button class="btn" onclick="recordVideoTime(); goToScreen('screen-perceptions')">Next</button>
+            </div>
+        </div>
+
+        <!-- Screen 5: Video and Creator Perceptions -->
+        <div class="screen" id="screen-perceptions">
+            <h2>Video and Creator Perceptions</h2>
+            <p>Please rate your agreement with the following statements:</p>
+
+            <div class="likert-question">
+                <table class="likert-table">
+                    <thead>
+                        <tr>
+                            <th></th>
+                            <th>Strongly<br>Disagree</th>
+                            <th>Disagree</th>
+                            <th>Somewhat<br>Disagree</th>
+                            <th>Neither</th>
+                            <th>Somewhat<br>Agree</th>
+                            <th>Agree</th>
+                            <th>Strongly<br>Agree</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>The video was high quality</td>
+                            <td><input type="radio" name="quality1" value="1"></td>
+                            <td><input type="radio" name="quality1" value="2"></td>
+                            <td><input type="radio" name="quality1" value="3"></td>
+                            <td><input type="radio" name="quality1" value="4"></td>
+                            <td><input type="radio" name="quality1" value="5"></td>
+                            <td><input type="radio" name="quality1" value="6"></td>
+                            <td><input type="radio" name="quality1" value="7"></td>
+                        </tr>
+                        <tr>
+                            <td>I enjoyed watching the video</td>
+                            <td><input type="radio" name="quality5" value="1"></td>
+                            <td><input type="radio" name="quality5" value="2"></td>
+                            <td><input type="radio" name="quality5" value="3"></td>
+                            <td><input type="radio" name="quality5" value="4"></td>
+                            <td><input type="radio" name="quality5" value="5"></td>
+                            <td><input type="radio" name="quality5" value="6"></td>
+                            <td><input type="radio" name="quality5" value="7"></td>
+                        </tr>
+                        <tr>
+                            <td>I would subscribe to this creator's channel</td>
+                            <td><input type="radio" name="creator5" value="1"></td>
+                            <td><input type="radio" name="creator5" value="2"></td>
+                            <td><input type="radio" name="creator5" value="3"></td>
+                            <td><input type="radio" name="creator5" value="4"></td>
+                            <td><input type="radio" name="creator5" value="5"></td>
+                            <td><input type="radio" name="creator5" value="6"></td>
+                            <td><input type="radio" name="creator5" value="7"></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="error-message" id="perceptions-error">Please answer all questions to continue.</div>
+
+            <div class="button-group">
+                <button class="btn" onclick="handlePerceptions()">Next</button>
+            </div>
+        </div>
+
+        <!-- Screen 7b: Optional Second Video Question -->
+        <div class="screen" id="screen-optional-video">
+            <h2>Watch Another Video</h2>
+            <p>Would you like to watch another video by the same creator? This is optional, but if you choose to watch it, you must watch the entire video (16 seconds) before continuing.</p>
+
+            <div class="mc-question">
+                <div class="mc-options">
+                    <label class="mc-option">
+                        <input type="radio" name="watchSecondVideo" value="yes">
+                        <span>Yes, I would like to watch another video</span>
+                    </label>
+                    <label class="mc-option">
+                        <input type="radio" name="watchSecondVideo" value="no">
+                        <span>No, I would like to continue to the survey</span>
+                    </label>
+                </div>
+            </div>
+
+            <div class="error-message" id="optional-video-error">Please select an option to continue.</div>
+
+            <div class="button-group">
+                <button class="btn" onclick="handleOptionalVideoChoice()">Next</button>
+            </div>
+        </div>
+
+        <!-- Screen 7c: Second Video Viewing -->
+        <div class="screen" id="screen-second-video">
+            <div class="shorts-container">
+                <div class="video-section">
+                    <div class="video-player">
+                        <video id="secondVideoPlayer" controls>
+                            <source src="" type="video/mp4">
+                            Your browser does not support the video tag.
+                        </video>
+                    </div>
+                </div>
+            </div>
+            <p id="secondVideoMessage" style="color: #666; margin-top: 12px;">Please watch the entire video before continuing.</p>
+
+            <div class="error-message" id="video-complete-error">Please watch the entire video before continuing.</div>
+
+            <div class="button-group">
+                <button class="btn" onclick="handleSecondVideoComplete()">Next</button>
+            </div>
+        </div>
+
+        <!-- Screen 8: Comments Questions -->
+        <div class="screen" id="screen-comments">
+            <h2>About the Comments</h2>
+
+            <div class="mc-question">
+                <p>Did you read the comments displayed alongside the video?</p>
+                <div class="mc-options">
+                    <label class="mc-option">
+                        <input type="radio" name="readComments" value="all">
+                        <span>Yes, I read all or most of the comments</span>
+                    </label>
+                    <label class="mc-option">
+                        <input type="radio" name="readComments" value="some">
+                        <span>Yes, I read some of the comments</span>
+                    </label>
+                    <label class="mc-option">
+                        <input type="radio" name="readComments" value="none">
+                        <span>No, I did not read the comments</span>
+                    </label>
+                </div>
+            </div>
+
+            <div class="text-question">
+                <p>Was there anything in particular that stood out to you about the comments? If so, please describe.</p>
+                <textarea id="commentsRecall" placeholder="Type your response here (optional)..."></textarea>
+            </div>
+
+            <div class="error-message" id="comments-error">Please answer the first question to continue.</div>
+
+            <div class="button-group">
+                <button class="btn" onclick="handleComments()">Next</button>
+            </div>
+        </div>
+
+        <!-- Screen 9: AI Attitudes -->
+        <div class="screen" id="screen-ai-attitudes">
+            <h2>Attitudes Toward AI-Generated YouTube Content</h2>
+            <p>Please rate your agreement with the following statements about AI-generated content on YouTube:</p>
+
+            <div class="likert-question">
+                <table class="likert-table">
+                    <thead>
+                        <tr>
+                            <th></th>
+                            <th>Strongly<br>Disagree</th>
+                            <th>Disagree</th>
+                            <th>Somewhat<br>Disagree</th>
+                            <th>Neither</th>
+                            <th>Somewhat<br>Agree</th>
+                            <th>Agree</th>
+                            <th>Strongly<br>Agree</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>I prefer YouTube videos that are entirely human-created</td>
+                            <td><input type="radio" name="ai4" value="1"></td>
+                            <td><input type="radio" name="ai4" value="2"></td>
+                            <td><input type="radio" name="ai4" value="3"></td>
+                            <td><input type="radio" name="ai4" value="4"></td>
+                            <td><input type="radio" name="ai4" value="5"></td>
+                            <td><input type="radio" name="ai4" value="6"></td>
+                            <td><input type="radio" name="ai4" value="7"></td>
+                        </tr>
+                        <tr>
+                            <td>AI tools help YouTube creators make better videos</td>
+                            <td><input type="radio" name="ai5" value="1"></td>
+                            <td><input type="radio" name="ai5" value="2"></td>
+                            <td><input type="radio" name="ai5" value="3"></td>
+                            <td><input type="radio" name="ai5" value="4"></td>
+                            <td><input type="radio" name="ai5" value="5"></td>
+                            <td><input type="radio" name="ai5" value="6"></td>
+                            <td><input type="radio" name="ai5" value="7"></td>
+                        </tr>
+                        <tr>
+                            <td>I can usually tell when a YouTube video is AI-generated</td>
+                            <td><input type="radio" name="ai6" value="1"></td>
+                            <td><input type="radio" name="ai6" value="2"></td>
+                            <td><input type="radio" name="ai6" value="3"></td>
+                            <td><input type="radio" name="ai6" value="4"></td>
+                            <td><input type="radio" name="ai6" value="5"></td>
+                            <td><input type="radio" name="ai6" value="6"></td>
+                            <td><input type="radio" name="ai6" value="7"></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="mc-question">
+                <p>Do you think the video you selected at the beginning of this survey was made with AI? Please take your best guess if you are not sure.</p>
+                <div class="mc-options">
+                    <label class="mc-option">
+                        <input type="radio" name="videoMadeWithAI" value="yes">
+                        <span>Yes</span>
+                    </label>
+                    <label class="mc-option">
+                        <input type="radio" name="videoMadeWithAI" value="no">
+                        <span>No</span>
+                    </label>
+                </div>
+            </div>
+
+            <div class="error-message" id="ai-error">Please answer all questions to continue.</div>
+
+            <div class="button-group">
+                <button class="btn" onclick="handleAIAttitudes()">Next</button>
+            </div>
+        </div>
+
+        <!-- Screen 10: Demographics -->
+        <div class="screen" id="screen-demographics">
+            <h2>Demographics</h2>
+            <p>Please answer the following questions about yourself.</p>
+
+            <div class="mc-question">
+                <p>What is your age?</p>
+                <div class="mc-options">
+                    <label class="mc-option"><input type="radio" name="age" value="18-24"><span>18-24</span></label>
+                    <label class="mc-option"><input type="radio" name="age" value="25-34"><span>25-34</span></label>
+                    <label class="mc-option"><input type="radio" name="age" value="35-44"><span>35-44</span></label>
+                    <label class="mc-option"><input type="radio" name="age" value="45-54"><span>45-54</span></label>
+                    <label class="mc-option"><input type="radio" name="age" value="55-64"><span>55-64</span></label>
+                    <label class="mc-option"><input type="radio" name="age" value="65+"><span>65 or older</span></label>
+                    <label class="mc-option"><input type="radio" name="age" value="prefer_not"><span>Prefer not to say</span></label>
+                </div>
+            </div>
+
+            <div class="mc-question">
+                <p>What is your gender?</p>
+                <div class="mc-options">
+                    <label class="mc-option"><input type="radio" name="gender" value="male"><span>Male</span></label>
+                    <label class="mc-option"><input type="radio" name="gender" value="female"><span>Female</span></label>
+                    <label class="mc-option"><input type="radio" name="gender" value="nonbinary"><span>Non-binary / Third gender</span></label>
+                    <label class="mc-option"><input type="radio" name="gender" value="other"><span>Other</span></label>
+                    <label class="mc-option"><input type="radio" name="gender" value="prefer_not"><span>Prefer not to say</span></label>
+                </div>
+            </div>
+
+            <div class="mc-question">
+                <p>What is the highest level of education you have completed?</p>
+                <div class="mc-options">
+                    <label class="mc-option"><input type="radio" name="education" value="less_hs"><span>Less than high school</span></label>
+                    <label class="mc-option"><input type="radio" name="education" value="hs"><span>High school diploma or GED</span></label>
+                    <label class="mc-option"><input type="radio" name="education" value="some_college"><span>Some college, no degree</span></label>
+                    <label class="mc-option"><input type="radio" name="education" value="associates"><span>Associate's degree</span></label>
+                    <label class="mc-option"><input type="radio" name="education" value="bachelors"><span>Bachelor's degree</span></label>
+                    <label class="mc-option"><input type="radio" name="education" value="masters"><span>Master's degree</span></label>
+                    <label class="mc-option"><input type="radio" name="education" value="doctoral"><span>Doctoral or professional degree</span></label>
+                    <label class="mc-option"><input type="radio" name="education" value="prefer_not"><span>Prefer not to say</span></label>
+                </div>
+            </div>
+
+            <div class="mc-question">
+                <p>How often do you watch YouTube videos?</p>
+                <div class="mc-options">
+                    <label class="mc-option"><input type="radio" name="ytFreq" value="multiple_daily"><span>Multiple times a day</span></label>
+                    <label class="mc-option"><input type="radio" name="ytFreq" value="daily"><span>Once a day</span></label>
+                    <label class="mc-option"><input type="radio" name="ytFreq" value="few_weekly"><span>A few times a week</span></label>
+                    <label class="mc-option"><input type="radio" name="ytFreq" value="weekly"><span>Once a week</span></label>
+                    <label class="mc-option"><input type="radio" name="ytFreq" value="few_monthly"><span>A few times a month</span></label>
+                    <label class="mc-option"><input type="radio" name="ytFreq" value="monthly_less"><span>Once a month or less</span></label>
+                </div>
+            </div>
+
+            <div class="text-question">
+                <p>Do you have any additional comments? (Optional)</p>
+                <textarea id="additionalComments" placeholder="Type your comments here (optional)..."></textarea>
+            </div>
+
+            <div class="error-message" id="demo-error">Please answer all questions to continue.</div>
+
+            <div class="button-group">
+                <button class="btn" onclick="handleDemographics()">Next</button>
+            </div>
+        </div>
+
+        <!-- Screen 11: Debriefing -->
+        <div class="screen" id="screen-debrief">
+            <h1>Thank You for Participating!</h1>
+
+            <h2>Debriefing Information</h2>
+
+            <p>The purpose of this study was to investigate how comments identifying AI-generated content affect viewer perceptions and engagement decisions on YouTube.</p>
+
+            <p>In this study, participants were randomly assigned to see different versions of comments alongside the video they watched. Some participants saw comments that did not mention AI (control condition), while others saw a comment mentioning AI (treatment condition).</p>
+
+            <p>We are interested in understanding whether the presence and tone of such comments influences viewers' willingness to continue watching content from the same creator, as well as their perceptions of video quality and creator authenticity.</p>
+
+            <p>Your responses will help us understand consumer preferences for AI-generated content and the role of social cues in shaping those preferences.</p>
+
+            <p>If you have any questions about this research, please contact the research team.</p>
+
+            <p><strong>Thank you again for your participation!</strong></p>
+
+            <div class="button-group">
+                <button class="btn" onclick="finishSurvey()">Complete Survey</button>
+            </div>
+        </div>
+
+        <!-- Screen 12: Completion -->
+        <div class="screen completion-screen" id="screen-complete">
+            <div class="completion-icon">✓</div>
+            <h1>Survey Complete</h1>
+            <p>Your responses have been recorded. Thank you for participating in this study.</p>
+            <p>You may now close this window.</p>
+
+            <div class="data-section">
+                <h3>Response Data (for researchers)</h3>
+                <button class="btn btn-secondary" onclick="downloadData()">Download Data (JSON)</button>
+                <button class="btn btn-secondary" onclick="copyData()">Copy to Clipboard</button>
+                <pre id="dataOutput"></pre>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Survey state
+        const surveyData = {
+            participantId: generateParticipantId(),
+            startTime: new Date().toISOString(),
+            commentCondition: null,
+            thumbnailCondition: null,
+            aiThumbnailVideo: null,
+            videoSelected: null,
+            responses: {},
+            videoTracking: {
+                totalPlayTime: 0,
+                videoDuration: 0,
+                playCount: 0,
+                completed: false
+            },
+            secondVideoTracking: {
+                totalPlayTime: 0,
+                videoDuration: 0,
+                completed: false
+            }
+        };
+
+        // Video tracking variables
+        let videoStartTime = null;
+        let isPlaying = false;
+        let videoLastTime = 0;
+
+        // Thumbnails by condition
+        const thumbnails = {
+            ai: {
+                1: 'videos/thumbnails/kitten_ai.png',
+                2: 'videos/thumbnails/tactical_ai.png',
+                3: 'videos/thumbnails/phillies_ai.png'
+            },
+            noai: {
+                1: 'videos/thumbnails/kitten_noai.png',
+                2: 'videos/thumbnails/tactical_noai.jpg',
+                3: 'videos/thumbnails/phillies_noai.png'
+            }
+        };
+
+        // Video files (URL encoded for spaces and special characters)
+        const videos = {
+            1: 'videos/A%20Kitten%20Fell%20Into%20the%20Black%20Panthers%20Enclosure%20%20%23shorts.mp4',
+            2: 'videos/tacticaldog.mp4',
+            3: 'videos/petssavingbabies.mp4'
+        };
+
+        // Secondary videos by same creator
+        const videosOther = {
+            1: 'videos/kittenvideo_other.mp4',
+            2: 'videos/tactical_other.mp4',
+            3: 'videos/petssavingbabies_other.mp4'
+        };
+
+        // Comments by condition
+        const baseComments = [
+            {
+                username: '@sarah_loves_cats',
+                timestamp: '3 days ago',
+                text: 'This is the cutest thing I have seen all week! My heart',
+                likes: '1.2K'
+            },
+            {
+                username: '@wildlife_mike',
+                timestamp: '2 days ago',
+                text: 'Amazing footage! The way animals interact across species is always fascinating to watch.',
+                likes: '847'
+            },
+            {
+                username: '@naturelover22',
+                timestamp: '1 day ago',
+                text: 'I was so nervous watching this! Glad it had a happy ending.',
+                likes: '523'
+            },
+            {
+                username: '@zoo_enthusiast',
+                timestamp: '5 hours ago',
+                text: 'This channel always has the best animal content. Subscribed!',
+                likes: '156'
+            }
+        ];
+
+        const aiComment = {
+            username: '@viewer2847',
+            timestamp: '2 days ago',
+            text: 'AI',
+            likes: '1.4K',
+            class: ''
+        };
+
+        // Screen order for progress
+        const screens = [
+            'screen-consent',
+            'screen-video-select',
+            'screen-video-view',
+            'screen-perceptions',
+            'screen-optional-video',
+            'screen-second-video',
+            'screen-comments',
+            'screen-ai-attitudes',
+            'screen-demographics',
+            'screen-debrief',
+            'screen-complete'
+        ];
+
+        function generateParticipantId() {
+            return 'P' + Date.now().toString(36) + Math.random().toString(36).substr(2, 5);
+        }
+
+        function randomizeConditions() {
+            const commentConditions = ['control', 'treatment'];
+            const thumbnailConditions = ['ai', 'noai'];
+            // If AI thumbnail condition, randomly pick which ONE video gets the AI thumbnail
+            const aiThumbnailVideo = Math.floor(Math.random() * 3) + 1; // 1, 2, or 3
+            return {
+                comment: commentConditions[Math.floor(Math.random() * commentConditions.length)],
+                thumbnail: thumbnailConditions[Math.floor(Math.random() * thumbnailConditions.length)],
+                aiThumbnailVideo: aiThumbnailVideo
+            };
+        }
+
+        function shuffleArray(array) {
+            const shuffled = [...array];
+            for (let i = shuffled.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+            }
+            return shuffled;
+        }
+
+        function randomizeVideoOrder() {
+            const container = document.querySelector('.video-options');
+            const options = Array.from(container.querySelectorAll('.video-option'));
+            const shuffled = shuffleArray(options);
+            shuffled.forEach(option => container.appendChild(option));
+        }
+
+        function updateProgress(screenId) {
+            const index = screens.indexOf(screenId);
+            const progress = ((index + 1) / screens.length) * 100;
+            document.getElementById('progressFill').style.width = progress + '%';
+        }
+
+        function goToScreen(screenId) {
+            document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+            document.getElementById(screenId).classList.add('active');
+            updateProgress(screenId);
+            window.scrollTo(0, 0);
+        }
+
+        function getRadioValue(name) {
+            const selected = document.querySelector(`input[name="${name}"]:checked`);
+            return selected ? selected.value : null;
+        }
+
+        function validateRadioGroup(names) {
+            return names.every(name => getRadioValue(name) !== null);
+        }
+
+        // Event handlers
+        function handleConsent() {
+            const consent = getRadioValue('consent');
+            if (!consent) {
+                document.getElementById('consent-error').classList.add('show');
+                return;
+            }
+            document.getElementById('consent-error').classList.remove('show');
+            surveyData.responses.consent = consent;
+
+            if (consent === 'no') {
+                goToScreen('screen-no-consent');
+            } else {
+                goToScreen('screen-video-select');
+            }
+        }
+
+        function handleVideoSelect() {
+            const video = getRadioValue('video');
+            if (!video) {
+                document.getElementById('video-error').classList.add('show');
+                return;
+            }
+            document.getElementById('video-error').classList.remove('show');
+
+            surveyData.videoSelected = video;
+            surveyData.responses.videoSelected = video;
+            surveyData.responses.commentCondition = surveyData.commentCondition;
+            surveyData.responses.thumbnailCondition = surveyData.thumbnailCondition;
+            surveyData.responses.aiThumbnailVideo = surveyData.aiThumbnailVideo;
+            // Record if the selected video had the AI thumbnail
+            surveyData.responses.selectedVideoHadAIThumbnail = (surveyData.thumbnailCondition === 'ai' && parseInt(video) === surveyData.aiThumbnailVideo);
+
+            // Set up video
+            const videoPlayer = document.getElementById('videoPlayer');
+            videoPlayer.src = videos[video];
+            videoPlayer.load();
+
+            // Set up video tracking
+            setupVideoTracking(videoPlayer);
+
+            // Set up comments based on comment condition
+            renderComments(surveyData.commentCondition);
+
+            goToScreen('screen-video-view');
+        }
+
+        function setupVideoTracking(video) {
+            videoLastTime = 0;
+
+            video.addEventListener('loadedmetadata', function() {
+                surveyData.videoTracking.videoDuration = video.duration;
+            });
+
+            video.addEventListener('play', function() {
+                isPlaying = true;
+                videoStartTime = Date.now();
+                surveyData.videoTracking.playCount++;
+            });
+
+            video.addEventListener('pause', function() {
+                if (isPlaying && videoStartTime) {
+                    surveyData.videoTracking.totalPlayTime += (Date.now() - videoStartTime) / 1000;
+                }
+                isPlaying = false;
+                videoStartTime = null;
+            });
+
+            video.addEventListener('ended', function() {
+                if (isPlaying && videoStartTime) {
+                    surveyData.videoTracking.totalPlayTime += (Date.now() - videoStartTime) / 1000;
+                }
+                isPlaying = false;
+                videoStartTime = null;
+                surveyData.videoTracking.completed = true;
+            });
+
+            video.addEventListener('timeupdate', function() {
+                if (!video.seeking) {
+                    videoLastTime = video.currentTime;
+                }
+            });
+
+            video.addEventListener('seeking', function() {
+                // Prevent fast-forwarding, but allow rewinding
+                if (video.currentTime > videoLastTime + 0.5) {
+                    video.currentTime = videoLastTime;
+                }
+            });
+
+            video.addEventListener('error', function(e) {
+                console.error('Video error:', e);
+                alert('Error loading video. Please check that the video files are in the videos/ folder.');
+            });
+        }
+
+        function recordVideoTime() {
+            // Record any remaining play time when leaving video screen
+            if (isPlaying && videoStartTime) {
+                surveyData.videoTracking.totalPlayTime += (Date.now() - videoStartTime) / 1000;
+                isPlaying = false;
+                videoStartTime = null;
+            }
+            // Pause video
+            document.getElementById('videoPlayer').pause();
+        }
+
+        function renderComments(commentCondition) {
+            const container = document.getElementById('commentsContainer');
+            let html = '';
+
+            // Add AI comment first if treatment condition
+            if (commentCondition === 'treatment') {
+                html += `
+                    <div class="comment ${aiComment.class}">
+                        <div class="comment-header">
+                            <div class="avatar"></div>
+                            <div>
+                                <span class="username">${aiComment.username}</span>
+                                <span class="timestamp">${aiComment.timestamp}</span>
+                            </div>
+                        </div>
+                        <div class="comment-text">${aiComment.text}</div>
+                        <div class="comment-actions">
+                            <span>👍 ${aiComment.likes}</span>
+                            <span>👎</span>
+                            <span>Reply</span>
+                        </div>
+                    </div>
+                `;
+            }
+
+            // Shuffle and add base comments
+            const shuffledComments = shuffleArray(baseComments);
+            shuffledComments.forEach(comment => {
+                html += `
+                    <div class="comment">
+                        <div class="comment-header">
+                            <div class="avatar"></div>
+                            <div>
+                                <span class="username">${comment.username}</span>
+                                <span class="timestamp">${comment.timestamp}</span>
+                            </div>
+                        </div>
+                        <div class="comment-text">${comment.text}</div>
+                        <div class="comment-actions">
+                            <span>👍 ${comment.likes}</span>
+                            <span>👎</span>
+                            <span>Reply</span>
+                        </div>
+                    </div>
+                `;
+            });
+
+            container.innerHTML = html;
+        }
+
+        function handlePerceptions() {
+            const items = ['quality1', 'quality5', 'creator5'];
+            if (!validateRadioGroup(items)) {
+                document.getElementById('perceptions-error').classList.add('show');
+                return;
+            }
+            document.getElementById('perceptions-error').classList.remove('show');
+
+            items.forEach(item => {
+                surveyData.responses[item] = getRadioValue(item);
+            });
+            goToScreen('screen-optional-video');
+        }
+
+        // Second video tracking
+        let secondVideoCompleted = false;
+
+        let secondVideoLastTime = 0;
+        let secondVideoStartTime = null;
+        let secondVideoIsPlaying = false;
+
+        function setupSecondVideoTracking(video) {
+            secondVideoCompleted = false;
+            secondVideoLastTime = 0;
+            secondVideoStartTime = null;
+            secondVideoIsPlaying = false;
+            surveyData.secondVideoTracking.totalPlayTime = 0;
+            surveyData.secondVideoTracking.completed = false;
+
+            video.addEventListener('loadedmetadata', function() {
+                surveyData.secondVideoTracking.videoDuration = video.duration;
+            });
+
+            video.addEventListener('play', function() {
+                secondVideoIsPlaying = true;
+                secondVideoStartTime = Date.now();
+            });
+
+            video.addEventListener('pause', function() {
+                if (secondVideoIsPlaying && secondVideoStartTime) {
+                    surveyData.secondVideoTracking.totalPlayTime += (Date.now() - secondVideoStartTime) / 1000;
+                }
+                secondVideoIsPlaying = false;
+                secondVideoStartTime = null;
+            });
+
+            video.addEventListener('ended', function() {
+                if (secondVideoIsPlaying && secondVideoStartTime) {
+                    surveyData.secondVideoTracking.totalPlayTime += (Date.now() - secondVideoStartTime) / 1000;
+                }
+                secondVideoIsPlaying = false;
+                secondVideoStartTime = null;
+                secondVideoCompleted = true;
+                surveyData.secondVideoTracking.completed = true;
+                document.getElementById('secondVideoMessage').textContent = 'Video complete! You may now continue.';
+                document.getElementById('secondVideoMessage').style.color = '#34a853';
+            });
+
+            video.addEventListener('timeupdate', function() {
+                if (!video.seeking) {
+                    secondVideoLastTime = video.currentTime;
+                }
+            });
+
+            video.addEventListener('seeking', function() {
+                // Prevent fast-forwarding, but allow rewinding
+                if (video.currentTime > secondVideoLastTime + 0.5) {
+                    video.currentTime = secondVideoLastTime;
+                }
+            });
+        }
+
+        function handleOptionalVideoChoice() {
+            const choice = getRadioValue('watchSecondVideo');
+            if (!choice) {
+                document.getElementById('optional-video-error').classList.add('show');
+                return;
+            }
+            document.getElementById('optional-video-error').classList.remove('show');
+
+            surveyData.responses.watchedSecondVideo = choice;
+
+            if (choice === 'yes') {
+                // Load and show the second video
+                const secondVideo = document.getElementById('secondVideoPlayer');
+                secondVideo.src = videosOther[surveyData.videoSelected];
+                secondVideo.load();
+                setupSecondVideoTracking(secondVideo);
+                secondVideoCompleted = false;
+                document.getElementById('secondVideoMessage').textContent = 'Please watch the entire video before continuing.';
+                document.getElementById('secondVideoMessage').style.color = '#666';
+                goToScreen('screen-second-video');
+            } else {
+                goToScreen('screen-comments');
+            }
+        }
+
+        function handleSecondVideoComplete() {
+            if (!secondVideoCompleted) {
+                document.getElementById('video-complete-error').classList.add('show');
+                return;
+            }
+            document.getElementById('video-complete-error').classList.remove('show');
+
+            document.getElementById('secondVideoPlayer').pause();
+            goToScreen('screen-comments');
+        }
+
+        function handleComments() {
+            const readComments = getRadioValue('readComments');
+            if (!readComments) {
+                document.getElementById('comments-error').classList.add('show');
+                return;
+            }
+            document.getElementById('comments-error').classList.remove('show');
+
+            surveyData.responses.readComments = readComments;
+            surveyData.responses.commentsRecall = document.getElementById('commentsRecall').value;
+            goToScreen('screen-ai-attitudes');
+        }
+
+        function handleAIAttitudes() {
+            const items = ['ai4', 'ai5', 'ai6', 'videoMadeWithAI'];
+            if (!validateRadioGroup(items)) {
+                document.getElementById('ai-error').classList.add('show');
+                return;
+            }
+            document.getElementById('ai-error').classList.remove('show');
+
+            items.forEach(item => {
+                surveyData.responses[item] = getRadioValue(item);
+            });
+            goToScreen('screen-demographics');
+        }
+
+        function handleDemographics() {
+            const items = ['age', 'gender', 'education', 'ytFreq'];
+            if (!validateRadioGroup(items)) {
+                document.getElementById('demo-error').classList.add('show');
+                return;
+            }
+            document.getElementById('demo-error').classList.remove('show');
+
+            items.forEach(item => {
+                surveyData.responses[item] = getRadioValue(item);
+            });
+            surveyData.responses.additionalComments = document.getElementById('additionalComments').value;
+            goToScreen('screen-debrief');
+        }
+
+        function finishSurvey() {
+            surveyData.endTime = new Date().toISOString();
+
+            // Ensure conditions are in responses for Google Sheets
+            surveyData.responses.commentCondition = surveyData.commentCondition;
+            surveyData.responses.thumbnailCondition = surveyData.thumbnailCondition;
+            surveyData.responses.aiThumbnailVideo = surveyData.aiThumbnailVideo;
+
+            // Display data
+            document.getElementById('dataOutput').textContent = JSON.stringify(surveyData, null, 2);
+
+            // Store in localStorage as backup
+            const allResponses = JSON.parse(localStorage.getItem('surveyResponses') || '[]');
+            allResponses.push(surveyData);
+            localStorage.setItem('surveyResponses', JSON.stringify(allResponses));
+
+            // Send to Google Sheets
+            const GOOGLE_SHEETS_URL = 'https://script.google.com/macros/s/AKfycbwAitLon57qjsRhPTrkFN1AMAH5icGQcXF9fWRHM4H8xPX9MyRcQ5VCkkpdaxBDGqWp/exec';
+
+            fetch(GOOGLE_SHEETS_URL, {
+                method: 'POST',
+                mode: 'no-cors',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(surveyData)
+            })
+            .then(() => {
+                console.log('Data sent to Google Sheets');
+            })
+            .catch(error => {
+                console.error('Error sending to Google Sheets:', error);
+            });
+
+            goToScreen('screen-complete');
+        }
+
+        function downloadData() {
+            const dataStr = JSON.stringify(surveyData, null, 2);
+            const blob = new Blob([dataStr], { type: 'application/json' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `survey_response_${surveyData.participantId}.json`;
+            a.click();
+            URL.revokeObjectURL(url);
+        }
+
+        function copyData() {
+            const dataStr = JSON.stringify(surveyData, null, 2);
+            navigator.clipboard.writeText(dataStr).then(() => {
+                alert('Data copied to clipboard!');
+            });
+        }
+
+        // Add selection styling for radio options
+        document.addEventListener('change', function(e) {
+            if (e.target.type === 'radio') {
+                const container = e.target.closest('.consent-options, .video-options, .mc-options');
+                if (container) {
+                    container.querySelectorAll('.consent-option, .video-option, .mc-option').forEach(opt => {
+                        opt.classList.remove('selected');
+                    });
+                    e.target.closest('.consent-option, .video-option, .mc-option')?.classList.add('selected');
+                }
+            }
+        });
+
+        // Initialize
+        updateProgress('screen-consent');
+
+        // Randomize conditions at start
+        const conditions = randomizeConditions();
+        surveyData.commentCondition = conditions.comment;
+        surveyData.thumbnailCondition = conditions.thumbnail;
+        surveyData.aiThumbnailVideo = conditions.aiThumbnailVideo;
+
+        // Set thumbnails based on condition
+        // In 'ai' condition: only ONE random video gets AI thumbnail, rest are non-AI
+        // In 'noai' condition: all videos get non-AI thumbnails
+        function setThumbnails() {
+            const thumbCondition = surveyData.thumbnailCondition;
+            const aiVideo = surveyData.aiThumbnailVideo;
+
+            for (let i = 1; i <= 3; i++) {
+                if (thumbCondition === 'ai' && i === aiVideo) {
+                    document.getElementById('thumb-' + i).src = thumbnails.ai[i];
+                } else {
+                    document.getElementById('thumb-' + i).src = thumbnails.noai[i];
+                }
+            }
+        }
+        setThumbnails();
+
+        randomizeVideoOrder();
+    </script>
+</body>
+</html>
