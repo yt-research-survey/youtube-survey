@@ -559,7 +559,7 @@
                 font-size: 14px;
             }
 
-            /* Likert table - convert to vertical layout on mobile */
+            /* Likert table - convert to vertical multiple choice on mobile */
             .likert-question {
                 overflow-x: visible;
             }
@@ -588,13 +588,12 @@
 
             .likert-table td {
                 display: block;
-                text-align: center;
-                padding: 4px;
+                text-align: left;
+                padding: 0;
                 border: none;
             }
 
             .likert-table td:first-child {
-                text-align: left;
                 font-weight: 500;
                 margin-bottom: 12px;
                 padding-bottom: 12px;
@@ -605,29 +604,33 @@
             }
 
             .likert-table td:not(:first-child) {
-                display: inline-block;
-                width: calc(100% / 7);
-                padding: 8px 2px;
+                display: flex;
+                align-items: center;
+                gap: 12px;
+                padding: 12px;
+                margin: 4px 0;
+                background: white;
+                border: 1px solid #e0e0e0;
+                border-radius: 8px;
             }
 
-            .likert-table td:not(:first-child)::before {
-                display: block;
-                font-size: 9px;
-                color: #666;
-                margin-bottom: 4px;
+            .likert-table td:not(:first-child)::after {
+                content: '';
+                order: 2;
             }
 
-            .likert-table td:nth-child(2)::before { content: 'Strongly Disagree'; }
-            .likert-table td:nth-child(3)::before { content: 'Disagree'; }
-            .likert-table td:nth-child(4)::before { content: 'Somewhat Disagree'; }
-            .likert-table td:nth-child(5)::before { content: 'Neither'; }
-            .likert-table td:nth-child(6)::before { content: 'Somewhat Agree'; }
-            .likert-table td:nth-child(7)::before { content: 'Agree'; }
-            .likert-table td:nth-child(8)::before { content: 'Strongly Agree'; }
+            .likert-table td:nth-child(2)::after { content: 'Strongly Disagree'; }
+            .likert-table td:nth-child(3)::after { content: 'Disagree'; }
+            .likert-table td:nth-child(4)::after { content: 'Somewhat Disagree'; }
+            .likert-table td:nth-child(5)::after { content: 'Neither'; }
+            .likert-table td:nth-child(6)::after { content: 'Somewhat Agree'; }
+            .likert-table td:nth-child(7)::after { content: 'Agree'; }
+            .likert-table td:nth-child(8)::after { content: 'Strongly Agree'; }
 
             .likert-table input[type="radio"] {
                 width: 20px;
                 height: 20px;
+                order: 1;
             }
 
             /* MC options */
@@ -685,8 +688,9 @@
                 height: 90px;
             }
 
-            .likert-table td:not(:first-child)::before {
-                font-size: 8px;
+            .likert-table td:not(:first-child) {
+                padding: 10px;
+                font-size: 13px;
             }
 
             .likert-table input[type="radio"] {
@@ -804,7 +808,7 @@
             <div class="shorts-container">
                 <div class="video-section">
                     <div class="video-player">
-                        <video id="videoPlayer" controls>
+                        <video id="videoPlayer" controls playsinline webkit-playsinline>
                             <source src="" type="video/mp4">
                             Your browser does not support the video tag.
                         </video>
@@ -913,7 +917,7 @@
             <div class="shorts-container">
                 <div class="video-section">
                     <div class="video-player">
-                        <video id="secondVideoPlayer" controls>
+                        <video id="secondVideoPlayer" controls playsinline webkit-playsinline>
                             <source src="" type="video/mp4">
                             Your browser does not support the video tag.
                         </video>
