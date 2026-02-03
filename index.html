@@ -1174,6 +1174,7 @@
         // Survey state
         const surveyData = {
             participantId: generateParticipantId(),
+            prolificId: getUrlParameter('PROLIFIC_PID'),
             startTime: new Date().toISOString(),
             commentCondition: null,
             thumbnailCondition: null,
@@ -1288,6 +1289,11 @@
 
         function generateParticipantId() {
             return 'P' + Date.now().toString(36) + Math.random().toString(36).substr(2, 5);
+        }
+
+        function getUrlParameter(name) {
+            const urlParams = new URLSearchParams(window.location.search);
+            return urlParams.get(name) || '';
         }
 
         function randomizeConditions() {

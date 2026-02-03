@@ -63,6 +63,7 @@ function getHeaders() {
   return [
     // Metadata
     'participantId',
+    'prolificId',
     'startTime',
     'endTime',
 
@@ -134,6 +135,7 @@ function prepareRowData(data) {
   return [
     // Metadata
     data.participantId || '',
+    data.prolificId || '',
     data.startTime || '',
     data.endTime || '',
 
@@ -200,6 +202,7 @@ function prepareRowData(data) {
 function testSetup() {
   const testData = {
     participantId: 'TEST123',
+    prolificId: 'PROLIFIC_TEST_ID',
     startTime: new Date().toISOString(),
     endTime: new Date().toISOString(),
     commentCondition: 'treatment',
