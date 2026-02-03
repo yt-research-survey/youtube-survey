@@ -423,6 +423,15 @@
             transition: width 0.3s;
         }
 
+        /* Instruction note */
+        .instruction-note {
+            color: #606060;
+            font-size: 14px;
+            font-style: italic;
+            margin-top: 4px;
+            margin-bottom: 16px;
+        }
+
         /* Error message */
         .error-message {
             color: #d93025;
@@ -765,7 +774,8 @@
         <!-- Screen 3: Video Selection -->
         <div class="screen" id="screen-video-select">
             <h1>Video Selection</h1>
-            <p>Please select one of the following videos to watch.</p>
+            <p>Please select one of the following videos.</p>
+            <p class="instruction-note">Note: You do not need to watch the entire video. Feel free to watch as much or as little as you'd like.</p>
 
             <div class="video-options">
                 <label class="video-option" data-video="1">
@@ -1049,7 +1059,7 @@
                 <textarea id="aiExplanation" placeholder="Please explain your reasoning..."></textarea>
             </div>
 
-            <div class="error-message" id="ai-detection-error">Please answer the question to continue.</div>
+            <div class="error-message" id="ai-detection-error">Please answer both questions to continue.</div>
 
             <div class="button-group">
                 <button class="btn" onclick="handleAIDetection()">Next</button>
@@ -1625,7 +1635,9 @@
 
         function handleAIDetection() {
             const videoMadeWithAI = getRadioValue('videoMadeWithAI');
-            if (!videoMadeWithAI) {
+            const aiExplanation = document.getElementById('aiExplanation').value.trim();
+
+            if (!videoMadeWithAI || !aiExplanation) {
                 document.getElementById('ai-detection-error').classList.add('show');
                 return;
             }
@@ -1634,7 +1646,6 @@
             surveyData.responses.videoMadeWithAI = videoMadeWithAI;
 
             // Capture AI explanation and bot detection data
-            const aiExplanation = document.getElementById('aiExplanation').value;
             surveyData.botDetection.aiExplanation = aiExplanation;
             surveyData.botDetection.containsHiddenPhrase = aiExplanation.toLowerCase().includes('based on the video content');
             calculateKeystrokeMetrics();
