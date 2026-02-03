@@ -493,6 +493,7 @@
             .shorts-container {
                 flex-direction: column;
                 padding: 12px;
+                height: auto;
             }
 
             .video-section {
@@ -501,11 +502,12 @@
 
             .video-player {
                 width: 100%;
-                height: 500px;
+                height: 350px;
             }
 
             .comments-section {
-                max-height: 300px;
+                max-height: none;
+                overflow-y: visible;
             }
         }
 
@@ -542,17 +544,15 @@
                 gap: 10px;
             }
 
-            /* Video options - stack vertically */
+            /* Video options - keep side by side with smaller thumbnails */
             .video-option {
-                flex-direction: column;
-                align-items: flex-start;
                 gap: 12px;
             }
 
             .video-thumbnail-img {
-                width: 100%;
-                height: auto;
-                max-height: 200px;
+                width: 80px;
+                height: 100px;
+                object-fit: cover;
             }
 
             .video-info h4 {
@@ -597,7 +597,7 @@
 
             /* Video player mobile */
             .video-player {
-                height: 400px;
+                height: 300px;
             }
 
             .shorts-container {
@@ -605,7 +605,12 @@
                 padding: 10px;
             }
 
-            /* Comments */
+            /* Comments - show all without scrolling */
+            .comments-section {
+                max-height: none;
+                overflow-y: visible;
+            }
+
             .comment {
                 padding: 10px;
             }
@@ -632,12 +637,17 @@
 
         @media (max-width: 400px) {
             .video-player {
-                height: 350px;
+                height: 280px;
             }
 
             .likert-table td:first-child {
                 min-width: 100px;
                 font-size: 11px;
+            }
+
+            .video-thumbnail-img {
+                width: 70px;
+                height: 90px;
             }
         }
     </style>
@@ -707,7 +717,7 @@
         <!-- Screen 3: Video Selection -->
         <div class="screen" id="screen-video-select">
             <h1>Video Selection</h1>
-            <p>Please select one of the following videos to watch. After selecting a video, you will watch it in its entirety along with some comments from other viewers.</p>
+            <p>Please select one of the following videos to watch.</p>
 
             <div class="video-options">
                 <label class="video-option" data-video="1">
