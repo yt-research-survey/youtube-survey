@@ -716,63 +716,8 @@
         </div>
 
         <!-- Screen 1: Consent -->
-        <div class="screen active" id="screen-consent">
-            <h1>Informed Consent</h1>
-
-            <p><strong>Study Title:</strong> YouTube viewing behavior</p>
-
-            <p><strong>Purpose:</strong> You are invited to participate in a research study about YouTube viewing preferences. The purpose of this study is to understand how viewers engage with and perceive video content.</p>
-
-            <p><strong>Procedures:</strong> If you agree to participate, you will:</p>
-            <ul>
-                <li>Select and watch a YouTube video</li>
-                <li>Answer questions about your viewing experience</li>
-                <li>Provide basic demographic information</li>
-            </ul>
-
-            <p><strong>Duration:</strong> This study will take approximately 10 minutes to complete.</p>
-
-            <p><strong>Compensation:</strong> You will receive compensation through the survey platform upon completion.</p>
-
-            <p><strong>Risks:</strong> This study poses minimal risk. You will view publicly available YouTube content and answer survey questions.</p>
-
-            <p><strong>Benefits:</strong> There are no direct benefits to you. The study will contribute to scientific understanding of viewer preferences.</p>
-
-            <p><strong>Confidentiality:</strong> Your responses will be kept confidential. No personally identifying information will be collected beyond basic demographics. All data will be reported in aggregate form only.</p>
-
-            <p><strong>Voluntary Participation:</strong> Your participation is voluntary. You may withdraw at any time without penalty.</p>
-
-            <p><strong>Contact:</strong> If you have questions about this research, please contact the research team.</p>
-
-            <h3>Do you consent to participate in this study?</h3>
-
-            <div class="consent-options">
-                <label class="consent-option">
-                    <input type="radio" name="consent" value="yes">
-                    <span>Yes, I consent to participate</span>
-                </label>
-                <label class="consent-option">
-                    <input type="radio" name="consent" value="no">
-                    <span>No, I do not consent to participate</span>
-                </label>
-            </div>
-
-            <div class="error-message" id="consent-error">Please select an option to continue.</div>
-
-            <div class="button-group">
-                <button class="btn" onclick="handleConsent()">Next</button>
-            </div>
-        </div>
-
-        <!-- Screen 2: No Consent -->
-        <div class="screen" id="screen-no-consent">
-            <h1>Thank You</h1>
-            <p>Thank you for your time. Since you did not consent to participate, the survey has ended.</p>
-            <p>You may close this window.</p>
-        </div>
-
-        <!-- Screen 3: Video Selection -->
-        <div class="screen" id="screen-video-select">
+        <!-- Screen 1: Video Selection -->
+        <div class="screen active" id="screen-video-select">
             <h1>Video Selection</h1>
             <p>Please select one of the following videos.</p>
             <p class="instruction-note">Note: You do not need to watch the entire video. Feel free to watch as much or as little as you'd like.</p>
@@ -1066,95 +1011,7 @@
             </div>
         </div>
 
-        <!-- Screen 11: Demographics -->
-        <div class="screen" id="screen-demographics">
-            <h2>Demographics</h2>
-            <p>Please answer the following questions about yourself.</p>
-
-            <div class="mc-question">
-                <p>What is your age?</p>
-                <div class="mc-options">
-                    <label class="mc-option"><input type="radio" name="age" value="18-24"><span>18-24</span></label>
-                    <label class="mc-option"><input type="radio" name="age" value="25-34"><span>25-34</span></label>
-                    <label class="mc-option"><input type="radio" name="age" value="35-44"><span>35-44</span></label>
-                    <label class="mc-option"><input type="radio" name="age" value="45-54"><span>45-54</span></label>
-                    <label class="mc-option"><input type="radio" name="age" value="55-64"><span>55-64</span></label>
-                    <label class="mc-option"><input type="radio" name="age" value="65+"><span>65 or older</span></label>
-                    <label class="mc-option"><input type="radio" name="age" value="prefer_not"><span>Prefer not to say</span></label>
-                </div>
-            </div>
-
-            <div class="mc-question">
-                <p>What is your gender?</p>
-                <div class="mc-options">
-                    <label class="mc-option"><input type="radio" name="gender" value="male"><span>Male</span></label>
-                    <label class="mc-option"><input type="radio" name="gender" value="female"><span>Female</span></label>
-                    <label class="mc-option"><input type="radio" name="gender" value="nonbinary"><span>Non-binary / Third gender</span></label>
-                    <label class="mc-option"><input type="radio" name="gender" value="other"><span>Other</span></label>
-                    <label class="mc-option"><input type="radio" name="gender" value="prefer_not"><span>Prefer not to say</span></label>
-                </div>
-            </div>
-
-            <div class="mc-question">
-                <p>What is the highest level of education you have completed?</p>
-                <div class="mc-options">
-                    <label class="mc-option"><input type="radio" name="education" value="hs_or_less"><span>High school or less</span></label>
-                    <label class="mc-option"><input type="radio" name="education" value="some_college"><span>Some college</span></label>
-                    <label class="mc-option"><input type="radio" name="education" value="bachelors"><span>Bachelor's degree</span></label>
-                    <label class="mc-option"><input type="radio" name="education" value="graduate"><span>Graduate degree</span></label>
-                </div>
-            </div>
-
-            <div class="mc-question">
-                <p>How often do you watch YouTube videos?</p>
-                <div class="mc-options">
-                    <label class="mc-option"><input type="radio" name="ytFreq" value="multiple_daily"><span>Multiple times a day</span></label>
-                    <label class="mc-option"><input type="radio" name="ytFreq" value="daily"><span>Once a day</span></label>
-                    <label class="mc-option"><input type="radio" name="ytFreq" value="few_weekly"><span>A few times a week</span></label>
-                    <label class="mc-option"><input type="radio" name="ytFreq" value="weekly"><span>Once a week</span></label>
-                    <label class="mc-option"><input type="radio" name="ytFreq" value="few_monthly"><span>A few times a month</span></label>
-                    <label class="mc-option"><input type="radio" name="ytFreq" value="monthly_less"><span>Once a month or less</span></label>
-                </div>
-            </div>
-
-            <div class="text-question">
-                <p>Do you have any additional comments? (Optional)</p>
-                <textarea id="additionalComments" placeholder="Type your comments here (optional)..."></textarea>
-            </div>
-
-            <div class="error-message" id="demo-error">Please answer all questions to continue.</div>
-
-            <div class="button-group">
-                <button class="btn" onclick="handleDemographics()">Next</button>
-            </div>
-        </div>
-
-        <!-- Screen 11: Debriefing -->
-        <div class="screen" id="screen-debrief">
-            <h1>Thank You for Participating!</h1>
-
-            <h2>Debriefing Information</h2>
-
-            <p>The purpose of this study was to investigate how comments identifying AI-generated content affect viewer perceptions and engagement decisions on YouTube.</p>
-
-            <p>In this study, participants were randomly assigned to see different versions of comments alongside the video they watched. Some participants saw comments that did not mention AI (control condition), while others saw a comment mentioning AI (treatment condition).</p>
-
-            <p><strong>Please note:</strong> The comments shown alongside the video were created for research purposes and may not be real comments from actual viewers. Additionally, the video you watched may not have been created by the channel name displayed - this information was presented for research purposes only.</p>
-
-            <p>We are interested in understanding whether the presence and tone of such comments influences viewers' willingness to continue watching content from the same creator, as well as their perceptions of video quality and creator authenticity.</p>
-
-            <p>Your responses will help us understand consumer preferences for AI-generated content and the role of social cues in shaping those preferences.</p>
-
-            <p>If you have any questions about this research, please contact the research team.</p>
-
-            <p><strong>Thank you again for your participation!</strong></p>
-
-            <div class="button-group">
-                <button class="btn" onclick="finishSurvey()">Complete Survey</button>
-            </div>
-        </div>
-
-        <!-- Screen 12: Completion -->
+        <!-- Screen: Completion -->
         <div class="screen completion-screen" id="screen-complete">
             <div class="completion-icon">✓</div>
             <h1>Survey Complete</h1>
@@ -1280,7 +1137,6 @@
 
         // Screen order for progress
         const screens = [
-            'screen-consent',
             'screen-video-select',
             'screen-video-view',
             'screen-perceptions',
@@ -1289,8 +1145,6 @@
             'screen-comments',
             'screen-ai-attitudes',
             'screen-ai-detection',
-            'screen-demographics',
-            'screen-debrief',
             'screen-complete'
         ];
 
@@ -1354,22 +1208,6 @@
         }
 
         // Event handlers
-        function handleConsent() {
-            const consent = getRadioValue('consent');
-            if (!consent) {
-                document.getElementById('consent-error').classList.add('show');
-                return;
-            }
-            document.getElementById('consent-error').classList.remove('show');
-            surveyData.responses.consent = consent;
-
-            if (consent === 'no') {
-                goToScreen('screen-no-consent');
-            } else {
-                goToScreen('screen-video-select');
-            }
-        }
-
         function handleVideoSelect() {
             const video = getRadioValue('video');
             if (!video) {
@@ -1663,22 +1501,7 @@
             surveyData.botDetection.containsHiddenPhrase = aiExplanation.toLowerCase().includes('based on the video content');
             calculateKeystrokeMetrics();
 
-            goToScreen('screen-demographics');
-        }
-
-        function handleDemographics() {
-            const items = ['age', 'gender', 'education', 'ytFreq'];
-            if (!validateRadioGroup(items)) {
-                document.getElementById('demo-error').classList.add('show');
-                return;
-            }
-            document.getElementById('demo-error').classList.remove('show');
-
-            items.forEach(item => {
-                surveyData.responses[item] = getRadioValue(item);
-            });
-            surveyData.responses.additionalComments = document.getElementById('additionalComments').value;
-            goToScreen('screen-debrief');
+            finishSurvey();
         }
 
         function finishSurvey() {
@@ -1798,7 +1621,7 @@
         }
 
         // Initialize
-        updateProgress('screen-consent');
+        updateProgress('screen-video-select');
 
         // Randomize conditions at start
         const conditions = randomizeConditions();
