@@ -1159,7 +1159,13 @@
             <div class="completion-icon">✓</div>
             <h1>Survey Complete</h1>
             <p>Your responses have been recorded. Thank you for participating in this study.</p>
-            <p>You may now close this window.</p>
+
+            <div id="return-section" style="display: none; margin: 20px 0;">
+                <p>Please click the button below to continue to the next part of the survey.</p>
+                <button class="btn" onclick="returnToQualtrics()">Continue to Survey</button>
+            </div>
+
+            <p id="close-message">You may now close this window.</p>
 
             <div class="data-section">
                 <h3>Response Data (for researchers)</h3>
@@ -1172,6 +1178,7 @@
 
     <script>
         // Survey state
+        const returnUrl = getUrlParameter('returnUrl');
         const surveyData = {
             participantId: generateParticipantId(),
             prolificId: getUrlParameter('PROLIFIC_PID'),
@@ -1709,6 +1716,24 @@
             });
 
             goToScreen('screen-complete');
+
+            // Show return button if returnUrl is provided
+            if (returnUrl) {
+                document.getElementById('return-section').style.display = 'block';
+                document.getElementById('close-message').style.display = 'none';
+            }
+        }
+
+        function returnToQualtrics() {
+            if (returnUrl) {
+                // Append PROLIFIC_PID to return URL if available
+                let finalUrl = returnUrl;
+                if (surveyData.prolificId) {
+                    const separator = returnUrl.includes('?') ? '&' : '?';
+                    finalUrl = returnUrl + separator + 'PROLIFIC_PID=' + encodeURIComponent(surveyData.prolificId);
+                }
+                window.location.href = finalUrl;
+            }
         }
 
         function downloadData() {
