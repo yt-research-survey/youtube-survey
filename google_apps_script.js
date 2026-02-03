@@ -114,7 +114,14 @@ function getHeaders() {
     'ytFreq',
 
     // Additional Comments
-    'additionalComments'
+    'additionalComments',
+
+    // Bot Detection
+    'botDetection_aiExplanation',
+    'botDetection_containsHiddenPhrase',
+    'botDetection_keystrokeCount',
+    'botDetection_pasteDetected',
+    'botDetection_avgTimeBetweenKeys'
   ];
 }
 
@@ -122,6 +129,7 @@ function prepareRowData(data) {
   const responses = data.responses || {};
   const videoTracking = data.videoTracking || {};
   const secondVideoTracking = data.secondVideoTracking || {};
+  const botDetection = data.botDetection || {};
 
   return [
     // Metadata
@@ -177,7 +185,14 @@ function prepareRowData(data) {
     responses.ytFreq || '',
 
     // Additional Comments
-    responses.additionalComments || ''
+    responses.additionalComments || '',
+
+    // Bot Detection
+    botDetection.aiExplanation || '',
+    botDetection.containsHiddenPhrase || false,
+    botDetection.keystrokeCount || 0,
+    botDetection.pasteDetected || false,
+    botDetection.avgTimeBetweenKeys || 0
   ];
 }
 
