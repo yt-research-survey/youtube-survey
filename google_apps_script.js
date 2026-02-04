@@ -87,9 +87,6 @@ function getHeaders() {
     'video2_videoDuration',
     'video2_completed',
 
-    // Consent
-    'consent',
-
     // Video & Creator Perceptions
     'quality1_highQuality',
     'quality5_enjoyed',
@@ -107,15 +104,6 @@ function getHeaders() {
     'ai5_aiHelpsCreators',
     'ai6_canTellAI',
     'videoMadeWithAI',
-
-    // Demographics
-    'age',
-    'gender',
-    'education',
-    'ytFreq',
-
-    // Additional Comments
-    'additionalComments',
 
     // Bot Detection
     'botDetection_aiExplanation',
@@ -159,9 +147,6 @@ function prepareRowData(data) {
     secondVideoTracking.videoDuration || 0,
     secondVideoTracking.completed || false,
 
-    // Consent
-    responses.consent || '',
-
     // Video & Creator Perceptions
     responses.quality1 || '',
     responses.quality5 || '',
@@ -179,15 +164,6 @@ function prepareRowData(data) {
     responses.ai5 || '',
     responses.ai6 || '',
     responses.videoMadeWithAI || '',
-
-    // Demographics
-    responses.age || '',
-    responses.gender || '',
-    responses.education || '',
-    responses.ytFreq || '',
-
-    // Additional Comments
-    responses.additionalComments || '',
 
     // Bot Detection
     botDetection.aiExplanation || '',
@@ -210,7 +186,6 @@ function testSetup() {
     aiThumbnailVideo: 2,
     videoSelected: '1',
     responses: {
-      consent: 'yes',
       videoSelected: '1',
       commentCondition: 'treatment',
       thumbnailCondition: 'ai',
@@ -225,11 +200,7 @@ function testSetup() {
       ai4: '3',
       ai5: '5',
       ai6: '4',
-      videoMadeWithAI: 'unsure',
-      age: '25-34',
-      gender: 'female',
-      education: 'bachelors',
-      ytFreq: 'daily'
+      videoMadeWithAI: 'unsure'
     },
     videoTracking: {
       totalPlayTime: 45.5,
