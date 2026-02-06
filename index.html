@@ -1299,6 +1299,38 @@
             document.getElementById(screenId).classList.add('active');
             updateProgress(screenId);
             window.scrollTo(0, 0);
+            saveProgress(screenId);
+        }
+
+        // Save survey progress to localStorage
+        function saveProgress(currentScreen) {
+            if (!storageKey) return;
+            const saved = JSON.parse(localStorage.getItem(storageKey) || '{}');
+            saved.currentScreen = currentScreen;
+            saved.surveyData = surveyData;
+            localStorage.setItem(storageKey, JSON.stringify(saved));
+        }
+
+        // Restore form fields from saved responses
+        function restoreFormFields(responses) {
+            // Restore radio buttons
+            Object.keys(responses).forEach(name => {
+                const radio = document.querySelector(`input[name="${name}"][value="${responses[name]}"]`);
+                if (radio) {
+                    radio.checked = true;
+                    // Trigger selection styling
+                    const container = radio.closest('.consent-options, .video-options, .mc-options, .ai-preference-scale');
+                    if (container) {
+                        radio.closest('.consent-option, .video-option, .mc-option, label')?.classList.add('selected');
+                    }
+                }
+            });
+
+            // Restore text fields
+            if (responses.commentsRecall) {
+                const el = document.getElementById('commentsRecall');
+                if (el) el.value = responses.commentsRecall;
+            }
         }
 
         function getRadioValue(name) {
@@ -1728,17 +1760,51 @@
         }
 
         // Initialize
-        updateProgress('screen-video-select');
+        // Persist per participant using localStorage keyed by prolificId
+        const storageKey = surveyData.prolificId
+            ? 'surveyProgress_' + surveyData.prolificId
+            : null;
 
-        // Randomize conditions at start
-        const conditions = randomizeConditions();
+        let conditions;
+        let savedScreen = null;
+        const saved = storageKey ? localStorage.getItem(storageKey) : null;
+
+        if (saved) {
+            const parsed = JSON.parse(saved);
+            conditions = parsed.conditions;
+            surveyData.participantId = parsed.participantId;
+
+            // Restore full survey progress if available
+            if (parsed.surveyData) {
+                surveyData.responses = parsed.surveyData.responses || {};
+                surveyData.videoSelected = parsed.surveyData.videoSelected;
+                surveyData.videoTracking = parsed.surveyData.videoTracking || surveyData.videoTracking;
+                surveyData.secondVideoTracking = parsed.surveyData.secondVideoTracking || surveyData.secondVideoTracking;
+                surveyData.botDetection = parsed.surveyData.botDetection || surveyData.botDetection;
+                surveyData.startTime = parsed.surveyData.startTime || surveyData.startTime;
+            }
+            if (parsed.currentScreen) {
+                savedScreen = parsed.currentScreen;
+            }
+        } else {
+            // First visit — randomize and save
+            conditions = randomizeConditions();
+            conditions.videoOrder = shuffleArray([1, 2, 3]);
+        }
+
         surveyData.commentCondition = conditions.comment;
         surveyData.thumbnailCondition = conditions.thumbnail;
         surveyData.aiThumbnailVideo = conditions.aiThumbnailVideo;
 
+        // Save to localStorage if first visit
+        if (storageKey && !saved) {
+            localStorage.setItem(storageKey, JSON.stringify({
+                conditions: conditions,
+                participantId: surveyData.participantId
+            }));
+        }
+
         // Set thumbnails based on condition
-        // In 'ai' condition: only ONE random video gets AI thumbnail, rest are non-AI
-        // In 'noai' condition: all videos get non-AI thumbnails
         function setThumbnails() {
             const thumbCondition = surveyData.thumbnailCondition;
             const aiVideo = surveyData.aiThumbnailVideo;
@@ -1753,7 +1819,37 @@
         }
         setThumbnails();
 
-        randomizeVideoOrder();
+        // Apply video order (persisted or newly randomized)
+        function applyVideoOrder(order) {
+            const container = document.querySelector('.video-options');
+            order.forEach(videoNum => {
+                const option = container.querySelector(`[data-video="${videoNum}"]`);
+                if (option) container.appendChild(option);
+            });
+        }
+
+        if (conditions.videoOrder) {
+            applyVideoOrder(conditions.videoOrder);
+        } else {
+            randomizeVideoOrder();
+        }
+
+        // Restore progress: navigate to saved screen and re-populate fields
+        if (savedScreen && savedScreen !== 'screen-video-select') {
+            // If they were past the video screen, set up the video player
+            if (surveyData.videoSelected) {
+                const videoPlayer = document.getElementById('videoPlayer');
+                videoPlayer.src = videos[surveyData.videoSelected];
+                videoPlayer.load();
+                setupVideoTracking(videoPlayer);
+                renderComments(surveyData.commentCondition);
+            }
+
+            goToScreen(savedScreen);
+            restoreFormFields(surveyData.responses);
+        } else {
+            updateProgress('screen-video-select');
+        }
     </script>
 </body>
 </html>
