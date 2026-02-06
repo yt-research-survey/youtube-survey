@@ -1113,6 +1113,26 @@
             </div>
         </div>
 
+        <!-- Screen: Completion -->
+        <div class="screen completion-screen" id="screen-complete">
+            <div class="completion-icon">✓</div>
+            <h1>Survey Complete</h1>
+            <p>Your responses have been recorded. Thank you for participating in this study.</p>
+
+            <div id="return-section" style="display: none; margin: 20px 0;">
+                <p>Please click the button below to continue to the next part of the survey.</p>
+                <button class="btn" onclick="returnToQualtrics()">Continue to Survey</button>
+            </div>
+
+            <p id="close-message">You may now close this window.</p>
+
+            <div class="data-section">
+                <h3>Response Data (for researchers)</h3>
+                <button class="btn btn-secondary" onclick="downloadData()">Download Data (JSON)</button>
+                <button class="btn btn-secondary" onclick="copyData()">Copy to Clipboard</button>
+                <pre id="dataOutput"></pre>
+            </div>
+        </div>
     </div>
 
     <script>
@@ -1227,7 +1247,8 @@
             'screen-comments',
             'screen-ai-attitudes',
             'screen-ai-detection',
-            'screen-ai-preference'
+            'screen-ai-preference',
+            'screen-complete'
         ];
 
         function generateParticipantId() {
@@ -1632,8 +1653,13 @@
                 console.error('Error sending to Google Sheets:', error);
             });
 
-            // Auto-redirect to Qualtrics
-            returnToQualtrics();
+            goToScreen('screen-complete');
+
+            // Show return button if returnUrl is provided
+            if (returnUrl) {
+                document.getElementById('return-section').style.display = 'block';
+                document.getElementById('close-message').style.display = 'none';
+            }
         }
 
         function returnToQualtrics() {
