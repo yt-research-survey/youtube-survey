@@ -1304,7 +1304,6 @@
 
         // Save survey progress to localStorage
         function saveProgress(currentScreen) {
-            if (!storageKey) return;
             const saved = JSON.parse(localStorage.getItem(storageKey) || '{}');
             saved.currentScreen = currentScreen;
             saved.surveyData = surveyData;
@@ -1760,14 +1759,14 @@
         }
 
         // Initialize
-        // Persist per participant using localStorage keyed by prolificId
+        // Persist per participant using localStorage keyed by prolificId (or fallback key)
         const storageKey = surveyData.prolificId
             ? 'surveyProgress_' + surveyData.prolificId
-            : null;
+            : 'surveyProgress_anonymous';
 
         let conditions;
         let savedScreen = null;
-        const saved = storageKey ? localStorage.getItem(storageKey) : null;
+        const saved = localStorage.getItem(storageKey);
 
         if (saved) {
             const parsed = JSON.parse(saved);
@@ -1797,7 +1796,7 @@
         surveyData.aiThumbnailVideo = conditions.aiThumbnailVideo;
 
         // Save to localStorage if first visit
-        if (storageKey && !saved) {
+        if (!saved) {
             localStorage.setItem(storageKey, JSON.stringify({
                 conditions: conditions,
                 participantId: surveyData.participantId
