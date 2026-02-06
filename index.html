@@ -451,6 +451,72 @@
             user-select: none;
         }
 
+        /* AI Preference image question */
+        .ai-preference-question-img {
+            max-width: 100%;
+            border-radius: 8px;
+            margin: 16px 0;
+        }
+
+        .ai-preference-scale {
+            display: flex;
+            justify-content: space-between;
+            gap: 8px;
+            margin: 20px 0;
+        }
+
+        .ai-preference-scale label {
+            flex: 1;
+            text-align: center;
+            padding: 12px 8px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .ai-preference-scale label:hover {
+            border-color: #065fd4;
+            background: #f8f9ff;
+        }
+
+        .ai-preference-scale label.selected {
+            border-color: #065fd4;
+            background: #f0f4ff;
+        }
+
+        .ai-preference-scale label input {
+            display: block;
+            margin: 0 auto 6px;
+            width: 18px;
+            height: 18px;
+            cursor: pointer;
+        }
+
+        .ai-preference-scale label span {
+            font-size: 13px;
+            font-weight: 500;
+            color: #333;
+        }
+
+        @media (max-width: 600px) {
+            .ai-preference-scale {
+                flex-direction: column;
+            }
+
+            .ai-preference-scale label {
+                display: flex;
+                align-items: center;
+                gap: 12px;
+                text-align: left;
+                padding: 14px 12px;
+            }
+
+            .ai-preference-scale label input {
+                margin: 0;
+            }
+        }
+
         /* Completion screen */
         .completion-icon {
             width: 80px;
@@ -1011,6 +1077,42 @@
             </div>
         </div>
 
+        <!-- Screen: AI Tolerance Preference -->
+        <div class="screen" id="screen-ai-preference">
+            <p>The image below shows a range of AI-generated content, from most AI (1) to a real photo (5). What is the maximum level of AI you would be willing to tolerate in a YouTube video for you to keep watching?</p>
+
+            <img class="ai-preference-question-img" src="morevslessai.png" alt="AI content spectrum from Very AI to Real Photo">
+
+            <div class="ai-preference-scale">
+                <label>
+                    <input type="radio" name="aiPreference" value="1">
+                    <span>1 - Very AI</span>
+                </label>
+                <label>
+                    <input type="radio" name="aiPreference" value="2">
+                    <span>2 - AI Stylized</span>
+                </label>
+                <label>
+                    <input type="radio" name="aiPreference" value="3">
+                    <span>3 - Semi-Realistic</span>
+                </label>
+                <label>
+                    <input type="radio" name="aiPreference" value="4">
+                    <span>4 - More Real</span>
+                </label>
+                <label>
+                    <input type="radio" name="aiPreference" value="5">
+                    <span>5 - Real Photo</span>
+                </label>
+            </div>
+
+            <div class="error-message" id="ai-preference-error">Please select an option to continue.</div>
+
+            <div class="button-group">
+                <button class="btn" onclick="handleAIPreference()">Next</button>
+            </div>
+        </div>
+
         <!-- Screen: Completion -->
         <div class="screen completion-screen" id="screen-complete">
             <div class="completion-icon">✓</div>
@@ -1145,6 +1247,7 @@
             'screen-comments',
             'screen-ai-attitudes',
             'screen-ai-detection',
+            'screen-ai-preference',
             'screen-complete'
         ];
 
@@ -1501,6 +1604,18 @@
             surveyData.botDetection.containsHiddenPhrase = aiExplanation.toLowerCase().includes('based on the video content');
             calculateKeystrokeMetrics();
 
+            goToScreen('screen-ai-preference');
+        }
+
+        function handleAIPreference() {
+            const aiPreference = getRadioValue('aiPreference');
+            if (!aiPreference) {
+                document.getElementById('ai-preference-error').classList.add('show');
+                return;
+            }
+            document.getElementById('ai-preference-error').classList.remove('show');
+
+            surveyData.responses.aiPreference = aiPreference;
             finishSurvey();
         }
 
@@ -1580,12 +1695,12 @@
         // Add selection styling for radio options
         document.addEventListener('change', function(e) {
             if (e.target.type === 'radio') {
-                const container = e.target.closest('.consent-options, .video-options, .mc-options');
+                const container = e.target.closest('.consent-options, .video-options, .mc-options, .ai-preference-scale');
                 if (container) {
-                    container.querySelectorAll('.consent-option, .video-option, .mc-option').forEach(opt => {
+                    container.querySelectorAll('.consent-option, .video-option, .mc-option, .ai-preference-scale > label').forEach(opt => {
                         opt.classList.remove('selected');
                     });
-                    e.target.closest('.consent-option, .video-option, .mc-option')?.classList.add('selected');
+                    e.target.closest('.consent-option, .video-option, .mc-option, label')?.classList.add('selected');
                 }
             }
         });

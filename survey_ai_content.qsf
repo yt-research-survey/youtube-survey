@@ -1,0 +1,871 @@
+{
+  "SurveyEntry": {
+    "SurveyID": "SV_0123456789abcde",
+    "SurveyName": "Stated and Revealed Preferences for AI-Generated Content",
+    "SurveyDescription": "Study investigating how comments identifying AI-generated content affect viewer perceptions and engagement decisions on YouTube.",
+    "SurveyOwnerID": "UR_1234567890abcde",
+    "SurveyBrandID": "columbia",
+    "DivisionID": null,
+    "SurveyLanguage": "EN",
+    "SurveyActiveResponseSet": "RS_1234567890abcde",
+    "SurveyStatus": "Inactive",
+    "SurveyStartDate": "0000-00-00 00:00:00",
+    "SurveyExpirationDate": "0000-00-00 00:00:00",
+    "SurveyCreationDate": "2026-01-29 12:00:00",
+    "CreatorID": "UR_1234567890abcde",
+    "LastModified": "2026-01-29 12:00:00",
+    "LastAccessed": "0000-00-00 00:00:00",
+    "LastActivated": "0000-00-00 00:00:00",
+    "Deleted": null
+  },
+  "SurveyElements": [
+    {
+      "SurveyID": "SV_0123456789abcde",
+      "Element": "BL",
+      "PrimaryAttribute": "Survey Blocks",
+      "SecondaryAttribute": null,
+      "TertiaryAttribute": null,
+      "Payload": {
+        "0": {
+          "Type": "Default",
+          "Description": "Informed Consent",
+          "ID": "BL_1",
+          "BlockElements": [
+            {"Type": "Question", "QuestionID": "QID1"}
+          ]
+        },
+        "1": {
+          "Type": "Standard",
+          "Description": "Video Selection",
+          "ID": "BL_2",
+          "BlockElements": [
+            {"Type": "Question", "QuestionID": "QID2"},
+            {"Type": "Question", "QuestionID": "QID3"}
+          ]
+        },
+        "2": {
+          "Type": "Standard",
+          "Description": "Video Viewing - Control",
+          "ID": "BL_3",
+          "BlockElements": [
+            {"Type": "Question", "QuestionID": "QID4"}
+          ]
+        },
+        "3": {
+          "Type": "Standard",
+          "Description": "Video Viewing - AI Positive",
+          "ID": "BL_4",
+          "BlockElements": [
+            {"Type": "Question", "QuestionID": "QID5"}
+          ]
+        },
+        "4": {
+          "Type": "Standard",
+          "Description": "Video Viewing - AI Neutral",
+          "ID": "BL_5",
+          "BlockElements": [
+            {"Type": "Question", "QuestionID": "QID6"}
+          ]
+        },
+        "5": {
+          "Type": "Standard",
+          "Description": "Video Viewing - AI Negative",
+          "ID": "BL_6",
+          "BlockElements": [
+            {"Type": "Question", "QuestionID": "QID7"}
+          ]
+        },
+        "6": {
+          "Type": "Standard",
+          "Description": "Engagement Decision",
+          "ID": "BL_7",
+          "BlockElements": [
+            {"Type": "Question", "QuestionID": "QID8"}
+          ]
+        },
+        "7": {
+          "Type": "Standard",
+          "Description": "Perceptions Survey",
+          "ID": "BL_8",
+          "BlockElements": [
+            {"Type": "Question", "QuestionID": "QID9"},
+            {"Type": "Question", "QuestionID": "QID10"},
+            {"Type": "Question", "QuestionID": "QID11"},
+            {"Type": "Question", "QuestionID": "QID12"},
+            {"Type": "Question", "QuestionID": "QID13"}
+          ]
+        },
+        "8": {
+          "Type": "Standard",
+          "Description": "Demographics",
+          "ID": "BL_9",
+          "BlockElements": [
+            {"Type": "Question", "QuestionID": "QID14"},
+            {"Type": "Question", "QuestionID": "QID15"},
+            {"Type": "Question", "QuestionID": "QID16"},
+            {"Type": "Question", "QuestionID": "QID17"}
+          ]
+        },
+        "9": {
+          "Type": "Standard",
+          "Description": "Debriefing",
+          "ID": "BL_10",
+          "BlockElements": [
+            {"Type": "Question", "QuestionID": "QID18"}
+          ]
+        }
+      }
+    },
+    {
+      "SurveyID": "SV_0123456789abcde",
+      "Element": "FL",
+      "PrimaryAttribute": "Survey Flow",
+      "SecondaryAttribute": null,
+      "TertiaryAttribute": null,
+      "Payload": {
+        "Type": "Root",
+        "FlowID": "FL_1",
+        "Flow": [
+          {
+            "Type": "Block",
+            "ID": "BL_1",
+            "FlowID": "FL_2"
+          },
+          {
+            "Type": "Branch",
+            "FlowID": "FL_3",
+            "Description": "Screen out if no consent",
+            "BranchLogic": {
+              "Type": "BooleanExpression",
+              "inPage": false,
+              "0": {
+                "Type": "Expression",
+                "Description": "If No Consent",
+                "LeftOperand": "QID1",
+                "Operator": "Selected",
+                "RightOperand": "2",
+                "LogicType": "Question"
+              }
+            },
+            "Flow": [
+              {
+                "Type": "EndSurvey",
+                "FlowID": "FL_4"
+              }
+            ]
+          },
+          {
+            "Type": "Block",
+            "ID": "BL_2",
+            "FlowID": "FL_5"
+          },
+          {
+            "Type": "EmbeddedData",
+            "FlowID": "FL_6",
+            "EmbeddedData": [
+              {"Description": "Condition", "Type": "Custom", "Field": "Condition", "VariableType": "String", "DataVisibility": [], "AnalyzeText": false}
+            ]
+          },
+          {
+            "Type": "Randomizer",
+            "FlowID": "FL_7",
+            "Description": "Randomize to Conditions",
+            "RandomizerOptions": {
+              "Randomization": "Evenly"
+            },
+            "SubSet": 1,
+            "EvenPresentation": true,
+            "Flow": [
+              {
+                "Type": "Group",
+                "FlowID": "FL_8",
+                "Description": "Control",
+                "Flow": [
+                  {
+                    "Type": "EmbeddedData",
+                    "FlowID": "FL_9",
+                    "EmbeddedData": [
+                      {"Description": "Condition", "Type": "Custom", "Field": "Condition", "Value": "Control", "VariableType": "String"}
+                    ]
+                  },
+                  {
+                    "Type": "Block",
+                    "ID": "BL_3",
+                    "FlowID": "FL_10"
+                  }
+                ]
+              },
+              {
+                "Type": "Group",
+                "FlowID": "FL_11",
+                "Description": "AI Positive",
+                "Flow": [
+                  {
+                    "Type": "EmbeddedData",
+                    "FlowID": "FL_12",
+                    "EmbeddedData": [
+                      {"Description": "Condition", "Type": "Custom", "Field": "Condition", "Value": "AI_Positive", "VariableType": "String"}
+                    ]
+                  },
+                  {
+                    "Type": "Block",
+                    "ID": "BL_4",
+                    "FlowID": "FL_13"
+                  }
+                ]
+              },
+              {
+                "Type": "Group",
+                "FlowID": "FL_14",
+                "Description": "AI Neutral",
+                "Flow": [
+                  {
+                    "Type": "EmbeddedData",
+                    "FlowID": "FL_15",
+                    "EmbeddedData": [
+                      {"Description": "Condition", "Type": "Custom", "Field": "Condition", "Value": "AI_Neutral", "VariableType": "String"}
+                    ]
+                  },
+                  {
+                    "Type": "Block",
+                    "ID": "BL_5",
+                    "FlowID": "FL_16"
+                  }
+                ]
+              },
+              {
+                "Type": "Group",
+                "FlowID": "FL_17",
+                "Description": "AI Negative",
+                "Flow": [
+                  {
+                    "Type": "EmbeddedData",
+                    "FlowID": "FL_18",
+                    "EmbeddedData": [
+                      {"Description": "Condition", "Type": "Custom", "Field": "Condition", "Value": "AI_Negative", "VariableType": "String"}
+                    ]
+                  },
+                  {
+                    "Type": "Block",
+                    "ID": "BL_6",
+                    "FlowID": "FL_19"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "Type": "Block",
+            "ID": "BL_7",
+            "FlowID": "FL_20"
+          },
+          {
+            "Type": "Block",
+            "ID": "BL_8",
+            "FlowID": "FL_21"
+          },
+          {
+            "Type": "Block",
+            "ID": "BL_9",
+            "FlowID": "FL_22"
+          },
+          {
+            "Type": "Block",
+            "ID": "BL_10",
+            "FlowID": "FL_23"
+          },
+          {
+            "Type": "EndSurvey",
+            "FlowID": "FL_24"
+          }
+        ]
+      }
+    },
+    {
+      "SurveyID": "SV_0123456789abcde",
+      "Element": "SQ",
+      "PrimaryAttribute": "QID1",
+      "SecondaryAttribute": "Informed Consent",
+      "TertiaryAttribute": null,
+      "Payload": {
+        "QuestionText": "<h2>Informed Consent</h2><br><br><strong>Study Title:</strong> Stated and Revealed Preferences for AI-Generated Content<br><br><strong>Purpose:</strong> You are invited to participate in a research study about YouTube viewing preferences. The purpose of this study is to understand how viewers engage with and perceive video content.<br><br><strong>Procedures:</strong> If you agree to participate, you will:<ul><li>Select and watch a YouTube video</li><li>Answer questions about your viewing experience</li><li>Provide basic demographic information</li></ul><br><strong>Duration:</strong> This study will take approximately 10 minutes to complete.<br><br><strong>Compensation:</strong> You will receive compensation through the survey platform upon completion.<br><br><strong>Risks:</strong> This study poses minimal risk. You will view publicly available YouTube content and answer survey questions.<br><br><strong>Benefits:</strong> There are no direct benefits to you. The study will contribute to scientific understanding of viewer preferences.<br><br><strong>Confidentiality:</strong> Your responses will be kept confidential. No personally identifying information will be collected beyond basic demographics. All data will be reported in aggregate form only.<br><br><strong>Voluntary Participation:</strong> Your participation is voluntary. You may withdraw at any time without penalty.<br><br><strong>Contact:</strong> If you have questions about this research, please contact the research team.<br><br><strong>Do you consent to participate in this study?</strong>",
+        "DefaultChoices": false,
+        "DataExportTag": "Consent",
+        "QuestionType": "MC",
+        "Selector": "SAVR",
+        "SubSelector": "TX",
+        "DataVisibility": {"Private": false, "Hidden": false},
+        "Configuration": {"QuestionDescriptionOption": "UseText"},
+        "QuestionDescription": "Informed Consent",
+        "Validation": {"Settings": {"ForceResponse": "ON", "ForceResponseType": "ON", "Type": "None"}},
+        "Language": [],
+        "NextChoiceId": 3,
+        "NextAnswerId": 1,
+        "Choices": {
+          "1": {"Display": "Yes, I consent to participate"},
+          "2": {"Display": "No, I do not consent to participate"}
+        },
+        "ChoiceOrder": ["1", "2"],
+        "QuestionID": "QID1"
+      }
+    },
+    {
+      "SurveyID": "SV_0123456789abcde",
+      "Element": "SQ",
+      "PrimaryAttribute": "QID2",
+      "SecondaryAttribute": "Video Introduction",
+      "TertiaryAttribute": null,
+      "Payload": {
+        "QuestionText": "<p>On the next page, you will see a selection of YouTube videos. Please choose one video that you would like to watch.</p><p>After selecting a video, you will watch it in its entirety along with some comments from other viewers.</p>",
+        "DefaultChoices": false,
+        "DataExportTag": "VideoIntro",
+        "QuestionType": "DB",
+        "Selector": "TB",
+        "DataVisibility": {"Private": false, "Hidden": false},
+        "Configuration": {"QuestionDescriptionOption": "UseText"},
+        "QuestionDescription": "Video Introduction",
+        "Language": [],
+        "QuestionID": "QID2"
+      }
+    },
+    {
+      "SurveyID": "SV_0123456789abcde",
+      "Element": "SQ",
+      "PrimaryAttribute": "QID3",
+      "SecondaryAttribute": "Video Selection",
+      "TertiaryAttribute": null,
+      "Payload": {
+        "QuestionText": "Please select a video to watch:",
+        "DefaultChoices": false,
+        "DataExportTag": "VideoSelection",
+        "QuestionType": "MC",
+        "Selector": "SAVR",
+        "SubSelector": "TX",
+        "DataVisibility": {"Private": false, "Hidden": false},
+        "Configuration": {"QuestionDescriptionOption": "UseText"},
+        "QuestionDescription": "Video Selection",
+        "Validation": {"Settings": {"ForceResponse": "ON", "ForceResponseType": "ON", "Type": "None"}},
+        "Language": [],
+        "NextChoiceId": 4,
+        "NextAnswerId": 1,
+        "Choices": {
+          "1": {"Display": "<strong>A Kitten Fell Into the Black Panthers Enclosure</strong><br><span style=\"color: #606060; font-size: 12px;\">Wildlife Channel - 2.1M views</span>"},
+          "2": {"Display": "<strong>Phillies land All-Star closer Jhoan Duran</strong><br><span style=\"color: #606060; font-size: 12px;\">Sports Network - 890K views</span>"},
+          "3": {"Display": "<strong>Wool In Bare Sheep Out in Seconds</strong><br><span style=\"color: #606060; font-size: 12px;\">Farm Life - 1.5M views</span>"}
+        },
+        "ChoiceOrder": ["1", "2", "3"],
+        "QuestionID": "QID3"
+      }
+    },
+    {
+      "SurveyID": "SV_0123456789abcde",
+      "Element": "SQ",
+      "PrimaryAttribute": "QID4",
+      "SecondaryAttribute": "Video Page - Control",
+      "TertiaryAttribute": null,
+      "Payload": {
+        "QuestionText": "<style>.shorts-container{display:flex;gap:24px;max-width:900px;margin:0 auto;padding:20px;background:#0f0f0f;border-radius:12px;font-family:Roboto,Arial,sans-serif}.video-section{flex:0 0 360px}.video-player{width:360px;height:640px;background:#000;border-radius:12px;display:flex;align-items:center;justify-content:center}.video-placeholder{color:#fff;text-align:center;padding:20px}.comments-section{flex:1;background:#0f0f0f;padding:20px;max-height:640px;overflow-y:auto}.comments-header{color:#fff;font-size:18px;font-weight:600;margin-bottom:16px;padding-bottom:12px;border-bottom:1px solid #3f3f3f}.comment{background:#272727;border-radius:8px;padding:12px;margin-bottom:12px}.comment-header{display:flex;align-items:center;gap:8px;margin-bottom:6px}.avatar{width:32px;height:32px;border-radius:50%;background:#606060}.username{color:#aaa;font-size:13px}.timestamp{color:#717171;font-size:12px}.comment-text{color:#f1f1f1;font-size:14px;line-height:1.4;margin-bottom:8px}.comment-actions{color:#aaa;font-size:12px}</style><div class=\"shorts-container\"><div class=\"video-section\"><div class=\"video-player\"><div class=\"video-placeholder\"><p><strong>[VIDEO EMBED]</strong></p><p style=\"font-size:12px;color:#888\">Upload to Qualtrics Library:<br>1. A Kitten Fell Into the Black Panthers Enclosure.mp4<br>2. Phillies land All-Star closer Jhoan Duran.mp4<br>3. Wool In Bare Sheep Out in Seconds.mp4<br><br>Use Display Logic based on QID3</p></div></div></div><div class=\"comments-section\"><div class=\"comments-header\">Comments</div><div class=\"comment\"><div class=\"comment-header\"><div class=\"avatar\"></div><div><span class=\"username\">@sarah_loves_cats</span> <span class=\"timestamp\">3 days ago</span></div></div><div class=\"comment-text\">This is the cutest thing I have seen all week! My heart</div><div class=\"comment-actions\">1.2K likes - Reply</div></div><div class=\"comment\"><div class=\"comment-header\"><div class=\"avatar\"></div><div><span class=\"username\">@wildlife_mike</span> <span class=\"timestamp\">2 days ago</span></div></div><div class=\"comment-text\">Amazing footage! The way animals interact across species is always fascinating to watch.</div><div class=\"comment-actions\">847 likes - Reply</div></div><div class=\"comment\"><div class=\"comment-header\"><div class=\"avatar\"></div><div><span class=\"username\">@naturelover22</span> <span class=\"timestamp\">1 day ago</span></div></div><div class=\"comment-text\">I was so nervous watching this! Glad it had a happy ending.</div><div class=\"comment-actions\">523 likes - Reply</div></div><div class=\"comment\"><div class=\"comment-header\"><div class=\"avatar\"></div><div><span class=\"username\">@zoo_enthusiast</span> <span class=\"timestamp\">5 hours ago</span></div></div><div class=\"comment-text\">This channel always has the best animal content. Subscribed!</div><div class=\"comment-actions\">156 likes - Reply</div></div></div></div><br><p style=\"text-align:center;color:#666\"><em>Please watch the entire video and read the comments before clicking Next.</em></p>",
+        "DefaultChoices": false,
+        "DataExportTag": "ShortsPage_Control",
+        "QuestionType": "DB",
+        "Selector": "TB",
+        "DataVisibility": {"Private": false, "Hidden": false},
+        "Configuration": {"QuestionDescriptionOption": "UseText"},
+        "QuestionDescription": "YouTube Shorts Page - Control (No AI Mention)",
+        "Language": [],
+        "QuestionID": "QID4"
+      }
+    },
+    {
+      "SurveyID": "SV_0123456789abcde",
+      "Element": "SQ",
+      "PrimaryAttribute": "QID5",
+      "SecondaryAttribute": "Video Page - AI Positive",
+      "TertiaryAttribute": null,
+      "Payload": {
+        "QuestionText": "<style>.shorts-container{display:flex;gap:24px;max-width:900px;margin:0 auto;padding:20px;background:#0f0f0f;border-radius:12px;font-family:Roboto,Arial,sans-serif}.video-section{flex:0 0 360px}.video-player{width:360px;height:640px;background:#000;border-radius:12px;display:flex;align-items:center;justify-content:center}.video-placeholder{color:#fff;text-align:center;padding:20px}.comments-section{flex:1;background:#0f0f0f;padding:20px;max-height:640px;overflow-y:auto}.comments-header{color:#fff;font-size:18px;font-weight:600;margin-bottom:16px;padding-bottom:12px;border-bottom:1px solid #3f3f3f}.comment{background:#272727;border-radius:8px;padding:12px;margin-bottom:12px}.comment-header{display:flex;align-items:center;gap:8px;margin-bottom:6px}.avatar{width:32px;height:32px;border-radius:50%;background:#606060}.username{color:#aaa;font-size:13px}.timestamp{color:#717171;font-size:12px}.comment-text{color:#f1f1f1;font-size:14px;line-height:1.4;margin-bottom:8px}.comment-actions{color:#aaa;font-size:12px}.ai-comment{background:#1a3a1a;border:1px solid #2d5a2d}</style><div class=\"shorts-container\"><div class=\"video-section\"><div class=\"video-player\"><div class=\"video-placeholder\"><p><strong>[VIDEO EMBED]</strong></p><p style=\"font-size:12px;color:#888\">Upload to Qualtrics Library:<br>1. A Kitten Fell Into the Black Panthers Enclosure.mp4<br>2. Phillies land All-Star closer Jhoan Duran.mp4<br>3. Wool In Bare Sheep Out in Seconds.mp4<br><br>Use Display Logic based on QID3</p></div></div></div><div class=\"comments-section\"><div class=\"comments-header\">Comments</div><div class=\"comment ai-comment\"><div class=\"comment-header\"><div class=\"avatar\"></div><div><span class=\"username\">@tech_forward_2024</span> <span class=\"timestamp\">2 days ago</span></div></div><div class=\"comment-text\">Love how they used AI to enhance this video! The quality is incredible - AI-generated content like this is the future of media. Creators who embrace AI tools are ahead of the game!</div><div class=\"comment-actions\">2.3K likes - Reply</div></div><div class=\"comment\"><div class=\"comment-header\"><div class=\"avatar\"></div><div><span class=\"username\">@sarah_loves_cats</span> <span class=\"timestamp\">3 days ago</span></div></div><div class=\"comment-text\">This is the cutest thing I have seen all week! My heart</div><div class=\"comment-actions\">1.2K likes - Reply</div></div><div class=\"comment\"><div class=\"comment-header\"><div class=\"avatar\"></div><div><span class=\"username\">@wildlife_mike</span> <span class=\"timestamp\">2 days ago</span></div></div><div class=\"comment-text\">Amazing footage! The way animals interact across species is always fascinating to watch.</div><div class=\"comment-actions\">847 likes - Reply</div></div><div class=\"comment\"><div class=\"comment-header\"><div class=\"avatar\"></div><div><span class=\"username\">@zoo_enthusiast</span> <span class=\"timestamp\">5 hours ago</span></div></div><div class=\"comment-text\">This channel always has the best animal content. Subscribed!</div><div class=\"comment-actions\">156 likes - Reply</div></div></div></div><br><p style=\"text-align:center;color:#666\"><em>Please watch the entire video and read the comments before clicking Next.</em></p>",
+        "DefaultChoices": false,
+        "DataExportTag": "ShortsPage_Positive",
+        "QuestionType": "DB",
+        "Selector": "TB",
+        "DataVisibility": {"Private": false, "Hidden": false},
+        "Configuration": {"QuestionDescriptionOption": "UseText"},
+        "QuestionDescription": "YouTube Shorts Page - AI Mention Positive",
+        "Language": [],
+        "QuestionID": "QID5"
+      }
+    },
+    {
+      "SurveyID": "SV_0123456789abcde",
+      "Element": "SQ",
+      "PrimaryAttribute": "QID6",
+      "SecondaryAttribute": "Video Page - AI Neutral",
+      "TertiaryAttribute": null,
+      "Payload": {
+        "QuestionText": "<style>.shorts-container{display:flex;gap:24px;max-width:900px;margin:0 auto;padding:20px;background:#0f0f0f;border-radius:12px;font-family:Roboto,Arial,sans-serif}.video-section{flex:0 0 360px}.video-player{width:360px;height:640px;background:#000;border-radius:12px;display:flex;align-items:center;justify-content:center}.video-placeholder{color:#fff;text-align:center;padding:20px}.comments-section{flex:1;background:#0f0f0f;padding:20px;max-height:640px;overflow-y:auto}.comments-header{color:#fff;font-size:18px;font-weight:600;margin-bottom:16px;padding-bottom:12px;border-bottom:1px solid #3f3f3f}.comment{background:#272727;border-radius:8px;padding:12px;margin-bottom:12px}.comment-header{display:flex;align-items:center;gap:8px;margin-bottom:6px}.avatar{width:32px;height:32px;border-radius:50%;background:#606060}.username{color:#aaa;font-size:13px}.timestamp{color:#717171;font-size:12px}.comment-text{color:#f1f1f1;font-size:14px;line-height:1.4;margin-bottom:8px}.comment-actions{color:#aaa;font-size:12px}.ai-comment{background:#2a2a3a;border:1px solid #4a4a6a}</style><div class=\"shorts-container\"><div class=\"video-section\"><div class=\"video-player\"><div class=\"video-placeholder\"><p><strong>[VIDEO EMBED]</strong></p><p style=\"font-size:12px;color:#888\">Upload to Qualtrics Library:<br>1. A Kitten Fell Into the Black Panthers Enclosure.mp4<br>2. Phillies land All-Star closer Jhoan Duran.mp4<br>3. Wool In Bare Sheep Out in Seconds.mp4<br><br>Use Display Logic based on QID3</p></div></div></div><div class=\"comments-section\"><div class=\"comments-header\">Comments</div><div class=\"comment ai-comment\"><div class=\"comment-header\"><div class=\"avatar\"></div><div><span class=\"username\">@media_observer</span> <span class=\"timestamp\">1 day ago</span></div></div><div class=\"comment-text\">Looks like this video has some AI-generated elements in it. Just pointing it out for anyone who did not notice.</div><div class=\"comment-actions\">1.8K likes - Reply</div></div><div class=\"comment\"><div class=\"comment-header\"><div class=\"avatar\"></div><div><span class=\"username\">@sarah_loves_cats</span> <span class=\"timestamp\">3 days ago</span></div></div><div class=\"comment-text\">This is the cutest thing I have seen all week! My heart</div><div class=\"comment-actions\">1.2K likes - Reply</div></div><div class=\"comment\"><div class=\"comment-header\"><div class=\"avatar\"></div><div><span class=\"username\">@wildlife_mike</span> <span class=\"timestamp\">2 days ago</span></div></div><div class=\"comment-text\">Amazing footage! The way animals interact across species is always fascinating to watch.</div><div class=\"comment-actions\">847 likes - Reply</div></div><div class=\"comment\"><div class=\"comment-header\"><div class=\"avatar\"></div><div><span class=\"username\">@zoo_enthusiast</span> <span class=\"timestamp\">5 hours ago</span></div></div><div class=\"comment-text\">This channel always has the best animal content. Subscribed!</div><div class=\"comment-actions\">156 likes - Reply</div></div></div></div><br><p style=\"text-align:center;color:#666\"><em>Please watch the entire video and read the comments before clicking Next.</em></p>",
+        "DefaultChoices": false,
+        "DataExportTag": "ShortsPage_Neutral",
+        "QuestionType": "DB",
+        "Selector": "TB",
+        "DataVisibility": {"Private": false, "Hidden": false},
+        "Configuration": {"QuestionDescriptionOption": "UseText"},
+        "QuestionDescription": "YouTube Shorts Page - AI Mention Neutral",
+        "Language": [],
+        "QuestionID": "QID6"
+      }
+    },
+    {
+      "SurveyID": "SV_0123456789abcde",
+      "Element": "SQ",
+      "PrimaryAttribute": "QID7",
+      "SecondaryAttribute": "Video Page - AI Negative",
+      "TertiaryAttribute": null,
+      "Payload": {
+        "QuestionText": "<style>.shorts-container{display:flex;gap:24px;max-width:900px;margin:0 auto;padding:20px;background:#0f0f0f;border-radius:12px;font-family:Roboto,Arial,sans-serif}.video-section{flex:0 0 360px}.video-player{width:360px;height:640px;background:#000;border-radius:12px;display:flex;align-items:center;justify-content:center}.video-placeholder{color:#fff;text-align:center;padding:20px}.comments-section{flex:1;background:#0f0f0f;padding:20px;max-height:640px;overflow-y:auto}.comments-header{color:#fff;font-size:18px;font-weight:600;margin-bottom:16px;padding-bottom:12px;border-bottom:1px solid #3f3f3f}.comment{background:#272727;border-radius:8px;padding:12px;margin-bottom:12px}.comment-header{display:flex;align-items:center;gap:8px;margin-bottom:6px}.avatar{width:32px;height:32px;border-radius:50%;background:#606060}.username{color:#aaa;font-size:13px}.timestamp{color:#717171;font-size:12px}.comment-text{color:#f1f1f1;font-size:14px;line-height:1.4;margin-bottom:8px}.comment-actions{color:#aaa;font-size:12px}.ai-comment{background:#3a1a1a;border:1px solid #5a2d2d}</style><div class=\"shorts-container\"><div class=\"video-section\"><div class=\"video-player\"><div class=\"video-placeholder\"><p><strong>[VIDEO EMBED]</strong></p><p style=\"font-size:12px;color:#888\">Upload to Qualtrics Library:<br>1. A Kitten Fell Into the Black Panthers Enclosure.mp4<br>2. Phillies land All-Star closer Jhoan Duran.mp4<br>3. Wool In Bare Sheep Out in Seconds.mp4<br><br>Use Display Logic based on QID3</p></div></div></div><div class=\"comments-section\"><div class=\"comments-header\">Comments</div><div class=\"comment ai-comment\"><div class=\"comment-header\"><div class=\"avatar\"></div><div><span class=\"username\">@real_content_only</span> <span class=\"timestamp\">1 day ago</span></div></div><div class=\"comment-text\">This video is clearly using AI-generated content. So disappointed - I thought this was real footage. Creators using AI without disclosure are being dishonest with their audience. Unsubscribing.</div><div class=\"comment-actions\">2.1K likes - Reply</div></div><div class=\"comment\"><div class=\"comment-header\"><div class=\"avatar\"></div><div><span class=\"username\">@sarah_loves_cats</span> <span class=\"timestamp\">3 days ago</span></div></div><div class=\"comment-text\">This is the cutest thing I have seen all week! My heart</div><div class=\"comment-actions\">1.2K likes - Reply</div></div><div class=\"comment\"><div class=\"comment-header\"><div class=\"avatar\"></div><div><span class=\"username\">@wildlife_mike</span> <span class=\"timestamp\">2 days ago</span></div></div><div class=\"comment-text\">Amazing footage! The way animals interact across species is always fascinating to watch.</div><div class=\"comment-actions\">847 likes - Reply</div></div><div class=\"comment\"><div class=\"comment-header\"><div class=\"avatar\"></div><div><span class=\"username\">@zoo_enthusiast</span> <span class=\"timestamp\">5 hours ago</span></div></div><div class=\"comment-text\">This channel always has the best animal content. Subscribed!</div><div class=\"comment-actions\">156 likes - Reply</div></div></div></div><br><p style=\"text-align:center;color:#666\"><em>Please watch the entire video and read the comments before clicking Next.</em></p>",
+        "DefaultChoices": false,
+        "DataExportTag": "ShortsPage_Negative",
+        "QuestionType": "DB",
+        "Selector": "TB",
+        "DataVisibility": {"Private": false, "Hidden": false},
+        "Configuration": {"QuestionDescriptionOption": "UseText"},
+        "QuestionDescription": "YouTube Shorts Page - AI Mention Negative",
+        "Language": [],
+        "QuestionID": "QID7"
+      }
+    },
+    {
+      "SurveyID": "SV_0123456789abcde",
+      "Element": "SQ",
+      "PrimaryAttribute": "QID8",
+      "SecondaryAttribute": "Watch Another Video",
+      "TertiaryAttribute": null,
+      "Payload": {
+        "QuestionText": "Would you like to watch another video by the same creator?",
+        "DefaultChoices": false,
+        "DataExportTag": "WatchAnother",
+        "QuestionType": "MC",
+        "Selector": "SAVR",
+        "SubSelector": "TX",
+        "DataVisibility": {"Private": false, "Hidden": false},
+        "Configuration": {"QuestionDescriptionOption": "UseText"},
+        "QuestionDescription": "Primary Outcome: Revealed Preference",
+        "Validation": {"Settings": {"ForceResponse": "ON", "ForceResponseType": "ON", "Type": "None"}},
+        "Language": [],
+        "NextChoiceId": 3,
+        "NextAnswerId": 1,
+        "Choices": {
+          "1": {"Display": "Yes, I would like to watch another video by this creator"},
+          "2": {"Display": "No, I would not like to watch another video by this creator"}
+        },
+        "ChoiceOrder": ["1", "2"],
+        "QuestionID": "QID8"
+      }
+    },
+    {
+      "SurveyID": "SV_0123456789abcde",
+      "Element": "SQ",
+      "PrimaryAttribute": "QID9",
+      "SecondaryAttribute": "Video Quality",
+      "TertiaryAttribute": null,
+      "Payload": {
+        "QuestionText": "Please rate your agreement with the following statements about the video you watched:",
+        "DefaultChoices": false,
+        "DataExportTag": "VideoQuality",
+        "QuestionType": "Matrix",
+        "Selector": "Likert",
+        "SubSelector": "SingleAnswer",
+        "DataVisibility": {"Private": false, "Hidden": false},
+        "Configuration": {"QuestionDescriptionOption": "UseText"},
+        "QuestionDescription": "Video Quality Perceptions",
+        "Validation": {"Settings": {"ForceResponse": "ON", "ForceResponseType": "ON", "Type": "None"}},
+        "Language": [],
+        "NextChoiceId": 6,
+        "NextAnswerId": 8,
+        "Choices": {
+          "1": {"Display": "The video was high quality"},
+          "2": {"Display": "The video was entertaining"},
+          "3": {"Display": "The video was informative"},
+          "4": {"Display": "The video was professionally made"},
+          "5": {"Display": "I enjoyed watching the video"}
+        },
+        "ChoiceOrder": ["1", "2", "3", "4", "5"],
+        "Answers": {
+          "1": {"Display": "Strongly Disagree"},
+          "2": {"Display": "Disagree"},
+          "3": {"Display": "Somewhat Disagree"},
+          "4": {"Display": "Neither Agree nor Disagree"},
+          "5": {"Display": "Somewhat Agree"},
+          "6": {"Display": "Agree"},
+          "7": {"Display": "Strongly Agree"}
+        },
+        "AnswerOrder": ["1", "2", "3", "4", "5", "6", "7"],
+        "QuestionID": "QID9"
+      }
+    },
+    {
+      "SurveyID": "SV_0123456789abcde",
+      "Element": "SQ",
+      "PrimaryAttribute": "QID10",
+      "SecondaryAttribute": "Creator Perceptions",
+      "TertiaryAttribute": null,
+      "Payload": {
+        "QuestionText": "Please rate your agreement with the following statements about the creator of the video:",
+        "DefaultChoices": false,
+        "DataExportTag": "CreatorPerception",
+        "QuestionType": "Matrix",
+        "Selector": "Likert",
+        "SubSelector": "SingleAnswer",
+        "DataVisibility": {"Private": false, "Hidden": false},
+        "Configuration": {"QuestionDescriptionOption": "UseText"},
+        "QuestionDescription": "Creator Perceptions",
+        "Validation": {"Settings": {"ForceResponse": "ON", "ForceResponseType": "ON", "Type": "None"}},
+        "Language": [],
+        "NextChoiceId": 7,
+        "NextAnswerId": 8,
+        "Choices": {
+          "1": {"Display": "The creator is talented"},
+          "2": {"Display": "The creator is authentic"},
+          "3": {"Display": "The creator is trustworthy"},
+          "4": {"Display": "The creator puts effort into their content"},
+          "5": {"Display": "I would subscribe to this creator's channel"},
+          "6": {"Display": "I would recommend this creator to others"}
+        },
+        "ChoiceOrder": ["1", "2", "3", "4", "5", "6"],
+        "Answers": {
+          "1": {"Display": "Strongly Disagree"},
+          "2": {"Display": "Disagree"},
+          "3": {"Display": "Somewhat Disagree"},
+          "4": {"Display": "Neither Agree nor Disagree"},
+          "5": {"Display": "Somewhat Agree"},
+          "6": {"Display": "Agree"},
+          "7": {"Display": "Strongly Agree"}
+        },
+        "AnswerOrder": ["1", "2", "3", "4", "5", "6", "7"],
+        "QuestionID": "QID10"
+      }
+    },
+    {
+      "SurveyID": "SV_0123456789abcde",
+      "Element": "SQ",
+      "PrimaryAttribute": "QID11",
+      "SecondaryAttribute": "Comments Notice",
+      "TertiaryAttribute": null,
+      "Payload": {
+        "QuestionText": "Did you read the comments displayed alongside the video?",
+        "DefaultChoices": false,
+        "DataExportTag": "CommentsNotice",
+        "QuestionType": "MC",
+        "Selector": "SAVR",
+        "SubSelector": "TX",
+        "DataVisibility": {"Private": false, "Hidden": false},
+        "Configuration": {"QuestionDescriptionOption": "UseText"},
+        "QuestionDescription": "Whether participant read comments",
+        "Validation": {"Settings": {"ForceResponse": "ON", "ForceResponseType": "ON", "Type": "None"}},
+        "Language": [],
+        "NextChoiceId": 4,
+        "NextAnswerId": 1,
+        "Choices": {
+          "1": {"Display": "Yes, I read all or most of the comments"},
+          "2": {"Display": "Yes, I read some of the comments"},
+          "3": {"Display": "No, I did not read the comments"}
+        },
+        "ChoiceOrder": ["1", "2", "3"],
+        "QuestionID": "QID11"
+      }
+    },
+    {
+      "SurveyID": "SV_0123456789abcde",
+      "Element": "SQ",
+      "PrimaryAttribute": "QID12",
+      "SecondaryAttribute": "Comments Recall",
+      "TertiaryAttribute": null,
+      "Payload": {
+        "QuestionText": "Was there anything in particular that stood out to you about the comments? If so, please describe.",
+        "DefaultChoices": false,
+        "DataExportTag": "CommentsRecall",
+        "QuestionType": "TE",
+        "Selector": "ML",
+        "DataVisibility": {"Private": false, "Hidden": false},
+        "Configuration": {"QuestionDescriptionOption": "UseText"},
+        "QuestionDescription": "Open-ended comments recall",
+        "Validation": {"Settings": {"ForceResponse": "OFF", "ForceResponseType": "OFF", "Type": "None"}},
+        "Language": [],
+        "QuestionID": "QID12"
+      }
+    },
+    {
+      "SurveyID": "SV_0123456789abcde",
+      "Element": "SQ",
+      "PrimaryAttribute": "QID13",
+      "SecondaryAttribute": "AI Attitudes",
+      "TertiaryAttribute": null,
+      "Payload": {
+        "QuestionText": "Please rate your agreement with the following statements about AI-generated content in general:",
+        "DefaultChoices": false,
+        "DataExportTag": "AIAttitudes",
+        "QuestionType": "Matrix",
+        "Selector": "Likert",
+        "SubSelector": "SingleAnswer",
+        "DataVisibility": {"Private": false, "Hidden": false},
+        "Configuration": {"QuestionDescriptionOption": "UseText"},
+        "QuestionDescription": "General AI Attitudes",
+        "Validation": {"Settings": {"ForceResponse": "ON", "ForceResponseType": "ON", "Type": "None"}},
+        "Language": [],
+        "NextChoiceId": 7,
+        "NextAnswerId": 8,
+        "Choices": {
+          "1": {"Display": "I am comfortable watching videos that contain AI-generated content"},
+          "2": {"Display": "AI-generated content can be just as good as human-created content"},
+          "3": {"Display": "Creators should disclose when they use AI in their videos"},
+          "4": {"Display": "I prefer content that is entirely human-created"},
+          "5": {"Display": "AI tools help creators make better content"},
+          "6": {"Display": "I can usually tell when content is AI-generated"}
+        },
+        "ChoiceOrder": ["1", "2", "3", "4", "5", "6"],
+        "Answers": {
+          "1": {"Display": "Strongly Disagree"},
+          "2": {"Display": "Disagree"},
+          "3": {"Display": "Somewhat Disagree"},
+          "4": {"Display": "Neither Agree nor Disagree"},
+          "5": {"Display": "Somewhat Agree"},
+          "6": {"Display": "Agree"},
+          "7": {"Display": "Strongly Agree"}
+        },
+        "AnswerOrder": ["1", "2", "3", "4", "5", "6", "7"],
+        "QuestionID": "QID13"
+      }
+    },
+    {
+      "SurveyID": "SV_0123456789abcde",
+      "Element": "SQ",
+      "PrimaryAttribute": "QID14",
+      "SecondaryAttribute": "Age",
+      "TertiaryAttribute": null,
+      "Payload": {
+        "QuestionText": "What is your age?",
+        "DefaultChoices": false,
+        "DataExportTag": "DemoAge",
+        "QuestionType": "MC",
+        "Selector": "SAVR",
+        "SubSelector": "TX",
+        "DataVisibility": {"Private": false, "Hidden": false},
+        "Configuration": {"QuestionDescriptionOption": "UseText"},
+        "QuestionDescription": "Demographic - Age",
+        "Validation": {"Settings": {"ForceResponse": "ON", "ForceResponseType": "ON", "Type": "None"}},
+        "Language": [],
+        "NextChoiceId": 8,
+        "NextAnswerId": 1,
+        "Choices": {
+          "1": {"Display": "18-24"},
+          "2": {"Display": "25-34"},
+          "3": {"Display": "35-44"},
+          "4": {"Display": "45-54"},
+          "5": {"Display": "55-64"},
+          "6": {"Display": "65 or older"},
+          "7": {"Display": "Prefer not to say"}
+        },
+        "ChoiceOrder": ["1", "2", "3", "4", "5", "6", "7"],
+        "QuestionID": "QID14"
+      }
+    },
+    {
+      "SurveyID": "SV_0123456789abcde",
+      "Element": "SQ",
+      "PrimaryAttribute": "QID15",
+      "SecondaryAttribute": "Gender",
+      "TertiaryAttribute": null,
+      "Payload": {
+        "QuestionText": "What is your gender?",
+        "DefaultChoices": false,
+        "DataExportTag": "DemoGender",
+        "QuestionType": "MC",
+        "Selector": "SAVR",
+        "SubSelector": "TX",
+        "DataVisibility": {"Private": false, "Hidden": false},
+        "Configuration": {"QuestionDescriptionOption": "UseText"},
+        "QuestionDescription": "Demographic - Gender",
+        "Validation": {"Settings": {"ForceResponse": "ON", "ForceResponseType": "ON", "Type": "None"}},
+        "Language": [],
+        "NextChoiceId": 6,
+        "NextAnswerId": 1,
+        "Choices": {
+          "1": {"Display": "Male"},
+          "2": {"Display": "Female"},
+          "3": {"Display": "Non-binary / Third gender"},
+          "4": {"Display": "Other"},
+          "5": {"Display": "Prefer not to say"}
+        },
+        "ChoiceOrder": ["1", "2", "3", "4", "5"],
+        "QuestionID": "QID15"
+      }
+    },
+    {
+      "SurveyID": "SV_0123456789abcde",
+      "Element": "SQ",
+      "PrimaryAttribute": "QID16",
+      "SecondaryAttribute": "Education",
+      "TertiaryAttribute": null,
+      "Payload": {
+        "QuestionText": "What is the highest level of education you have completed?",
+        "DefaultChoices": false,
+        "DataExportTag": "DemoEducation",
+        "QuestionType": "MC",
+        "Selector": "SAVR",
+        "SubSelector": "TX",
+        "DataVisibility": {"Private": false, "Hidden": false},
+        "Configuration": {"QuestionDescriptionOption": "UseText"},
+        "QuestionDescription": "Demographic - Education",
+        "Validation": {"Settings": {"ForceResponse": "ON", "ForceResponseType": "ON", "Type": "None"}},
+        "Language": [],
+        "NextChoiceId": 9,
+        "NextAnswerId": 1,
+        "Choices": {
+          "1": {"Display": "Less than high school"},
+          "2": {"Display": "High school diploma or GED"},
+          "3": {"Display": "Some college, no degree"},
+          "4": {"Display": "Associate's degree"},
+          "5": {"Display": "Bachelor's degree"},
+          "6": {"Display": "Master's degree"},
+          "7": {"Display": "Doctoral or professional degree"},
+          "8": {"Display": "Prefer not to say"}
+        },
+        "ChoiceOrder": ["1", "2", "3", "4", "5", "6", "7", "8"],
+        "QuestionID": "QID16"
+      }
+    },
+    {
+      "SurveyID": "SV_0123456789abcde",
+      "Element": "SQ",
+      "PrimaryAttribute": "QID17",
+      "SecondaryAttribute": "YouTube Frequency",
+      "TertiaryAttribute": null,
+      "Payload": {
+        "QuestionText": "How often do you watch YouTube videos?",
+        "DefaultChoices": false,
+        "DataExportTag": "DemoYouTubeFreq",
+        "QuestionType": "MC",
+        "Selector": "SAVR",
+        "SubSelector": "TX",
+        "DataVisibility": {"Private": false, "Hidden": false},
+        "Configuration": {"QuestionDescriptionOption": "UseText"},
+        "QuestionDescription": "Demographic - YouTube Usage Frequency",
+        "Validation": {"Settings": {"ForceResponse": "ON", "ForceResponseType": "ON", "Type": "None"}},
+        "Language": [],
+        "NextChoiceId": 7,
+        "NextAnswerId": 1,
+        "Choices": {
+          "1": {"Display": "Multiple times a day"},
+          "2": {"Display": "Once a day"},
+          "3": {"Display": "A few times a week"},
+          "4": {"Display": "Once a week"},
+          "5": {"Display": "A few times a month"},
+          "6": {"Display": "Once a month or less"}
+        },
+        "ChoiceOrder": ["1", "2", "3", "4", "5", "6"],
+        "QuestionID": "QID17"
+      }
+    },
+    {
+      "SurveyID": "SV_0123456789abcde",
+      "Element": "SQ",
+      "PrimaryAttribute": "QID18",
+      "SecondaryAttribute": "Debriefing",
+      "TertiaryAttribute": null,
+      "Payload": {
+        "QuestionText": "<h2>Thank you for participating!</h2><br><p><strong>Debriefing Information</strong></p><br><p>The purpose of this study was to investigate how comments identifying AI-generated content affect viewer perceptions and engagement decisions on YouTube.</p><br><p>In this study, participants were randomly assigned to see different versions of comments alongside the video they watched. Some participants saw comments that did not mention AI, while others saw comments that mentioned AI-generated content with either positive, neutral, or negative sentiment.</p><br><p>We are interested in understanding whether the presence and tone of such comments influences viewers' willingness to continue watching content from the same creator, as well as their perceptions of video quality and creator authenticity.</p><br><p>Your responses will help us understand consumer preferences for AI-generated content and the role of social cues in shaping those preferences.</p><br><p>If you have any questions about this research, please contact the research team.</p><br><p>Thank you again for your participation!</p>",
+        "DefaultChoices": false,
+        "DataExportTag": "Debrief",
+        "QuestionType": "DB",
+        "Selector": "TB",
+        "DataVisibility": {"Private": false, "Hidden": false},
+        "Configuration": {"QuestionDescriptionOption": "UseText"},
+        "QuestionDescription": "Debriefing",
+        "Language": [],
+        "QuestionID": "QID18"
+      }
+    },
+    {
+      "SurveyID": "SV_0123456789abcde",
+      "Element": "RS",
+      "PrimaryAttribute": "RS_1234567890abcde",
+      "SecondaryAttribute": "Default Response Set",
+      "TertiaryAttribute": null,
+      "Payload": null
+    },
+    {
+      "SurveyID": "SV_0123456789abcde",
+      "Element": "SO",
+      "PrimaryAttribute": "Survey Options",
+      "SecondaryAttribute": null,
+      "TertiaryAttribute": null,
+      "Payload": {
+        "BackButton": "false",
+        "SaveAndContinue": "true",
+        "SurveyProtection": "PublicSurvey",
+        "BallotBoxStuffingPrevention": "false",
+        "NoIndex": "Yes",
+        "SecureResponseFiles": "true",
+        "SurveyExpiration": "None",
+        "SurveyTermination": "DefaultMessage",
+        "Header": "",
+        "Footer": "",
+        "ProgressBarDisplay": "None",
+        "PartialData": "+1 week",
+        "ValidationMessage": "",
+        "PreviousButton": " Back ",
+        "NextButton": " Next ",
+        "SurveyTitle": "Stated and Revealed Preferences for AI-Generated Content",
+        "SkinLibrary": "columbia",
+        "SkinType": "templated",
+        "Skin": "minimal-2020",
+        "NewScoring": 1
+      }
+    },
+    {
+      "SurveyID": "SV_0123456789abcde",
+      "Element": "SCO",
+      "PrimaryAttribute": "Scoring",
+      "SecondaryAttribute": null,
+      "TertiaryAttribute": null,
+      "Payload": {
+        "ScoringCategories": [],
+        "ScoringCategoryGroups": [],
+        "ScoringSummaryCategory": null,
+        "ScoringSummaryAfterQuestions": 0,
+        "ScoringSummaryAfterSurvey": 0,
+        "DefaultScoringCategory": null,
+        "AutoScoringCategory": null
+      }
+    },
+    {
+      "SurveyID": "SV_0123456789abcde",
+      "Element": "PROJ",
+      "PrimaryAttribute": "CORE",
+      "SecondaryAttribute": null,
+      "TertiaryAttribute": "1.1.0",
+      "Payload": {
+        "ProjectCategory": "CORE",
+        "SchemaVersion": "1.1.0"
+      }
+    },
+    {
+      "SurveyID": "SV_0123456789abcde",
+      "Element": "STAT",
+      "PrimaryAttribute": "Survey Statistics",
+      "SecondaryAttribute": null,
+      "TertiaryAttribute": null,
+      "Payload": {
+        "MobileCompatible": true,
+        "ID": "Survey Statistics"
+      }
+    },
+    {
+      "SurveyID": "SV_0123456789abcde",
+      "Element": "QC",
+      "PrimaryAttribute": "Survey Question Count",
+      "SecondaryAttribute": "18",
+      "TertiaryAttribute": null,
+      "Payload": null
+    }
+  ]
+}
