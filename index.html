@@ -1137,7 +1137,7 @@
 
     <script>
         // Survey state
-        const returnUrl = getUrlParameter('returnUrl');
+        const returnUrl = getUrlParameter('returnUrl') || 'https://umich.qualtrics.com/jfe/form/SV_eDUPo82CCDA8MpE';
         const surveyData = {
             participantId: generateParticipantId(),
             prolificId: getUrlParameter('PROLIFIC_PID'),
@@ -1626,9 +1626,6 @@
             surveyData.responses.commentCondition = surveyData.commentCondition;
             surveyData.responses.thumbnailCondition = surveyData.thumbnailCondition;
             surveyData.responses.aiThumbnailVideo = surveyData.aiThumbnailVideo;
-
-            // Display data
-            document.getElementById('dataOutput').textContent = JSON.stringify(surveyData, null, 2);
 
             // Store in localStorage as backup
             const allResponses = JSON.parse(localStorage.getItem('surveyResponses') || '[]');
