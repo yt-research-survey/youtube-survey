@@ -1653,13 +1653,8 @@
                 console.error('Error sending to Google Sheets:', error);
             });
 
-            goToScreen('screen-complete');
-
-            // Show return button if returnUrl is provided
-            if (returnUrl) {
-                document.getElementById('return-section').style.display = 'block';
-                document.getElementById('close-message').style.display = 'none';
-            }
+            // Auto-redirect back to Qualtrics
+            returnToQualtrics();
         }
 
         function returnToQualtrics() {

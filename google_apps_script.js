@@ -104,6 +104,7 @@ function getHeaders() {
     'ai5_aiHelpsCreators',
     'ai6_canTellAI',
     'videoMadeWithAI',
+    'aiPreference',
 
     // Bot Detection
     'botDetection_aiExplanation',
@@ -164,6 +165,7 @@ function prepareRowData(data) {
     responses.ai5 || '',
     responses.ai6 || '',
     responses.videoMadeWithAI || '',
+    responses.aiPreference || '',
 
     // Bot Detection
     botDetection.aiExplanation || '',
@@ -200,7 +202,8 @@ function testSetup() {
       ai4: '3',
       ai5: '5',
       ai6: '4',
-      videoMadeWithAI: 'unsure'
+      videoMadeWithAI: 'unsure',
+      aiPreference: '3'
     },
     videoTracking: {
       totalPlayTime: 45.5,
