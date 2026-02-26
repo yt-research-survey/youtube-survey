@@ -69,7 +69,6 @@ function getHeaders() {
 
     // Treatment Conditions
     'commentCondition',
-    'thumbnailCondition',
     'aiThumbnailVideo',
 
     // Video Selection
@@ -129,12 +128,11 @@ function prepareRowData(data) {
     data.endTime || '',
 
     // Treatment Conditions
-    data.commentCondition || responses.commentCondition || '',
-    data.thumbnailCondition || responses.thumbnailCondition || '',
-    data.aiThumbnailVideo || responses.aiThumbnailVideo || '',
+    responses.commentCondition || data.commentCondition || '',
+    responses.aiThumbnailVideo || data.aiThumbnailVideo || '',
 
     // Video Selection
-    data.videoSelected || responses.videoSelected || '',
+    responses.videoSelected || data.videoSelected || '',
     responses.selectedVideoHadAIThumbnail || '',
 
     // First Video Tracking
@@ -184,14 +182,12 @@ function testSetup() {
     startTime: new Date().toISOString(),
     endTime: new Date().toISOString(),
     commentCondition: 'treatment',
-    thumbnailCondition: 'ai',
-    aiThumbnailVideo: 2,
-    videoSelected: '1',
+    aiThumbnailVideo: 'bobcat',
+    videoSelected: 'panther',
     responses: {
-      videoSelected: '1',
+      videoSelected: 'panther',
       commentCondition: 'treatment',
-      thumbnailCondition: 'ai',
-      aiThumbnailVideo: 2,
+      aiThumbnailVideo: 'bobcat',
       selectedVideoHadAIThumbnail: false,
       quality1: '5',
       quality5: '6',
