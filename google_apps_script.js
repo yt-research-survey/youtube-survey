@@ -87,9 +87,9 @@ function getHeaders() {
     'video2_completed',
 
     // Video & Creator Perceptions
-    'quality1_highQuality',
-    'quality5_enjoyed',
-    'creator5_wouldSubscribe',
+    'videoHighQuality',
+    'videoEnjoyed',
+    'wouldSubscribe',
 
     // Optional Second Video
     'watchedSecondVideo',
@@ -99,9 +99,9 @@ function getHeaders() {
     'commentsRecall',
 
     // AI Attitudes
-    'ai4_preferHumanCreated',
-    'ai5_aiHelpsCreators',
-    'ai6_canTellAI',
+    'preferHumanCreated',
+    'aiHelpsCreators',
+    'canTellAI',
     'videoMadeWithAI',
     'aiPreference',
 
@@ -147,9 +147,9 @@ function prepareRowData(data) {
     secondVideoTracking.completed || false,
 
     // Video & Creator Perceptions
-    responses.quality1 || '',
-    responses.quality5 || '',
-    responses.creator5 || '',
+    responses.videoHighQuality || '',
+    responses.videoEnjoyed || '',
+    responses.wouldSubscribe || '',
 
     // Optional Second Video
     responses.watchedSecondVideo || '',
@@ -159,9 +159,9 @@ function prepareRowData(data) {
     responses.commentsRecall || '',
 
     // AI Attitudes
-    responses.ai4 || '',
-    responses.ai5 || '',
-    responses.ai6 || '',
+    responses.preferHumanCreated || '',
+    responses.aiHelpsCreators || '',
+    responses.canTellAI || '',
     responses.videoMadeWithAI || '',
     responses.aiPreference || '',
 
