@@ -1359,10 +1359,9 @@
             surveyData.videoSelected = video;
             surveyData.responses.videoSelected = videoNames[video];
             surveyData.responses.commentCondition = surveyData.commentCondition;
-            surveyData.responses.thumbnailCondition = surveyData.thumbnailCondition;
             surveyData.responses.aiThumbnailVideo = videoNames[surveyData.aiThumbnailVideo];
             // Record if the selected video had the AI thumbnail
-            surveyData.responses.selectedVideoHadAIThumbnail = (surveyData.thumbnailCondition === 'ai' && parseInt(video) === surveyData.aiThumbnailVideo);
+            surveyData.responses.selectedVideoHadAIThumbnail = (parseInt(video) === surveyData.aiThumbnailVideo);
 
             // Set up video
             const videoPlayer = document.getElementById('videoPlayer');
@@ -1661,7 +1660,6 @@
 
             // Ensure conditions are in responses for Google Sheets
             surveyData.responses.commentCondition = surveyData.commentCondition;
-            surveyData.responses.thumbnailCondition = surveyData.thumbnailCondition;
             surveyData.responses.aiThumbnailVideo = videoNames[surveyData.aiThumbnailVideo];
 
             // Store in localStorage as backup
