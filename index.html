@@ -1670,6 +1670,9 @@
             // Send to Google Sheets
             const GOOGLE_SHEETS_URL = 'https://script.google.com/macros/s/AKfycbwAitLon57qjsRhPTrkFN1AMAH5icGQcXF9fWRHM4H8xPX9MyRcQ5VCkkpdaxBDGqWp/exec';
 
+            // Set a fallback timeout in case the fetch hangs
+            const redirectTimeout = setTimeout(returnToQualtrics, 5000);
+
             fetch(GOOGLE_SHEETS_URL, {
                 method: 'POST',
                 mode: 'no-cors',
@@ -1680,13 +1683,14 @@
             })
             .then(() => {
                 console.log('Data sent to Google Sheets');
+                clearTimeout(redirectTimeout);
+                returnToQualtrics();
             })
             .catch(error => {
                 console.error('Error sending to Google Sheets:', error);
+                clearTimeout(redirectTimeout);
+                returnToQualtrics();
             });
-
-            // Auto-redirect back to Qualtrics
-            returnToQualtrics();
         }
 
         function returnToQualtrics() {
