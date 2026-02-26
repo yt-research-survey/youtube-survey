@@ -1178,20 +1178,27 @@
             ai: {
                 1: 'videos/thumbnails/kitten_ai.png',
                 2: 'videos/thumbnails/bobcat_ai.png',
-                3: 'videos/thumbnails/phillies_ai.png'
+                3: 'videos/thumbnails/babies_ai.png'
             },
             noai: {
                 1: 'videos/thumbnails/kitten_noai.png',
                 2: 'videos/thumbnails/bobcat_noai.png',
-                3: 'videos/thumbnails/phillies_noai.png'
+                3: 'videos/thumbnails/babies_noai.png'
             }
         };
 
         // Video files (URL encoded for spaces and special characters)
         const videos = {
-            1: 'videos/A%20Kitten%20Fell%20Into%20the%20Black%20Panthers%20Enclosure%20%20%23shorts.mp4',
+            1: 'videos/panthers.mp4',
             2: 'videos/bobcat.mp4',
             3: 'videos/petssavingbabies.mp4'
+        };
+
+        // Filename identifiers for data recording
+        const videoNames = {
+            1: 'panther',
+            2: 'bobcat',
+            3: 'petssavingbabies'
         };
 
         // Secondary videos by same creator
@@ -1262,12 +1269,11 @@
 
         function randomizeConditions() {
             const commentConditions = ['control', 'treatment'];
-            const thumbnailConditions = ['ai', 'noai'];
-            // If AI thumbnail condition, randomly pick which ONE video gets the AI thumbnail
+            // Always assign exactly one randomly chosen video the AI thumbnail
             const aiThumbnailVideo = Math.floor(Math.random() * 3) + 1; // 1, 2, or 3
             return {
                 comment: commentConditions[Math.floor(Math.random() * commentConditions.length)],
-                thumbnail: thumbnailConditions[Math.floor(Math.random() * thumbnailConditions.length)],
+                thumbnail: 'ai',
                 aiThumbnailVideo: aiThumbnailVideo
             };
         }
@@ -1351,10 +1357,10 @@
             document.getElementById('video-error').classList.remove('show');
 
             surveyData.videoSelected = video;
-            surveyData.responses.videoSelected = video;
+            surveyData.responses.videoSelected = videoNames[video];
             surveyData.responses.commentCondition = surveyData.commentCondition;
             surveyData.responses.thumbnailCondition = surveyData.thumbnailCondition;
-            surveyData.responses.aiThumbnailVideo = surveyData.aiThumbnailVideo;
+            surveyData.responses.aiThumbnailVideo = videoNames[surveyData.aiThumbnailVideo];
             // Record if the selected video had the AI thumbnail
             surveyData.responses.selectedVideoHadAIThumbnail = (surveyData.thumbnailCondition === 'ai' && parseInt(video) === surveyData.aiThumbnailVideo);
 
@@ -1656,7 +1662,7 @@
             // Ensure conditions are in responses for Google Sheets
             surveyData.responses.commentCondition = surveyData.commentCondition;
             surveyData.responses.thumbnailCondition = surveyData.thumbnailCondition;
-            surveyData.responses.aiThumbnailVideo = surveyData.aiThumbnailVideo;
+            surveyData.responses.aiThumbnailVideo = videoNames[surveyData.aiThumbnailVideo];
 
             // Store in localStorage as backup
             const allResponses = JSON.parse(localStorage.getItem('surveyResponses') || '[]');
@@ -1809,7 +1815,7 @@
             const aiVideo = surveyData.aiThumbnailVideo;
 
             for (let i = 1; i <= 3; i++) {
-                if (thumbCondition === 'ai' && i === aiVideo) {
+                if (i === aiVideo) {
                     document.getElementById('thumb-' + i).src = thumbnails.ai[i];
                 } else {
                     document.getElementById('thumb-' + i).src = thumbnails.noai[i];
