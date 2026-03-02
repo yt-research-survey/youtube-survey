@@ -16,7 +16,7 @@
 
 // Replace with your Google Sheet ID (found in the sheet's URL)
 const SPREADSHEET_ID = '1XIzblKwranzXr4D3clGttylPIkyYcXnWQ78RDp8iZcw';
-const SHEET_NAME = 'YT Survey Responses';
+const SHEET_NAME = 'pilot 2';
 
 function doPost(e) {
   try {
