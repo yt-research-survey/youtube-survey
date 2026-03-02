@@ -69,11 +69,12 @@ function getHeaders() {
 
     // Treatment Conditions
     'commentCondition',
-    'aiThumbnailVideo',
+    'aiDisclosureCondition',
+    'aiDisclosureVideo',
 
     // Video Selection
     'videoSelected',
-    'selectedVideoHadAIThumbnail',
+    'selectedVideoHadAIDisclosure',
 
     // First Video Tracking
     'video1_totalPlayTime',
@@ -129,11 +130,12 @@ function prepareRowData(data) {
 
     // Treatment Conditions
     responses.commentCondition || data.commentCondition || '',
-    responses.aiThumbnailVideo || data.aiThumbnailVideo || '',
+    responses.aiDisclosureCondition || data.aiDisclosureCondition || '',
+    responses.aiDisclosureVideo || data.aiDisclosureVideo || '',
 
     // Video Selection
     responses.videoSelected || data.videoSelected || '',
-    responses.selectedVideoHadAIThumbnail || '',
+    responses.selectedVideoHadAIDisclosure !== undefined ? responses.selectedVideoHadAIDisclosure : '',
 
     // First Video Tracking
     videoTracking.totalPlayTime || 0,
@@ -182,13 +184,15 @@ function testSetup() {
     startTime: new Date().toISOString(),
     endTime: new Date().toISOString(),
     commentCondition: 'treatment',
-    aiThumbnailVideo: 'bobcat',
+    aiDisclosureCondition: 'ai',
+    aiDisclosureVideo: 'bobcat',
     videoSelected: 'panther',
     responses: {
       videoSelected: 'panther',
       commentCondition: 'treatment',
-      aiThumbnailVideo: 'bobcat',
-      selectedVideoHadAIThumbnail: false,
+      aiDisclosureCondition: 'ai',
+      aiDisclosureVideo: 'bobcat',
+      selectedVideoHadAIDisclosure: false,
       quality1: '5',
       quality5: '6',
       creator5: '4',
