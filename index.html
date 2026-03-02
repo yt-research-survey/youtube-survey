@@ -1169,8 +1169,8 @@
             prolificId: getUrlParameter('PROLIFIC_PID'),
             startTime: new Date().toISOString(),
             commentCondition: null,
-            thumbnailCondition: null,
-            aiThumbnailVideo: null,
+            aiDisclosureCondition: null,
+            aiDisclosureVideo: null,
             videoSelected: null,
             responses: {},
             videoTracking: {
@@ -1288,13 +1288,13 @@
 
         function randomizeConditions() {
             const commentConditions = ['control', 'treatment'];
-            const thumbnailConditions = ['ai', 'none'];
-            // Always assign exactly one randomly chosen video the AI thumbnail (used only when thumbnail === 'ai')
-            const aiThumbnailVideo = Math.floor(Math.random() * 3) + 1; // 1, 2, or 3
+            const aiDisclosureConditions = ['ai', 'none'];
+            // Always assign exactly one randomly chosen video the AI disclosure tag (used only when aiDisclosureCondition === 'ai')
+            const aiDisclosureVideo = Math.floor(Math.random() * 3) + 1; // 1, 2, or 3
             return {
                 comment: commentConditions[Math.floor(Math.random() * commentConditions.length)],
-                thumbnail: thumbnailConditions[Math.floor(Math.random() * thumbnailConditions.length)],
-                aiThumbnailVideo: aiThumbnailVideo
+                aiDisclosure: aiDisclosureConditions[Math.floor(Math.random() * aiDisclosureConditions.length)],
+                aiDisclosureVideo: aiDisclosureVideo
             };
         }
 
@@ -1379,10 +1379,10 @@
             surveyData.videoSelected = video;
             surveyData.responses.videoSelected = videoNames[video];
             surveyData.responses.commentCondition = surveyData.commentCondition;
-            surveyData.responses.thumbnailCondition = surveyData.thumbnailCondition;
-            surveyData.responses.aiThumbnailVideo = videoNames[surveyData.aiThumbnailVideo];
-            // Record if the selected video had the AI thumbnail (false when thumbnailCondition is 'none')
-            surveyData.responses.selectedVideoHadAIThumbnail = (surveyData.thumbnailCondition === 'ai' && parseInt(video) === surveyData.aiThumbnailVideo);
+            surveyData.responses.aiDisclosureCondition = surveyData.aiDisclosureCondition;
+            surveyData.responses.aiDisclosureVideo = videoNames[surveyData.aiDisclosureVideo];
+            // Record if the selected video had the AI disclosure tag (false when aiDisclosureCondition is 'none')
+            surveyData.responses.selectedVideoHadAIDisclosure = (surveyData.aiDisclosureCondition === 'ai' && parseInt(video) === surveyData.aiDisclosureVideo);
 
             // Set up video
             const videoPlayer = document.getElementById('videoPlayer');
@@ -1681,8 +1681,8 @@
 
             // Ensure conditions are in responses for Google Sheets
             surveyData.responses.commentCondition = surveyData.commentCondition;
-            surveyData.responses.thumbnailCondition = surveyData.thumbnailCondition;
-            surveyData.responses.aiThumbnailVideo = videoNames[surveyData.aiThumbnailVideo];
+            surveyData.responses.aiDisclosureCondition = surveyData.aiDisclosureCondition;
+            surveyData.responses.aiDisclosureVideo = videoNames[surveyData.aiDisclosureVideo];
 
             // Store in localStorage as backup
             const allResponses = JSON.parse(localStorage.getItem('surveyResponses') || '[]');
@@ -1822,8 +1822,8 @@
         }
 
         surveyData.commentCondition = conditions.comment;
-        surveyData.thumbnailCondition = conditions.thumbnail;
-        surveyData.aiThumbnailVideo = conditions.aiThumbnailVideo;
+        surveyData.aiDisclosureCondition = conditions.aiDisclosure;
+        surveyData.aiDisclosureVideo = conditions.aiDisclosureVideo;
 
         // Save to localStorage if first visit
         if (!saved) {
@@ -1835,14 +1835,14 @@
 
         // Set thumbnails based on condition
         function setThumbnails() {
-            const aiVideo = surveyData.aiThumbnailVideo;
+            const aiVideo = surveyData.aiDisclosureVideo;
 
             for (let i = 1; i <= 3; i++) {
                 document.getElementById('thumb-' + i).src = thumbnails[i];
             }
 
             // Show the #AI hashtag on the designated video only in the 'ai' disclosure condition
-            if (surveyData.thumbnailCondition === 'ai') {
+            if (surveyData.aiDisclosureCondition === 'ai') {
                 const aiTag = document.getElementById('ai-tag-' + aiVideo);
                 if (aiTag) aiTag.style.display = 'inline';
             }
