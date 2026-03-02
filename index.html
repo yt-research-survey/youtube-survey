@@ -191,24 +191,6 @@
             padding: 10px 12px 12px;
         }
 
-        .ai-content-label {
-            display: none;
-            align-items: center;
-            gap: 5px;
-            background: #272727;
-            color: #e0e0e0;
-            font-size: 11px;
-            font-weight: 500;
-            padding: 4px 8px;
-            border-radius: 4px;
-            margin-bottom: 7px;
-            width: fit-content;
-        }
-
-        .ai-content-label.visible {
-            display: flex;
-        }
-
         .shorts-hashtags {
             color: #3ea6ff;
             font-size: 12px;
@@ -644,17 +626,21 @@
                 gap: 10px;
             }
 
-            /* Video options - shrink cards on smaller screens */
+            /* Video options - horizontal scroll on small screens */
             .video-options {
-                gap: 10px;
+                gap: 12px;
+                overflow-x: auto;
+                justify-content: flex-start;
+                padding-bottom: 8px;
+                -webkit-overflow-scrolling: touch;
             }
 
             .video-option {
-                flex: 0 0 140px;
+                flex: 0 0 155px;
             }
 
             .video-thumbnail-img {
-                height: 200px;
+                height: 215px;
             }
 
             .video-card-body {
@@ -662,7 +648,7 @@
             }
 
             .video-info h4 {
-                font-size: 12px;
+                font-size: 13px;
             }
 
             /* Likert table - convert to vertical multiple choice on mobile */
@@ -790,11 +776,11 @@
             }
 
             .video-option {
-                flex: 0 0 110px;
+                flex: 0 0 130px;
             }
 
             .video-thumbnail-img {
-                height: 160px;
+                height: 185px;
             }
 
             .likert-table td:not(:first-child) {
@@ -827,11 +813,7 @@
                     <input type="radio" name="video" value="1">
                     <img class="video-thumbnail-img" id="thumb-1" src="" alt="Video thumbnail">
                     <div class="video-card-body">
-                        <div class="ai-content-label" id="ai-tag-1">
-                            <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M11 7h2v2h-2zm0 4h2v6h-2zm1-9C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z"/></svg>
-                            AI-generated content
-                        </div>
-                        <div class="shorts-hashtags">#Wildlife #BigCats #BlackPanther</div>
+                        <div class="shorts-hashtags">#Wildlife #BigCats #BlackPanther<span class="ai-hashtag" id="ai-tag-1" style="display:none"> #AI</span></div>
                         <div class="video-info">
                             <h4>A Kitten Fell Into the Black Panthers Enclosure</h4>
                             <span>Wildlife Channel</span>
@@ -843,11 +825,7 @@
                     <input type="radio" name="video" value="2">
                     <img class="video-thumbnail-img" id="thumb-2" src="" alt="Video thumbnail">
                     <div class="video-card-body">
-                        <div class="ai-content-label" id="ai-tag-2">
-                            <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M11 7h2v2h-2zm0 4h2v6h-2zm1-9C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z"/></svg>
-                            AI-generated content
-                        </div>
-                        <div class="shorts-hashtags">#Bobcat #CatRescue #Animals</div>
+                        <div class="shorts-hashtags">#Bobcat #CatRescue #Animals<span class="ai-hashtag" id="ai-tag-2" style="display:none"> #AI</span></div>
                         <div class="video-info">
                             <h4>Cat Saves Baby Bobcat</h4>
                             <span>Animal Rescue Stories</span>
@@ -859,11 +837,7 @@
                     <input type="radio" name="video" value="3">
                     <img class="video-thumbnail-img" id="thumb-3" src="" alt="Video thumbnail">
                     <div class="video-card-body">
-                        <div class="ai-content-label" id="ai-tag-3">
-                            <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M11 7h2v2h-2zm0 4h2v6h-2zm1-9C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z"/></svg>
-                            AI-generated content
-                        </div>
-                        <div class="shorts-hashtags">#Pets #Animals #Babies</div>
+                        <div class="shorts-hashtags">#Pets #Animals #Babies<span class="ai-hashtag" id="ai-tag-3" style="display:none"> #AI</span></div>
                         <div class="video-info">
                             <h4>Pets Saving Babies</h4>
                             <span>Amazing Animal Moments</span>
@@ -1867,9 +1841,9 @@
                 document.getElementById('thumb-' + i).src = thumbnails[i];
             }
 
-            // Show the AI-generated content tag on the designated video
+            // Show the #AI hashtag on the designated video
             const aiTag = document.getElementById('ai-tag-' + aiVideo);
-            if (aiTag) aiTag.classList.add('visible');
+            if (aiTag) aiTag.style.display = 'inline';
         }
         setThumbnails();
 
