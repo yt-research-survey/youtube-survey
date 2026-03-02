@@ -1289,13 +1289,14 @@
 
         function randomizeConditions() {
             const commentConditions = ['control', 'treatment'];
-            const aiDisclosureConditions = ['ai', 'none'];
-            // Always assign exactly one randomly chosen video the AI disclosure tag (used only when aiDisclosureCondition === 'ai')
-            const aiDisclosureVideo = Math.floor(Math.random() * 3) + 1; // 1, 2, or 3
+            // 4 equally likely disclosure conditions (25% each):
+            //   'none' = no AI hashtag, 1/2/3 = that video gets the #AI hashtag
+            const disclosureOptions = ['none', 1, 2, 3];
+            const disclosurePick = disclosureOptions[Math.floor(Math.random() * 4)];
             return {
                 comment: commentConditions[Math.floor(Math.random() * commentConditions.length)],
-                aiDisclosure: aiDisclosureConditions[Math.floor(Math.random() * aiDisclosureConditions.length)],
-                aiDisclosureVideo: aiDisclosureVideo
+                aiDisclosure: disclosurePick === 'none' ? 'none' : 'ai',
+                aiDisclosureVideo: disclosurePick === 'none' ? null : disclosurePick
             };
         }
 
