@@ -138,67 +138,92 @@
             cursor: pointer;
         }
 
-        /* Video selection */
+        /* Video selection - YouTube Shorts card style */
         .video-options {
             display: flex;
-            flex-direction: column;
+            flex-direction: row;
             gap: 16px;
             margin: 24px 0;
+            justify-content: center;
         }
 
         .video-option {
             display: flex;
-            align-items: center;
-            gap: 16px;
-            padding: 16px;
+            flex-direction: column;
+            align-items: stretch;
+            gap: 0;
+            padding: 0;
             border: 2px solid #e0e0e0;
             border-radius: 12px;
             cursor: pointer;
-            transition: all 0.2s;
+            transition: border-color 0.2s;
+            flex: 0 0 190px;
+            overflow: hidden;
+            background: #fff;
+            position: relative;
         }
 
         .video-option:hover {
             border-color: #065fd4;
-            background: #f8f9ff;
         }
 
         .video-option.selected {
             border-color: #065fd4;
-            background: #f0f4ff;
+            outline: 2px solid #065fd4;
+            outline-offset: -2px;
         }
 
         .video-option input {
-            width: 20px;
-            height: 20px;
-        }
-
-        .video-thumbnail {
-            width: 120px;
-            height: 68px;
-            background: #000;
-            border-radius: 8px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            font-size: 24px;
+            position: absolute;
+            opacity: 0;
+            width: 0;
+            height: 0;
         }
 
         .video-thumbnail-img {
-            width: 120px;
-            height: 160px;
+            width: 100%;
+            height: 260px;
             object-fit: cover;
-            border-radius: 8px;
+            display: block;
+        }
+
+        .video-card-body {
+            padding: 10px 12px 12px;
+        }
+
+        .ai-content-label {
+            display: none;
+            align-items: center;
+            gap: 5px;
+            background: #272727;
+            color: #e0e0e0;
+            font-size: 11px;
+            font-weight: 500;
+            padding: 4px 8px;
+            border-radius: 4px;
+            margin-bottom: 7px;
+            width: fit-content;
+        }
+
+        .ai-content-label.visible {
+            display: flex;
+        }
+
+        .shorts-hashtags {
+            color: #3ea6ff;
+            font-size: 12px;
+            margin-bottom: 5px;
         }
 
         .video-info h4 {
-            font-size: 16px;
-            margin-bottom: 4px;
+            font-size: 14px;
+            margin-bottom: 3px;
+            line-height: 1.3;
         }
 
         .video-info span {
             color: #606060;
-            font-size: 13px;
+            font-size: 12px;
         }
 
         /* YouTube Shorts Layout */
@@ -619,19 +644,25 @@
                 gap: 10px;
             }
 
-            /* Video options - keep side by side with smaller thumbnails */
+            /* Video options - shrink cards on smaller screens */
+            .video-options {
+                gap: 10px;
+            }
+
             .video-option {
-                gap: 12px;
+                flex: 0 0 140px;
             }
 
             .video-thumbnail-img {
-                width: 80px;
-                height: 100px;
-                object-fit: cover;
+                height: 200px;
+            }
+
+            .video-card-body {
+                padding: 8px;
             }
 
             .video-info h4 {
-                font-size: 14px;
+                font-size: 12px;
             }
 
             /* Likert table - convert to vertical multiple choice on mobile */
@@ -758,9 +789,12 @@
                 height: 280px;
             }
 
+            .video-option {
+                flex: 0 0 110px;
+            }
+
             .video-thumbnail-img {
-                width: 70px;
-                height: 90px;
+                height: 160px;
             }
 
             .likert-table td:not(:first-child) {
@@ -792,27 +826,48 @@
                 <label class="video-option" data-video="1">
                     <input type="radio" name="video" value="1">
                     <img class="video-thumbnail-img" id="thumb-1" src="" alt="Video thumbnail">
-                    <div class="video-info">
-                        <h4>A Kitten Fell Into the Black Panthers Enclosure</h4>
-                        <span>Wildlife Channel</span>
+                    <div class="video-card-body">
+                        <div class="ai-content-label" id="ai-tag-1">
+                            <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M11 7h2v2h-2zm0 4h2v6h-2zm1-9C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z"/></svg>
+                            AI-generated content
+                        </div>
+                        <div class="shorts-hashtags">#Wildlife #BigCats #BlackPanther</div>
+                        <div class="video-info">
+                            <h4>A Kitten Fell Into the Black Panthers Enclosure</h4>
+                            <span>Wildlife Channel</span>
+                        </div>
                     </div>
                 </label>
 
                 <label class="video-option" data-video="2">
                     <input type="radio" name="video" value="2">
                     <img class="video-thumbnail-img" id="thumb-2" src="" alt="Video thumbnail">
-                    <div class="video-info">
-                        <h4>Cat Saves Baby Bobcat</h4>
-                        <span>Animal Rescue Stories</span>
+                    <div class="video-card-body">
+                        <div class="ai-content-label" id="ai-tag-2">
+                            <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M11 7h2v2h-2zm0 4h2v6h-2zm1-9C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z"/></svg>
+                            AI-generated content
+                        </div>
+                        <div class="shorts-hashtags">#Bobcat #CatRescue #Animals</div>
+                        <div class="video-info">
+                            <h4>Cat Saves Baby Bobcat</h4>
+                            <span>Animal Rescue Stories</span>
+                        </div>
                     </div>
                 </label>
 
                 <label class="video-option" data-video="3">
                     <input type="radio" name="video" value="3">
                     <img class="video-thumbnail-img" id="thumb-3" src="" alt="Video thumbnail">
-                    <div class="video-info">
-                        <h4>Pets Saving Babies</h4>
-                        <span>Amazing Animal Moments</span>
+                    <div class="video-card-body">
+                        <div class="ai-content-label" id="ai-tag-3">
+                            <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M11 7h2v2h-2zm0 4h2v6h-2zm1-9C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z"/></svg>
+                            AI-generated content
+                        </div>
+                        <div class="shorts-hashtags">#Pets #Animals #Babies</div>
+                        <div class="video-info">
+                            <h4>Pets Saving Babies</h4>
+                            <span>Amazing Animal Moments</span>
+                        </div>
                     </div>
                 </label>
             </div>
@@ -1173,18 +1228,11 @@
         let isPlaying = false;
         let videoLastTime = 0;
 
-        // Thumbnails by condition
+        // Thumbnails — all use standard (non-AI) images; AI treatment is the tag
         const thumbnails = {
-            ai: {
-                1: 'videos/thumbnails/kitten_ai.png',
-                2: 'videos/thumbnails/bobcat_ai.png',
-                3: 'videos/thumbnails/babies_ai.png'
-            },
-            noai: {
-                1: 'videos/thumbnails/kitten_noai.png',
-                2: 'videos/thumbnails/bobcat_noai.png',
-                3: 'videos/thumbnails/babies_noai.png'
-            }
+            1: 'videos/thumbnails/kitten_noai.png',
+            2: 'videos/thumbnails/bobcat_noai.png',
+            3: 'videos/thumbnails/babies_noai.png'
         };
 
         // Video files (URL encoded for spaces and special characters)
@@ -1813,16 +1861,15 @@
 
         // Set thumbnails based on condition
         function setThumbnails() {
-            const thumbCondition = surveyData.thumbnailCondition;
             const aiVideo = surveyData.aiThumbnailVideo;
 
             for (let i = 1; i <= 3; i++) {
-                if (i === aiVideo) {
-                    document.getElementById('thumb-' + i).src = thumbnails.ai[i];
-                } else {
-                    document.getElementById('thumb-' + i).src = thumbnails.noai[i];
-                }
+                document.getElementById('thumb-' + i).src = thumbnails[i];
             }
+
+            // Show the AI-generated content tag on the designated video
+            const aiTag = document.getElementById('ai-tag-' + aiVideo);
+            if (aiTag) aiTag.classList.add('visible');
         }
         setThumbnails();
 
