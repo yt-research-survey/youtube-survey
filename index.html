@@ -626,25 +626,34 @@
                 gap: 10px;
             }
 
-            /* Video options - horizontal scroll on small screens */
+            /* Video options - stack vertically on mobile */
             .video-options {
-                gap: 12px;
-                overflow-x: auto;
+                flex-direction: column;
+                gap: 10px;
+                overflow-x: visible;
                 justify-content: flex-start;
-                padding-bottom: 8px;
-                -webkit-overflow-scrolling: touch;
+                padding-bottom: 0;
             }
 
             .video-option {
-                flex: 0 0 155px;
+                flex: none;
+                width: 100%;
+                flex-direction: row;
+                align-items: stretch;
             }
 
             .video-thumbnail-img {
-                height: 215px;
+                width: 120px;
+                height: 90px;
+                flex-shrink: 0;
+                object-fit: cover;
             }
 
             .video-card-body {
-                padding: 8px;
+                padding: 10px 12px;
+                flex: 1;
+                display: flex;
+                align-items: center;
             }
 
             .video-info h4 {
@@ -773,14 +782,6 @@
         @media (max-width: 400px) {
             .video-player {
                 height: 280px;
-            }
-
-            .video-option {
-                flex: 0 0 130px;
-            }
-
-            .video-thumbnail-img {
-                height: 185px;
             }
 
             .likert-table td:not(:first-child) {
@@ -1802,6 +1803,12 @@
             const parsed = JSON.parse(saved);
             conditions = parsed.conditions;
             surveyData.participantId = parsed.participantId;
+
+            // Migrate old field names (thumbnail/aiThumbnailVideo → aiDisclosure/aiDisclosureVideo)
+            if (conditions && conditions.aiDisclosure === undefined) {
+                conditions.aiDisclosure = conditions.thumbnail !== undefined ? conditions.thumbnail : (Math.random() < 0.5 ? 'ai' : 'none');
+                conditions.aiDisclosureVideo = conditions.aiThumbnailVideo !== undefined ? conditions.aiThumbnailVideo : (Math.floor(Math.random() * 3) + 1);
+            }
 
             // Restore full survey progress if available
             if (parsed.surveyData) {
