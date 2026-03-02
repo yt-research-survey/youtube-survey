@@ -138,67 +138,74 @@
             cursor: pointer;
         }
 
-        /* Video selection */
+        /* Video selection - YouTube Shorts card style */
         .video-options {
             display: flex;
-            flex-direction: column;
+            flex-direction: row;
             gap: 16px;
             margin: 24px 0;
+            justify-content: center;
         }
 
         .video-option {
             display: flex;
-            align-items: center;
-            gap: 16px;
-            padding: 16px;
+            flex-direction: column;
+            align-items: stretch;
+            gap: 0;
+            padding: 0;
             border: 2px solid #e0e0e0;
             border-radius: 12px;
             cursor: pointer;
-            transition: all 0.2s;
+            transition: border-color 0.2s;
+            flex: 0 0 190px;
+            overflow: hidden;
+            background: #fff;
+            position: relative;
         }
 
         .video-option:hover {
             border-color: #065fd4;
-            background: #f8f9ff;
         }
 
         .video-option.selected {
             border-color: #065fd4;
-            background: #f0f4ff;
+            outline: 2px solid #065fd4;
+            outline-offset: -2px;
         }
 
         .video-option input {
-            width: 20px;
-            height: 20px;
-        }
-
-        .video-thumbnail {
-            width: 120px;
-            height: 68px;
-            background: #000;
-            border-radius: 8px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            font-size: 24px;
+            position: absolute;
+            opacity: 0;
+            width: 0;
+            height: 0;
         }
 
         .video-thumbnail-img {
-            width: 120px;
-            height: 160px;
+            width: 100%;
+            height: 260px;
             object-fit: cover;
-            border-radius: 8px;
+            display: block;
+        }
+
+        .video-card-body {
+            padding: 10px 12px 12px;
         }
 
         .video-info h4 {
-            font-size: 16px;
-            margin-bottom: 4px;
+            font-size: 14px;
+            margin-bottom: 3px;
+            line-height: 1.3;
         }
 
-        .video-info span {
+        .video-info h4 .hashtag {
+            font-size: inherit;
+            font-weight: inherit;
+            color: inherit;
+        }
+
+.video-info span {
             color: #606060;
-            font-size: 13px;
+            font-size: 12px;
         }
 
         /* YouTube Shorts Layout */
@@ -619,19 +626,29 @@
                 gap: 10px;
             }
 
-            /* Video options - keep side by side with smaller thumbnails */
-            .video-option {
+            /* Video options - horizontal scroll on small screens */
+            .video-options {
                 gap: 12px;
+                overflow-x: auto;
+                justify-content: flex-start;
+                padding-bottom: 8px;
+                -webkit-overflow-scrolling: touch;
+            }
+
+            .video-option {
+                flex: 0 0 155px;
             }
 
             .video-thumbnail-img {
-                width: 80px;
-                height: 100px;
-                object-fit: cover;
+                height: 215px;
+            }
+
+            .video-card-body {
+                padding: 8px;
             }
 
             .video-info h4 {
-                font-size: 14px;
+                font-size: 13px;
             }
 
             /* Likert table - convert to vertical multiple choice on mobile */
@@ -758,9 +775,12 @@
                 height: 280px;
             }
 
+            .video-option {
+                flex: 0 0 130px;
+            }
+
             .video-thumbnail-img {
-                width: 70px;
-                height: 90px;
+                height: 185px;
             }
 
             .likert-table td:not(:first-child) {
@@ -792,27 +812,33 @@
                 <label class="video-option" data-video="1">
                     <input type="radio" name="video" value="1">
                     <img class="video-thumbnail-img" id="thumb-1" src="" alt="Video thumbnail">
-                    <div class="video-info">
-                        <h4>A Kitten Fell Into the Black Panthers Enclosure</h4>
-                        <span>Wildlife Channel</span>
+                    <div class="video-card-body">
+                        <div class="video-info">
+                            <h4>Kitten Fell into Panther Enclosure<br><span class="hashtag">#friendshipgoals</span><span class="hashtag ai-hashtag" id="ai-tag-1" style="display:none"> #AI</span></h4>
+                            <span>Wildlife Channel</span>
+                        </div>
                     </div>
                 </label>
 
                 <label class="video-option" data-video="2">
                     <input type="radio" name="video" value="2">
                     <img class="video-thumbnail-img" id="thumb-2" src="" alt="Video thumbnail">
-                    <div class="video-info">
-                        <h4>Cat Saves Baby Bobcat</h4>
-                        <span>Animal Rescue Stories</span>
+                    <div class="video-card-body">
+                        <div class="video-info">
+                            <h4>Cat Saves Baby Bobcat<br><span class="hashtag">#cute</span><span class="hashtag ai-hashtag" id="ai-tag-2" style="display:none"> #AI</span></h4>
+                            <span>Animal Rescue Stories</span>
+                        </div>
                     </div>
                 </label>
 
                 <label class="video-option" data-video="3">
                     <input type="radio" name="video" value="3">
                     <img class="video-thumbnail-img" id="thumb-3" src="" alt="Video thumbnail">
-                    <div class="video-info">
-                        <h4>Pets Saving Babies</h4>
-                        <span>Amazing Animal Moments</span>
+                    <div class="video-card-body">
+                        <div class="video-info">
+                            <h4>Pets Saving Babies<br><span class="hashtag">#heartwarming</span><span class="hashtag ai-hashtag" id="ai-tag-3" style="display:none"> #AI</span></h4>
+                            <span>Amazing Animal Moments</span>
+                        </div>
                     </div>
                 </label>
             </div>
@@ -1173,18 +1199,11 @@
         let isPlaying = false;
         let videoLastTime = 0;
 
-        // Thumbnails by condition
+        // Thumbnails — all use standard (non-AI) images; AI treatment is the tag
         const thumbnails = {
-            ai: {
-                1: 'videos/thumbnails/kitten_ai.png',
-                2: 'videos/thumbnails/bobcat_ai.png',
-                3: 'videos/thumbnails/babies_ai.png'
-            },
-            noai: {
-                1: 'videos/thumbnails/kitten_noai.png',
-                2: 'videos/thumbnails/bobcat_noai.png',
-                3: 'videos/thumbnails/babies_noai.png'
-            }
+            1: 'videos/thumbnails/kitten_noai.png',
+            2: 'videos/thumbnails/bobcat_noai.png',
+            3: 'videos/thumbnails/babies_noai.png'
         };
 
         // Video files (URL encoded for spaces and special characters)
@@ -1269,11 +1288,12 @@
 
         function randomizeConditions() {
             const commentConditions = ['control', 'treatment'];
-            // Always assign exactly one randomly chosen video the AI thumbnail
+            const thumbnailConditions = ['ai', 'none'];
+            // Always assign exactly one randomly chosen video the AI thumbnail (used only when thumbnail === 'ai')
             const aiThumbnailVideo = Math.floor(Math.random() * 3) + 1; // 1, 2, or 3
             return {
                 comment: commentConditions[Math.floor(Math.random() * commentConditions.length)],
-                thumbnail: 'ai',
+                thumbnail: thumbnailConditions[Math.floor(Math.random() * thumbnailConditions.length)],
                 aiThumbnailVideo: aiThumbnailVideo
             };
         }
@@ -1359,9 +1379,10 @@
             surveyData.videoSelected = video;
             surveyData.responses.videoSelected = videoNames[video];
             surveyData.responses.commentCondition = surveyData.commentCondition;
+            surveyData.responses.thumbnailCondition = surveyData.thumbnailCondition;
             surveyData.responses.aiThumbnailVideo = videoNames[surveyData.aiThumbnailVideo];
-            // Record if the selected video had the AI thumbnail
-            surveyData.responses.selectedVideoHadAIThumbnail = (parseInt(video) === surveyData.aiThumbnailVideo);
+            // Record if the selected video had the AI thumbnail (false when thumbnailCondition is 'none')
+            surveyData.responses.selectedVideoHadAIThumbnail = (surveyData.thumbnailCondition === 'ai' && parseInt(video) === surveyData.aiThumbnailVideo);
 
             // Set up video
             const videoPlayer = document.getElementById('videoPlayer');
@@ -1660,6 +1681,7 @@
 
             // Ensure conditions are in responses for Google Sheets
             surveyData.responses.commentCondition = surveyData.commentCondition;
+            surveyData.responses.thumbnailCondition = surveyData.thumbnailCondition;
             surveyData.responses.aiThumbnailVideo = videoNames[surveyData.aiThumbnailVideo];
 
             // Store in localStorage as backup
@@ -1813,15 +1835,16 @@
 
         // Set thumbnails based on condition
         function setThumbnails() {
-            const thumbCondition = surveyData.thumbnailCondition;
             const aiVideo = surveyData.aiThumbnailVideo;
 
             for (let i = 1; i <= 3; i++) {
-                if (i === aiVideo) {
-                    document.getElementById('thumb-' + i).src = thumbnails.ai[i];
-                } else {
-                    document.getElementById('thumb-' + i).src = thumbnails.noai[i];
-                }
+                document.getElementById('thumb-' + i).src = thumbnails[i];
+            }
+
+            // Show the #AI hashtag on the designated video only in the 'ai' disclosure condition
+            if (surveyData.thumbnailCondition === 'ai') {
+                const aiTag = document.getElementById('ai-tag-' + aiVideo);
+                if (aiTag) aiTag.style.display = 'inline';
             }
         }
         setThumbnails();
