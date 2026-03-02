@@ -15,7 +15,7 @@
  */
 
 // Replace with your Google Sheet ID (found in the sheet's URL)
-const SPREADSHEET_ID = '1-r_Ud-m5bo3JXBSnLjgxbfxhpCGNnmDqhGjOqC3iYT8';
+const SPREADSHEET_ID = '1XIzblKwranzXr4D3clGttylPIkyYcXnWQ78RDp8iZcw';
 const SHEET_NAME = 'YT Survey Responses';
 
 function doPost(e) {
@@ -69,12 +69,11 @@ function getHeaders() {
 
     // Treatment Conditions
     'commentCondition',
-    'aiDisclosureCondition',
-    'aiDisclosureVideo',
+    'aiThumbnailVideo',
 
     // Video Selection
     'videoSelected',
-    'selectedVideoHadAIDisclosure',
+    'selectedVideoHadAIThumbnail',
 
     // First Video Tracking
     'video1_totalPlayTime',
@@ -130,12 +129,11 @@ function prepareRowData(data) {
 
     // Treatment Conditions
     responses.commentCondition || data.commentCondition || '',
-    responses.aiDisclosureCondition || data.aiDisclosureCondition || '',
-    responses.aiDisclosureVideo || data.aiDisclosureVideo || '',
+    responses.aiThumbnailVideo || data.aiThumbnailVideo || '',
 
     // Video Selection
     responses.videoSelected || data.videoSelected || '',
-    responses.selectedVideoHadAIDisclosure !== undefined ? responses.selectedVideoHadAIDisclosure : '',
+    responses.selectedVideoHadAIThumbnail || '',
 
     // First Video Tracking
     videoTracking.totalPlayTime || 0,
@@ -184,15 +182,13 @@ function testSetup() {
     startTime: new Date().toISOString(),
     endTime: new Date().toISOString(),
     commentCondition: 'treatment',
-    aiDisclosureCondition: 'ai',
-    aiDisclosureVideo: 'bobcat',
+    aiThumbnailVideo: 'bobcat',
     videoSelected: 'panther',
     responses: {
       videoSelected: 'panther',
       commentCondition: 'treatment',
-      aiDisclosureCondition: 'ai',
-      aiDisclosureVideo: 'bobcat',
-      selectedVideoHadAIDisclosure: false,
+      aiThumbnailVideo: 'bobcat',
+      selectedVideoHadAIThumbnail: false,
       quality1: '5',
       quality5: '6',
       creator5: '4',
