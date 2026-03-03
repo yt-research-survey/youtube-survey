@@ -1693,28 +1693,36 @@
 
             // Send to Google Sheets
             const GOOGLE_SHEETS_URL = 'https://script.google.com/macros/s/AKfycbwAitLon57qjsRhPTrkFN1AMAH5icGQcXF9fWRHM4H8xPX9MyRcQ5VCkkpdaxBDGqWp/exec';
+            const payload = JSON.stringify(surveyData);
 
-            // Set a fallback timeout in case the fetch hangs
-            const redirectTimeout = setTimeout(returnToQualtrics, 5000);
+            // Fallback redirect if submission hangs beyond 15 seconds
+            const redirectTimeout = setTimeout(returnToQualtrics, 15000);
 
-            fetch(GOOGLE_SHEETS_URL, {
-                method: 'POST',
-                mode: 'no-cors',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(surveyData)
-            })
-            .then(() => {
-                console.log('Data sent to Google Sheets');
-                clearTimeout(redirectTimeout);
-                returnToQualtrics();
-            })
-            .catch(error => {
-                console.error('Error sending to Google Sheets:', error);
-                clearTimeout(redirectTimeout);
-                returnToQualtrics();
-            });
+            function attemptSubmit(attemptsLeft) {
+                fetch(GOOGLE_SHEETS_URL, {
+                    method: 'POST',
+                    mode: 'no-cors',
+                    keepalive: true, // keeps request alive even if page navigates away
+                    body: payload
+                })
+                .then(() => {
+                    console.log('Data sent to Google Sheets');
+                    clearTimeout(redirectTimeout);
+                    returnToQualtrics();
+                })
+                .catch(error => {
+                    console.error('Submission error:', error);
+                    if (attemptsLeft > 0) {
+                        console.log('Retrying submission...');
+                        attemptSubmit(attemptsLeft - 1);
+                    } else {
+                        clearTimeout(redirectTimeout);
+                        returnToQualtrics();
+                    }
+                });
+            }
+
+            attemptSubmit(1); // try up to 2 times total
         }
 
         function returnToQualtrics() {
