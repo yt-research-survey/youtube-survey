@@ -1316,6 +1316,17 @@
             shuffled.forEach(option => container.appendChild(option));
         }
 
+        // Randomize yes/no option order for a given screen's mc-options container
+        function randomizeMCOptions(screenId) {
+            const screen = document.getElementById(screenId);
+            if (!screen) return;
+            const container = screen.querySelector('.mc-options');
+            if (!container) return;
+            const options = Array.from(container.querySelectorAll('.mc-option'));
+            const shuffled = shuffleArray(options);
+            shuffled.forEach(option => container.appendChild(option));
+        }
+
         function updateProgress(screenId) {
             const index = screens.indexOf(screenId);
             const progress = ((index + 1) / screens.length) * 100;
@@ -1325,6 +1336,9 @@
         function goToScreen(screenId) {
             document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
             document.getElementById(screenId).classList.add('active');
+            if (screenId === 'screen-optional-video' || screenId === 'screen-ai-detection') {
+                randomizeMCOptions(screenId);
+            }
             updateProgress(screenId);
             window.scrollTo(0, 0);
             saveProgress(screenId);
