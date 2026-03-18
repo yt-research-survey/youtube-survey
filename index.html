@@ -573,28 +573,30 @@
 
         @media (max-width: 800px) {
             .shorts-container {
-                flex-direction: row;
-                padding: 12px;
-                gap: 12px;
-                align-items: stretch;
-                height: auto;
+                flex-direction: column;
+                padding: 0;
+                gap: 0;
+                margin: 0;
+                border-radius: 0;
             }
 
             .video-section {
-                flex: 0 0 60%;
+                flex: none;
             }
 
             .video-player {
                 width: 100%;
-                height: auto;
-                aspect-ratio: 9 / 16;
+                height: 38vh;
+                border-radius: 0;
+                aspect-ratio: unset;
             }
 
             .comments-section {
-                flex: 1;
+                height: 38vh;
+                max-height: 38vh;
                 overflow-y: auto;
-                max-height: none;
-                align-self: stretch;
+                align-self: auto;
+                padding: 12px;
             }
         }
 
@@ -744,25 +746,20 @@
                 padding: 14px 12px;
             }
 
-            /* Video player mobile - use aspect ratio so it sizes correctly */
-            .video-player {
-                height: auto;
-                aspect-ratio: 9 / 16;
-            }
-
-            .shorts-container {
-                gap: 8px;
-                padding: 8px;
-            }
-
-            /* Video view screen - reduce padding so more space for video+comments */
+            /* Video view screen - minimal padding so more space for video+comments */
             #screen-video-view {
-                padding: 12px 8px;
+                padding: 0 0 16px 0;
             }
 
-            /* Comments - scroll within the video height */
+            .video-player {
+                height: 36vh;
+                aspect-ratio: unset;
+            }
+
             .comments-section {
-                overflow-y: auto;
+                height: 36vh;
+                max-height: 36vh;
+                padding: 10px 12px;
             }
 
             .comment {
@@ -804,13 +801,13 @@
         }
 
         @media (max-width: 400px) {
-            .video-section {
-                flex: 0 0 58%;
+            .video-player {
+                height: 34vh;
             }
 
-            .video-player {
-                height: auto;
-                aspect-ratio: 9 / 16;
+            .comments-section {
+                height: 34vh;
+                max-height: 34vh;
             }
 
             .likert-table td:not(:first-child) {
