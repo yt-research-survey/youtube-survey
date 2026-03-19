@@ -841,8 +841,8 @@
                     <img class="video-thumbnail-img" id="thumb-1" src="" alt="Video thumbnail">
                     <div class="video-card-body">
                         <div class="video-info">
-                            <h4><span class="hashtag ai-hashtag" id="ai-tag-1" style="display:none">#AI </span>Kitten Fell into Panther Enclosure<br><span class="hashtag">#friendshipgoals</span></h4>
-                            <span>Wildlife Channel</span>
+                            <h4><span class="hashtag ai-hashtag" id="ai-tag-1" style="display:none">#AI </span>Dogs Choose Their Adopters<br><span class="hashtag">#heartwarming</span></h4>
+                            <span>Amazing Animal Moments</span>
                         </div>
                     </div>
                 </label>
@@ -852,18 +852,7 @@
                     <img class="video-thumbnail-img" id="thumb-2" src="" alt="Video thumbnail">
                     <div class="video-card-body">
                         <div class="video-info">
-                            <h4><span class="hashtag ai-hashtag" id="ai-tag-2" style="display:none">#AI </span>Cat Saves Baby Bobcat<br><span class="hashtag">#cute</span></h4>
-                            <span>Animal Rescue Stories</span>
-                        </div>
-                    </div>
-                </label>
-
-                <label class="video-option" data-video="3">
-                    <input type="radio" name="video" value="3">
-                    <img class="video-thumbnail-img" id="thumb-3" src="" alt="Video thumbnail">
-                    <div class="video-card-body">
-                        <div class="video-info">
-                            <h4><span class="hashtag ai-hashtag" id="ai-tag-3" style="display:none">#AI </span>Pets Saving Babies<br><span class="hashtag">#heartwarming</span></h4>
+                            <h4><span class="hashtag ai-hashtag" id="ai-tag-2" style="display:none">#AI </span>Dogs Saving Babies<br><span class="hashtag">#dogsareamazing</span></h4>
                             <span>Amazing Animal Moments</span>
                         </div>
                     </div>
@@ -1228,65 +1217,61 @@
 
         // Thumbnails — all use standard (non-AI) images; AI treatment is the tag
         const thumbnails = {
-            1: 'videos/thumbnails/kitten_noai.png',
-            2: 'videos/thumbnails/bobcat_noai.png',
-            3: 'videos/thumbnails/babies_noai.png'
+            1: 'videos/thumbnails/dogadoption_noai.png',
+            2: 'videos/thumbnails/dogsavingbabies_noai.png'
         };
 
-        // Video files (URL encoded for spaces and special characters)
+        // Video files
         const videos = {
-            1: 'videos/panthers.mp4',
-            2: 'videos/bobcat.mp4',
-            3: 'videos/petssavingbabies.mp4'
+            1: 'videos/dogadoption.mp4',
+            2: 'videos/dogsavingbabies_long.mp4'
         };
 
         // Filename identifiers for data recording
         const videoNames = {
-            1: 'panther',
-            2: 'bobcat',
-            3: 'petssavingbabies'
+            1: 'dogadoption',
+            2: 'dogsavingbabies'
         };
 
-        // Secondary videos by same creator
+        // Secondary videos (cross-referenced)
         const videosOther = {
-            1: 'videos/kittenvideo_other.mp4',
-            2: 'videos/bobcat_other.mp4',
-            3: 'videos/petssavingbabies_other.mp4'
+            1: 'videos/dogsavingbabies_long.mp4',
+            2: 'videos/dogadoption.mp4'
         };
 
         // Comments by condition
         const baseComments = [
             {
-                username: '@sarah_loves_cats',
+                username: '@dogmom_forever',
                 timestamp: '3 days ago',
-                text: 'This is the cutest thing I have seen all week! My heart',
-                likes: '1.2K'
+                text: 'I literally started crying halfway through this. Dogs are angels sent to protect and love us. 🐾',
+                likes: '2.1K'
             },
             {
-                username: '@wildlife_mike',
+                username: '@rescue_advocate',
                 timestamp: '2 days ago',
-                text: 'Amazing footage! The way animals interact across species is always fascinating to watch.',
-                likes: '847'
+                text: 'This is exactly why I volunteer at my local shelter every weekend. These stories never get old.',
+                likes: '1.4K'
             },
             {
-                username: '@naturelover22',
+                username: '@heartwarmed_daily',
                 timestamp: '1 day ago',
-                text: 'I was so nervous watching this! Glad it had a happy ending.',
-                likes: '523'
+                text: 'The bond between dogs and humans is something truly special. Thank you for sharing this ❤️',
+                likes: '876'
             },
             {
-                username: '@zoo_enthusiast',
-                timestamp: '5 hours ago',
-                text: 'This channel always has the best animal content. Subscribed!',
-                likes: '156'
+                username: '@pawsandlove',
+                timestamp: '4 hours ago',
+                text: "I've watched this three times and it gets me every single time. Pure love.",
+                likes: '341'
             }
         ];
 
         const aiComment = {
-            username: '@viewer2847',
+            username: '@viewer5129',
             timestamp: '2 days ago',
-            text: 'AI',
-            likes: '1.4K',
+            text: "Dogs have an incredible instinct to protect and love unconditionally. This video is a perfect example of why they truly are man's best friend.",
+            likes: '3.2K',
             class: ''
         };
 
@@ -1315,9 +1300,9 @@
 
         function randomizeConditions() {
             const commentConditions = ['control', 'treatment'];
-            // 4 equally likely disclosure conditions (25% each):
-            //   'none' = no AI hashtag, 1/2/3 = that video gets the #AI hashtag
-            const disclosureOptions = ['none', 1, 2, 3];
+            // 3 equally likely disclosure conditions (33% each):
+            //   'none' = no AI hashtag, 1/2 = that video gets the #AI hashtag
+            const disclosureOptions = ['none', 1, 2];
             const disclosurePick = disclosureOptions[Math.floor(Math.random() * 4)];
             return {
                 comment: commentConditions[Math.floor(Math.random() * commentConditions.length)],
@@ -1874,7 +1859,7 @@
         } else {
             // First visit — randomize and save
             conditions = randomizeConditions();
-            conditions.videoOrder = shuffleArray([1, 2, 3]);
+            conditions.videoOrder = shuffleArray([1, 2]);
         }
 
         surveyData.commentCondition = conditions.comment;
@@ -1893,7 +1878,7 @@
         function setThumbnails() {
             const aiVideo = surveyData.aiDisclosureVideo;
 
-            for (let i = 1; i <= 3; i++) {
+            for (let i = 1; i <= 2; i++) {
                 document.getElementById('thumb-' + i).src = thumbnails[i];
             }
 
