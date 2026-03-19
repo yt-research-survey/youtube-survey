@@ -1393,8 +1393,9 @@
             saveProgress(screenId);
         }
 
-        // Save survey progress to localStorage
+        // Save survey progress to localStorage (only for Prolific participants)
         function saveProgress(currentScreen) {
+            if (!storageKey) return;
             const saved = JSON.parse(localStorage.getItem(storageKey) || '{}');
             saved.currentScreen = currentScreen;
             saved.surveyData = surveyData;
@@ -1885,14 +1886,15 @@
         }
 
         // Initialize
-        // Persist per participant using localStorage keyed by prolificId (or fallback key)
+        // Persist per participant using localStorage keyed by prolificId.
+        // Anonymous visits (no Prolific PID) always start fresh — no caching.
         const storageKey = surveyData.prolificId
             ? 'surveyProgress_' + surveyData.prolificId
-            : 'surveyProgress_anonymous';
+            : null;
 
         let conditions;
         let savedScreen = null;
-        const saved = localStorage.getItem(storageKey);
+        const saved = storageKey ? localStorage.getItem(storageKey) : null;
 
         if (saved) {
             const parsed = JSON.parse(saved);
@@ -1913,7 +1915,7 @@
                 const pick = disclosureOptions[Math.floor(Math.random() * disclosureOptions.length)];
                 conditions.aiDisclosure = pick === 'none' ? 'none' : 'ai';
                 conditions.aiDisclosureVideo = pick === 'none' ? null : pick;
-                localStorage.setItem(storageKey, JSON.stringify({ conditions, participantId: surveyData.participantId }));
+                if (storageKey) localStorage.setItem(storageKey, JSON.stringify({ conditions, participantId: surveyData.participantId }));
             }
 
             // Restore full survey progress if available
@@ -1939,8 +1941,8 @@
         surveyData.aiDisclosureVideo = conditions.aiDisclosureVideo;
         surveyData.aiCallout = conditions.aiCallout || false;
 
-        // Save to localStorage if first visit
-        if (!saved) {
+        // Save to localStorage if first visit (Prolific participants only)
+        if (!saved && storageKey) {
             localStorage.setItem(storageKey, JSON.stringify({
                 conditions: conditions,
                 participantId: surveyData.participantId
