@@ -1309,14 +1309,23 @@
             return urlParams.get(name) || '';
         }
 
-        function randomizeConditions() {
-            const commentConditions = ['control', 'treatment'];
+        function randomizeConditions(prolificId) {
+            // If a Prolific ID is present, derive comment condition deterministically
+            // from it so the same participant always gets the same condition,
+            // even if localStorage is cleared.
+            let commentCondition;
+            if (prolificId) {
+                commentCondition = hashString(prolificId) % 2 === 0 ? 'control' : 'treatment';
+            } else {
+                commentCondition = Math.random() < 0.5 ? 'control' : 'treatment';
+            }
+
             // 3 equally likely disclosure conditions (33% each):
             //   'none' = no AI hashtag, 1/2 = that video gets the #AI hashtag
             const disclosureOptions = ['none', 1, 2];
             const disclosurePick = disclosureOptions[Math.floor(Math.random() * disclosureOptions.length)];
             return {
-                comment: commentConditions[Math.floor(Math.random() * commentConditions.length)],
+                comment: commentCondition,
                 aiDisclosure: disclosurePick === 'none' ? 'none' : 'ai',
                 aiDisclosureVideo: disclosurePick === 'none' ? null : disclosurePick
             };
@@ -1911,8 +1920,14 @@
             }
         } else {
             // First visit — randomize and save
-            conditions = randomizeConditions();
+            conditions = randomizeConditions(surveyData.prolificId);
             conditions.videoOrder = shuffleArray([1, 2]);
+        }
+
+        // Always re-derive comment condition from Prolific ID if present,
+        // so it's stable even if localStorage was cleared or corrupted.
+        if (surveyData.prolificId) {
+            conditions.comment = hashString(surveyData.prolificId) % 2 === 0 ? 'control' : 'treatment';
         }
 
         // Allow URL override for testing: ?condition=treatment or ?condition=control
