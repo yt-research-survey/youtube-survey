@@ -1314,11 +1314,13 @@
             // 3 equally likely disclosure conditions (33% each):
             //   'none' = no AI hashtag, 1/2 = that video gets the #AI hashtag
             const disclosureOptions = ['none', 1, 2];
-            const disclosurePick = disclosureOptions[Math.floor(Math.random() * 4)];
+            const disclosurePick = disclosureOptions[Math.floor(Math.random() * disclosureOptions.length)];
             return {
                 comment: commentConditions[Math.floor(Math.random() * commentConditions.length)],
                 aiDisclosure: disclosurePick === 'none' ? 'none' : 'ai',
-                aiDisclosureVideo: disclosurePick === 'none' ? null : disclosurePick
+                aiDisclosureVideo: disclosurePick === 'none' ? null : disclosurePick,
+                // 50/50: in treatment condition, first reply calls out the AI comment with 🙄
+                aiCallout: Math.random() < 0.5
             };
         }
 
@@ -1417,6 +1419,7 @@
             surveyData.videoSelected = video;
             surveyData.responses.videoSelected = videoNames[video];
             surveyData.responses.commentCondition = surveyData.commentCondition;
+            surveyData.responses.aiCallout = surveyData.aiCallout;
             surveyData.responses.aiDisclosureCondition = surveyData.aiDisclosureCondition;
             surveyData.responses.aiDisclosureVideo = videoNames[surveyData.aiDisclosureVideo];
             // Record if the selected video had the AI disclosure tag (false when aiDisclosureCondition is 'none')
@@ -1431,7 +1434,7 @@
             setupVideoTracking(videoPlayer);
 
             // Set up comments based on comment condition
-            renderComments(surveyData.commentCondition);
+            renderComments(surveyData.commentCondition, surveyData.aiCallout);
 
             goToScreen('screen-video-view');
         }
@@ -1496,7 +1499,7 @@
             document.getElementById('videoPlayer').pause();
         }
 
-        function renderComments(commentCondition) {
+        function renderComments(commentCondition, aiCallout) {
             const container = document.getElementById('commentsContainer');
             let html = '';
 
@@ -1519,6 +1522,27 @@
                         </div>
                     </div>
                 `;
+
+                // 50/50: a reply calling out the AI comment
+                if (aiCallout) {
+                    html += `
+                        <div class="comment">
+                            <div class="comment-header">
+                                <div class="avatar"></div>
+                                <div>
+                                    <span class="username">@just_a_viewer99</span>
+                                    <span class="timestamp">1 day ago</span>
+                                </div>
+                            </div>
+                            <div class="comment-text">Pretty obvious this top comment was written by AI 🙄</div>
+                            <div class="comment-actions">
+                                <span>👍 214</span>
+                                <span>👎</span>
+                                <span>Reply</span>
+                            </div>
+                        </div>
+                    `;
+                }
             }
 
             // Shuffle and add base comments
@@ -1876,6 +1900,7 @@
         surveyData.commentCondition = conditions.comment;
         surveyData.aiDisclosureCondition = conditions.aiDisclosure;
         surveyData.aiDisclosureVideo = conditions.aiDisclosureVideo;
+        surveyData.aiCallout = conditions.aiCallout || false;
 
         // Save to localStorage if first visit
         if (!saved) {
@@ -1924,7 +1949,7 @@
                 videoPlayer.src = videos[surveyData.videoSelected];
                 videoPlayer.load();
                 setupVideoTracking(videoPlayer);
-                renderComments(surveyData.commentCondition);
+                renderComments(surveyData.commentCondition, surveyData.aiCallout);
             }
 
             goToScreen(savedScreen);
