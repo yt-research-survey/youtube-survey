@@ -208,6 +208,22 @@
             font-size: 12px;
         }
 
+        /* Full-width second video player (no comments) */
+        .second-video-player {
+            width: 100%;
+            background: #000;
+            border-radius: 12px;
+            overflow: hidden;
+            margin: 0 0 16px 0;
+        }
+
+        .second-video-player video {
+            width: 100%;
+            display: block;
+            max-height: 70vh;
+            object-fit: contain;
+        }
+
         /* YouTube Shorts Layout */
         .shorts-container {
             display: flex;
@@ -977,15 +993,11 @@
 
         <!-- Screen 7c: Second Video Viewing -->
         <div class="screen" id="screen-second-video">
-            <div class="shorts-container">
-                <div class="video-section">
-                    <div class="video-player">
-                        <video id="secondVideoPlayer" controls playsinline webkit-playsinline>
-                            <source src="" type="video/mp4">
-                            Your browser does not support the video tag.
-                        </video>
-                    </div>
-                </div>
+            <div class="second-video-player">
+                <video id="secondVideoPlayer" controls playsinline webkit-playsinline>
+                    <source src="" type="video/mp4">
+                    Your browser does not support the video tag.
+                </video>
             </div>
             <p id="secondVideoMessage" style="color: #666; margin-top: 12px;">Please watch the entire video before continuing.</p>
 
