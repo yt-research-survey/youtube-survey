@@ -1278,12 +1278,12 @@
             }
         ];
 
-        const aiComment = {
-            username: '@viewer5129',
-            timestamp: '2 days ago',
-            text: "Dogs have an incredible instinct to protect and love unconditionally. This video is a perfect example of why they truly are man's best friend.",
-            likes: '3.2K',
-            class: ''
+        // Treatment condition: first comment calls out AI 🙄
+        const aiCalloutComment = {
+            username: '@just_a_viewer99',
+            timestamp: '1 day ago',
+            text: 'AI 🙄',
+            likes: '214'
         };
 
         // Screen order for progress
@@ -1318,9 +1318,7 @@
             return {
                 comment: commentConditions[Math.floor(Math.random() * commentConditions.length)],
                 aiDisclosure: disclosurePick === 'none' ? 'none' : 'ai',
-                aiDisclosureVideo: disclosurePick === 'none' ? null : disclosurePick,
-                // 50/50: in treatment condition, first reply calls out the AI comment with 🙄
-                aiCallout: Math.random() < 0.5
+                aiDisclosureVideo: disclosurePick === 'none' ? null : disclosurePick
             };
         }
 
@@ -1445,7 +1443,6 @@
             surveyData.videoSelected = video;
             surveyData.responses.videoSelected = videoNames[video];
             surveyData.responses.commentCondition = surveyData.commentCondition;
-            surveyData.responses.aiCallout = surveyData.aiCallout;
             surveyData.responses.aiDisclosureCondition = surveyData.aiDisclosureCondition;
             surveyData.responses.aiDisclosureVideo = videoNames[surveyData.aiDisclosureVideo];
             // Record if the selected video had the AI disclosure tag (false when aiDisclosureCondition is 'none')
@@ -1460,7 +1457,7 @@
             setupVideoTracking(videoPlayer);
 
             // Set up comments based on comment condition
-            renderComments(surveyData.commentCondition, surveyData.aiCallout);
+            renderComments(surveyData.commentCondition);
 
             goToScreen('screen-video-view');
         }
@@ -1525,50 +1522,29 @@
             document.getElementById('videoPlayer').pause();
         }
 
-        function renderComments(commentCondition, aiCallout) {
+        function renderComments(commentCondition) {
             const container = document.getElementById('commentsContainer');
             let html = '';
 
-            // Add AI comment first if treatment condition
+            // Treatment: first comment calls out AI with 🙄
             if (commentCondition === 'treatment') {
                 html += `
-                    <div class="comment ${aiComment.class}">
+                    <div class="comment">
                         <div class="comment-header">
                             <div class="avatar"></div>
                             <div>
-                                <span class="username">${aiComment.username}</span>
-                                <span class="timestamp">${aiComment.timestamp}</span>
+                                <span class="username">${aiCalloutComment.username}</span>
+                                <span class="timestamp">${aiCalloutComment.timestamp}</span>
                             </div>
                         </div>
-                        <div class="comment-text">${aiComment.text}</div>
+                        <div class="comment-text">${aiCalloutComment.text}</div>
                         <div class="comment-actions">
-                            <span>👍 ${aiComment.likes}</span>
+                            <span>👍 ${aiCalloutComment.likes}</span>
                             <span>👎</span>
                             <span>Reply</span>
                         </div>
                     </div>
                 `;
-
-                // 50/50: a reply calling out the AI comment
-                if (aiCallout) {
-                    html += `
-                        <div class="comment">
-                            <div class="comment-header">
-                                <div class="avatar"></div>
-                                <div>
-                                    <span class="username">@just_a_viewer99</span>
-                                    <span class="timestamp">1 day ago</span>
-                                </div>
-                            </div>
-                            <div class="comment-text">Pretty obvious this top comment was written by AI 🙄</div>
-                            <div class="comment-actions">
-                                <span>👍 214</span>
-                                <span>👎</span>
-                                <span>Reply</span>
-                            </div>
-                        </div>
-                    `;
-                }
             }
 
             // Shuffle comments in a stable order keyed to the participant
@@ -1948,7 +1924,6 @@
         surveyData.commentCondition = conditions.comment;
         surveyData.aiDisclosureCondition = conditions.aiDisclosure;
         surveyData.aiDisclosureVideo = conditions.aiDisclosureVideo;
-        surveyData.aiCallout = conditions.aiCallout || false;
 
         // Save to localStorage if first visit (Prolific participants only)
         if (!saved && storageKey) {
@@ -1997,7 +1972,7 @@
                 videoPlayer.src = videos[surveyData.videoSelected];
                 videoPlayer.load();
                 setupVideoTracking(videoPlayer);
-                renderComments(surveyData.commentCondition, surveyData.aiCallout);
+                renderComments(surveyData.commentCondition);
             }
 
             goToScreen(savedScreen);
