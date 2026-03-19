@@ -1902,7 +1902,18 @@
             // Migrate old field names (thumbnail/aiThumbnailVideo → aiDisclosure/aiDisclosureVideo)
             if (conditions && conditions.aiDisclosure === undefined) {
                 conditions.aiDisclosure = conditions.thumbnail !== undefined ? conditions.thumbnail : (Math.random() < 0.5 ? 'ai' : 'none');
-                conditions.aiDisclosureVideo = conditions.aiThumbnailVideo !== undefined ? conditions.aiThumbnailVideo : (Math.floor(Math.random() * 3) + 1);
+                conditions.aiDisclosureVideo = conditions.aiThumbnailVideo !== undefined ? conditions.aiThumbnailVideo : (Math.floor(Math.random() * 2) + 1);
+            }
+
+            // Validity check: if aiDisclosureVideo is out of range for current video set, re-randomize
+            const validVideoIds = [1, 2];
+            if (conditions && conditions.aiDisclosureVideo !== null &&
+                !validVideoIds.includes(conditions.aiDisclosureVideo)) {
+                const disclosureOptions = ['none', 1, 2];
+                const pick = disclosureOptions[Math.floor(Math.random() * disclosureOptions.length)];
+                conditions.aiDisclosure = pick === 'none' ? 'none' : 'ai';
+                conditions.aiDisclosureVideo = pick === 'none' ? null : pick;
+                localStorage.setItem(storageKey, JSON.stringify({ conditions, participantId: surveyData.participantId }));
             }
 
             // Restore full survey progress if available
