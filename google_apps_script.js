@@ -196,7 +196,7 @@ function testSetup() {
       quality1: '5',
       quality5: '6',
       creator5: '4',
-      watchedSecondVideo: 'yes',
+      watchedSecondVideo: 'same',
       readComments: 'all',
       commentsRecall: 'Test comment recall',
       ai4: '3',
