@@ -968,17 +968,17 @@
         <!-- Screen 7b: Optional Second Video Question -->
         <div class="screen" id="screen-optional-video">
             <h2>Watch Another Video</h2>
-            <p>Would you like to watch another video by the same creator? This is optional, but if you choose to watch it, you must watch the entire video (55 seconds) before continuing.</p>
+            <p>Would you want to watch a video by the same creator or a video by a different creator? Both videos are about 40 seconds long. Choose whichever one you think you'd enjoy more — you'll need to watch it in full before continuing.</p>
 
             <div class="mc-question">
                 <div class="mc-options">
                     <label class="mc-option">
-                        <input type="radio" name="watchSecondVideo" value="yes">
-                        <span>Yes, I would like to watch another video</span>
+                        <input type="radio" name="watchSecondVideo" value="same">
+                        <span>A video by the <strong>same</strong> creator</span>
                     </label>
                     <label class="mc-option">
-                        <input type="radio" name="watchSecondVideo" value="no">
-                        <span>No, I would like to continue to the survey</span>
+                        <input type="radio" name="watchSecondVideo" value="different">
+                        <span>A video by a <strong>different</strong> creator</span>
                     </label>
                 </div>
             </div>
@@ -1248,6 +1248,12 @@
         const videosOther = {
             1: 'videos/dogadoption_long_other.mp4',
             2: 'videos/dogsavingbabies_long_other.mp4'
+        };
+
+        // Secondary videos by different creator
+        const videosDifferentCreator = {
+            1: 'videos/dogsavingbabies_long_other.mp4',
+            2: 'videos/dogadoption_long_other.mp4'
         };
 
         // Comments by condition
@@ -1664,19 +1670,15 @@
 
             surveyData.responses.watchedSecondVideo = choice;
 
-            if (choice === 'yes') {
-                // Load and show the second video
-                const secondVideo = document.getElementById('secondVideoPlayer');
-                secondVideo.src = videosOther[surveyData.videoSelected];
-                secondVideo.load();
-                setupSecondVideoTracking(secondVideo);
-                secondVideoCompleted = false;
-                document.getElementById('secondVideoMessage').textContent = 'Please watch the entire video before continuing.';
-                document.getElementById('secondVideoMessage').style.color = '#666';
-                goToScreen('screen-second-video');
-            } else {
-                goToScreen('screen-comments');
-            }
+            const videoMap = choice === 'same' ? videosOther : videosDifferentCreator;
+            const secondVideo = document.getElementById('secondVideoPlayer');
+            secondVideo.src = videoMap[surveyData.videoSelected];
+            secondVideo.load();
+            setupSecondVideoTracking(secondVideo);
+            secondVideoCompleted = false;
+            document.getElementById('secondVideoMessage').textContent = 'Please watch the entire video before continuing.';
+            document.getElementById('secondVideoMessage').style.color = '#666';
+            goToScreen('screen-second-video');
         }
 
         function handleSecondVideoComplete() {
