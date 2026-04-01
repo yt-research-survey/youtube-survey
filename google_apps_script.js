@@ -99,12 +99,8 @@ function getHeaders() {
     'readComments',
     'commentsRecall',
 
-    // AI Attitudes
-    'preferHumanCreated',
-    'aiHelpsCreators',
-    'canTellAI',
+    // AI Detection
     'videoMadeWithAI',
-    'aiPreference',
 
     // Bot Detection
     'botDetection_aiExplanation',
@@ -160,12 +156,8 @@ function prepareRowData(data) {
     responses.readComments || '',
     responses.commentsRecall || '',
 
-    // AI Attitudes
-    responses.preferHumanCreated || '',
-    responses.aiHelpsCreators || '',
-    responses.canTellAI || '',
+    // AI Detection
     responses.videoMadeWithAI || '',
-    responses.aiPreference || '',
 
     // Bot Detection
     botDetection.aiExplanation || '',
@@ -199,11 +191,7 @@ function testSetup() {
       watchedSecondVideo: 'same',
       readComments: 'all',
       commentsRecall: 'Test comment recall',
-      ai4: '3',
-      ai5: '5',
-      ai6: '4',
-      videoMadeWithAI: 'unsure',
-      aiPreference: '3'
+      videoMadeWithAI: 'unsure'
     },
     videoTracking: {
       totalPlayTime: 45.5,
